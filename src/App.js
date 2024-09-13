@@ -8,12 +8,11 @@ import {
 
 import ApplicationLogin from './Components/ApplicationLogin';
 import Login from './Components/Login';
-import SideNavbar from './Components/SideNav';
 
 function App() {
   return (
     <div>
-       <Router>  <SideNavbar />
+       <Router>  
        <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/applicationLogin" element={<ApplicationLogin />} />
