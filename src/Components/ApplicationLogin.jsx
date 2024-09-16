@@ -6,7 +6,7 @@ const ApplicationLogin = () => {
     return (
         <div className='flex justify-center items-center h-screen w-full bg-white'>
             <div className='max-w-[1000px] w-full mx-auto bg-white p-4 grid sm:grid-cols-2 grid-cols-1  gap-4 items-center'>
-                <form className='order-2 sm:order-1 max-w-[400px] '>
+                <form className='order-2 sm:order-1 max-w-formWidth '>
                     <h2 style={{ color: '#280559' }} className='font-bold text-2xl '>Application Login</h2>
                     <p style={{ fontSize: '12px' }}>Please fill your detail to access your account</p>
                     <div className='flex flex-col py-4' style={{ fontFamily: 'Inter, sans-serif' }}>

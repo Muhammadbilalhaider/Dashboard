@@ -7,7 +7,6 @@ import {
 
 import ApplicationLogin from './Components/ApplicationLogin';
 import Login from './Components/Login';
-import Dashboard from './Components/dashboard';
 import ContactUs from './Components/ContactUs';
 import AppLayout from './Components/AppLayout';
 import Register from './Components/Register';
@@ -19,10 +18,7 @@ function App() {
       <Router>
         {" "}
         <Routes>
-
           <Route path="/" element={<AppLayout />}>
-
-            <Route path="dashboard" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/contact-us" element={<ContactUs />} />
