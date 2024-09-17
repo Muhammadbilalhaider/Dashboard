@@ -1,16 +1,17 @@
 import './App.css';
+
 import {
   BrowserRouter as Router,
   Route,
   Routes,
 } from 'react-router-dom';
 
-import ApplicationLogin from './Components/ApplicationLogin';
-import Login from './Components/Login';
-import ContactUs from './Components/ContactUs';
 import AppLayout from './Components/AppLayout';
-import Register from './Components/Register';
+import ApplicationLogin from './Components/ApplicationLogin';
+import ContactUs from './Components/ContactUs';
+import Login from './Components/Login';
 import { PageNotFound } from './Components/PageNotFound';
+import Register from './Components/Register';
 
 function App() {
   return (
@@ -25,9 +26,6 @@ function App() {
             <Route path="/applicationLogin" element={<ApplicationLogin />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
-
-
-
         </Routes>
       </Router>
     </div>
