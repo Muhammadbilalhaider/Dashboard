@@ -4,7 +4,7 @@ import loginimg from '../assets/loginimg.svg';
 
 const Register = () => {
   return (
-    <div className='flex justify-center items-center w-full p-14 bg-white'>
+    <div className='flex justify-center items-center w-full bg-white'>
 
       <div className='grid grid-cols-1 md:grid-cols-2 p-10 gap-4 items-center w-maxWidthPage justify-center'>
 
