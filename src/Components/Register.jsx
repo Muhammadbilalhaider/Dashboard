@@ -1,12 +1,14 @@
-import React from 'react'
+import React from 'react';
+
 import loginimg from '../assets/loginimg.svg';
+
 const Register = () => {
   return (
-    <div className='flex justify-center items-center w-full bg-white'>
+    <div className='flex justify-center items-center w-full p-14 bg-white'>
 
       <div className='grid grid-cols-1 md:grid-cols-2 p-10 gap-4 items-center w-maxWidthPage justify-center'>
 
-        <form className='font-bold text-sm md:text-base lg:text-lg order-2 md:order-1 justify-center max-w-[400px] mx-auto'>
+        <form className='font-bold text-sm md:text-base lg:text-lg order-2 md:order-1 justify-center '>
           <h2 className='text-sm md:text-base lg:text-lg items-center'>Register</h2>
           <h1 className='text-sm md:text-base lg:text-lg font-normal'>
             Please fill your detail to access your account
@@ -40,7 +42,7 @@ const Register = () => {
           </div>
         </form>
 
-        <div className='order-1 md:order-2 w-full h-full flex justify-end '>
+        <div className=' flex order-1 md:order-2 w-imgWidth h-imgHeight'>
           <img className='object-contain  w-imgWidth h-imgHeight' src={loginimg} alt="Login Visual" />
         </div>
 
