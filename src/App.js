@@ -8,17 +8,10 @@ import {
 } from 'react-router-dom';
 import Navbar from './Components/Navbar';
 
-<<<<<<< HEAD
 import ApplicationLogin from './Components/ApplicationLogin';
 import Login from './Components/Login';
 import ContactUs from './Components/ContactUs';
-import Register from './Components/Register';
-=======
-import AppLayout from './Components/AppLayout';
-import ApplicationLogin from './Components/ApplicationLogin';
-import ContactUs from './Components/ContactUs';
-import Login from './Components/Login';
->>>>>>> 156378a798102cee5a3495d6039eb4b936883143
+
 import { PageNotFound } from './Components/PageNotFound';
 import Register from './Components/Register';
 
