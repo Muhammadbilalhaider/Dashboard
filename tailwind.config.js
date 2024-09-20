@@ -12,10 +12,12 @@ module.exports = {
         buttonColor: "#280559"
       },
       width: {
-        formWidth: "300px",
+        formWidth: "500px",
+        formHeight: "500px",
         imgWidth: "1058px",
         imgHeight: "733px",
-        maxWidthPage: "1000px"
+        maxWidthPage: "1000px",
+        
       }
     },
   },

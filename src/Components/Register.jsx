@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import React, { useState } from 'react'
+=======
+import React from 'react';
+
+>>>>>>> 156378a798102cee5a3495d6039eb4b936883143
 import loginimg from '../assets/loginimg.svg';
+
 const Register = () => {
   const [gender, setGender] = useState("");
   const [otherGender, setOtherGender] = useState("");
@@ -13,9 +19,16 @@ const Register = () => {
   return (
     <div className='flex justify-center items-center h-screen w-full bg-white'>
 
+<<<<<<< HEAD
       <div className='max-w-[1000px] w-full mx-auto bg-white p-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center'>
         <form className='order-2 md:order-1 justify-center pt-20'>
           <h2 className='text-sm md:text-base lg:text-lg items-center font-bold'>Register</h2>
+=======
+      <div className='grid grid-cols-1 md:grid-cols-2 p-10 gap-4 items-center w-maxWidthPage justify-center'>
+
+        <form className='font-bold text-sm md:text-base lg:text-lg order-2 md:order-1 justify-center '>
+          <h2 className='text-sm md:text-base lg:text-lg items-center'>Register</h2>
+>>>>>>> 156378a798102cee5a3495d6039eb4b936883143
           <h1 className='text-sm md:text-base lg:text-lg font-normal'>
             Please fill your detail to access your account
           </h1>
@@ -48,7 +61,7 @@ const Register = () => {
           </div>
         </form>
 
-        <div className='order-1 md:order-2 w-full h-full flex justify-end '>
+        <div className=' flex order-1 md:order-2 w-imgWidth h-imgHeight'>
           <img className='object-contain  w-imgWidth h-imgHeight' src={loginimg} alt="Login Visual" />
         </div>
 
