@@ -3,16 +3,29 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Outlet,
 } from 'react-router-dom';
+import Navbar from './Components/Navbar';
 
 import ApplicationLogin from './Components/ApplicationLogin';
 import Login from './Components/Login';
 import ContactUs from './Components/ContactUs';
-import AppLayout from './Components/AppLayout';
 import Register from './Components/Register';
 import { PageNotFound } from './Components/PageNotFound';
 
 function App() {
+
+  const AppLayout = () => {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex pt-6 pb-6">
+          <Outlet />
+        </main>
+
+      </div>
+    )
+  }
   return (
     <div>
       <Router>

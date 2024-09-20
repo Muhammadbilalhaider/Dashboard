@@ -8,39 +8,47 @@ const Navbar = () => {
     setIsOpen((prev) => !prev);
   };
 
+  const closeSidebar = () => {
+    setIsOpen(false)
+  }
   const NavbarItems = () => (
     <>
-      <li className="flex text-sm md:text-base lg:text-lg">
-        <Link to="/">Home</Link>
+
+      <li className="flex md:text-base lg:text-lg">
+        <Link to="/" onClick={closeSidebar}>Home</Link>
       </li>
-      <li className="flex text-sm md:text-base lg:text-lg">
-        <Link to="/Login">Login</Link>
+      <li className="flex md:text-base lg:text-lg">
+        <Link to="/Login" onClick={closeSidebar}>Login</Link>
       </li>
-      <li className="flex text-sm md:text-base lg:text-lg">
-        <Link to="/register">Register</Link>
+      <li className="flex md:text-base lg:text-lg">
+        <Link to="/register" onClick={closeSidebar}>Register</Link>
       </li>
-      <li className="flex text-sm md:text-base lg:text-lg">
-        <Link to="/contact-us">Contact Us</Link>
+      <li className="flex  md:text-base lg:text-lg">
+        <Link to="/contact-us" onClick={closeSidebar}>Contact Us</Link>
       </li>
+
     </>
   );
 
   return (
     <>
-      <div className="flex justify-between items-center p-4 bg-red-600 md:hidden w-fit fixed top-0 left-0 z-10">
-        <img
-          src={sideimg}
-          alt="Toggle Sidebar"
-          className="cursor-pointer w-8 h-8 text-red-600"
-          onClick={toggleSidebar}
-        />
-      </div>
+      {!isOpen && (
+        <div className="flex justify-between items-center p-4 md:hidden w-fit fixed top-0 left-0 z-10">
+          <img
+            src={sideimg}
+            alt="Toggle Sidebar"
+            className="cursor-pointer w-8 h-8 text-red-600"
+            onClick={toggleSidebar}
+          />
+        </div>
+      )}
+
 
       <div
-        className={`flex md:hidden flex-col bg-red-600 p-4 fixed top-0 left-0 w-1/4 h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`flex md:hidden flex-col bg-red-600 p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}>
         <nav>
-          <ul className="flex flex-col space-y-4 text-cyan-50 mt-16">
+          <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-16">
             <NavbarItems />
           </ul>
         </nav>
