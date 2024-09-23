@@ -5,12 +5,11 @@ import loginimg from '../assets/loginimg.svg';
 const Login = () => {
   return (
     <div className='flex justify-center items-center h-screen w-full bg-white'>
-
       <div className='max-w-[1000px] w-full mx-auto bg-white p-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center'>
 
         <form className='order-2 md:order-1 md:w-full justify-center'>
-          <h2 className='text-sm md:text-base lg:text-lg font-bold py-1 font-interFont'>Login</h2>
-          <h1 className='text-sm md:text-base lg:text-lg font-normal font-interFont'>
+          <h2 className='text-sm md:text-base lg:text-lg font-bold py-1 font-interFont text-center md:text-left'>Login</h2>
+          <h1 className='text-sm md:text-base lg:text-lg font-normal text-center md:text-left'>
             Please fill your detail to access your account
           </h1>
           <div className='flex flex-col py-4 font-interFont'>
@@ -39,9 +38,8 @@ const Login = () => {
             </a>
           </div>
         </form>
-
-        <div className='order-1 md:order-2 w-full h-full flex justify-end'>
-          <img className='object-contain w-full md:w-[80%] lg:w-imgWidth h-imgHeight' src={loginimg} alt="Login Visual" />
+        <div className='order-1 md:order-2 w-full h-full flex justify-center md:justify-end items-center md:items-center m-5 md:m-20'>
+          <img className='w-ful min-h-full' src={loginimg} alt="Login Visual" />
         </div>
       </div>
     </div>

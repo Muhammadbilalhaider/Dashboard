@@ -14,14 +14,15 @@ import ContactUs from './Components/ContactUs';
 
 import { PageNotFound } from './Components/PageNotFound';
 import Register from './Components/Register';
+import AboutUs from './Components/AboutUs';
 
 function App() {
 
   const AppLayout = () => {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col ">
         <Navbar />
-        <main className="flex pt-6 pb-6">
+        <main>
           <Outlet />
         </main>
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/applicationLogin" element={<ApplicationLogin />} />
+            <Route path="/about-us" element={<AboutUs />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>

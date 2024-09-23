@@ -11,14 +11,6 @@ module.exports = {
       colors: {
         buttonColor: "#280559"
       },
-      width: {
-        formWidth: "500px",
-        formHeight: "500px",
-        imgWidth: "1058px",
-        imgHeight: "733px",
-        maxWidthPage: "1000px",
-        
-      }
     },
   },
   plugins: [],

@@ -26,7 +26,9 @@ const Navbar = () => {
       <li className="flex  md:text-base lg:text-lg">
         <Link to="/contact-us" onClick={closeSidebar}>Contact Us</Link>
       </li>
-
+      <li className="flex  md:text-base lg:text-lg">
+        <Link to="/about-us" onClick={closeSidebar}>About Us</Link>
+      </li>
     </>
   );
 
