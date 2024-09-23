@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import loginimg from '../assets/loginimg.svg';
 
 const Register = () => {
@@ -14,22 +15,22 @@ const Register = () => {
       <div className='max-w-[1000px] w-full mx-auto bg-white p-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center'>
 
         <form className='order-2 md:order-1 flex flex-col justify-center items-center md:items-start md:mx-0'>
-          <div className=''>
+     
             <h2 className='text-sm md:text-base lg:text-lg font-interFont font-extrabold text-center lg:text-left'>
               Register
             </h2>
-          </div>
+          
           <h1 className='text-sm md:text-base lg:text-lg font-normal text-center '>
             Please fill your details to access your account
           </h1>
           <div className='flex flex-col py-4 w-full max-w-md'>
-            <label className='text-sm md:text-base lg:text-lg py-2'>First Name</label>
+            <label className='text-sm md:text-base lg:text-lg py-1'>First Name</label>
             <input className='border p-2 rounded-xl' type="text" />
-            <label className='text-sm md:text-base lg:text-lg py-2 mt-3'>Last Name</label>
+            <label className='text-sm md:text-base lg:text-lg py-1 mt-2'>Last Name</label>
             <input className='border p-2 rounded-xl' type="text" />
-            <label className='text-sm md:text-base lg:text-lg py-2 mt-3'>Email</label>
+            <label className='text-sm md:text-base lg:text-lg py-1 mt-2'>Email</label>
             <input className='border p-2 rounded-xl' type="email" />
-            <label className='text-sm md:text-base lg:text-lg py-2 mt-3'>Password</label>
+            <label className='text-sm md:text-base lg:text-lg py-1 mt-2'>Password</label>
             <input className='border p-2 rounded-xl' type="password" />
             <label className='text-sm md:text-base lg:text-lg pt-4 pb-1 mt-3'>Gender</label>
             <select className='border p-2 rounded-xl w-40' name="gender" onChange={handleGenderChange}>

@@ -2,27 +2,26 @@ import './App.css';
 
 import {
   BrowserRouter as Router,
+  Outlet,
   Route,
   Routes,
-  Outlet,
 } from 'react-router-dom';
-import Navbar from './Components/Navbar';
 
+import AboutUs from './Components/AboutUs';
 import ApplicationLogin from './Components/ApplicationLogin';
-import Login from './Components/Login';
 import ContactUs from './Components/ContactUs';
-
+import Login from './Components/Login';
+import Navbar from './Components/Navbar';
 import { PageNotFound } from './Components/PageNotFound';
 import Register from './Components/Register';
-import AboutUs from './Components/AboutUs';
 
 function App() {
 
   const AppLayout = () => {
     return (
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <Navbar />
-        <main>
+        <main className='flex mt-20 h-full'>
           <Outlet />
         </main>
 
