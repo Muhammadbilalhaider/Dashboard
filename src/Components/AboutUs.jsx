@@ -1,5 +1,10 @@
 import React from 'react';
+
 import imgAbout from '../assets/about-us.svg';
+import imgGoal from '../assets/goals.svg';
+import imgMission from '../assets/mission.svg';
+import imgValues from '../assets/our-values.svg';
+import imgVision from '../assets/vision.svg';
 
 const AboutUs = () => {
 
@@ -18,13 +23,24 @@ const AboutUs = () => {
       </div>
 
       <div className='bg-gradient-to-r from-buttonColor via-blue-900 to-buttonColor w-full h-16 mt-4 flex items-center justify-center'>
-        <p className=' text-cyan-50 text-center md:text-base lg:text-lg font-interFont text-xs'>SoftwareStudios, a trusted software solutions provider, delivers exceptional services, driving development, surpassing expectations, and making a positive social impact.</p>
+        <p className=' text-cyan-50 text-center md:text-base font-interFont text-xs'>SoftwareStudios, a trusted software solutions provider, delivers exceptional services, driving development, surpassing expectations, and making a positive social impact.</p>
       </div>
-      <div className='flex flex-col items-center mt-1 '>
-        <h1 className="font-extrabold text-3xl font-interFont">Our Strategic Focus</h1>
-        <p className="text-xs font-interFont font-normal md:text-base lg:text-lg mt-4">
+      <div className='flex flex-col justify-center items-center mt-1 lg:mr-20 lg:ml-20'>
+        <h1 className="font-extrabold text-3xl font-interFont">Our <span className='text-blue-900'>Strategic</span> Focus</h1>
+        <p className="text-xs font-interFont font-normal md:text-base lg:text-lg mt-4 text-center">
           Our objective is to provide excellent products and services that foster growth, surpass customer expectations, and have a beneficial impact on society.
         </p>
+        <div className='flex flex-row justify-center items-center sm:space-x-7 lg:space-x-10 mt-4'>
+        <img className='lg:w-80 w-24 sm:w-40' src={imgVision} alt='Visual' />
+        <img className='lg:w-80 w-24 sm:w-40' src={imgMission} alt='Visual' />
+        <img className='lg:w-80 w-24 sm:w-40' src={imgGoal} alt='Visual' />
+        </div>
+
+        <div className='flex mt-4 flex-col justify-center items-center m-12'>
+        <h1 className="font-black text-3xl lg:text-4xl font-interFont">Our <span className='text-blue-900'>Core</span> Values</h1>
+        <p className='text-sm md:text-base lg:text-lg mt-5'>Our Core Values uphold honesty, transparency, and respect in everything we do, fostering a culture of trust and excellence.</p>
+        <img className='mt-6' src={imgValues} alt='visual'/>
+        </div>
       </div>
     </div>
   );
