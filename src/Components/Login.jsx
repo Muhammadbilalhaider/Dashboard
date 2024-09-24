@@ -13,12 +13,12 @@ const Login = () => {
             Please fill your detail to access your account
           </h1>
           <div className='flex flex-col py-4 font-interFont'>
-            <label className='text-sm md:text-base lg:text-lg font-interFont'>Email</label>
-            <input className='border p-2 rounded-xl' type="text" />
+            <label className='text-sm md:text-base lg:text-lg font-interFont m-1'>Email</label>
+            <input className='border p-2 rounded-xl' type="text" placeholder='Email' />
           </div>
           <div className='flex flex-col py-2'>
-            <label className='text-sm md:text-base lg:text-lg font-interFont'>Password</label>
-            <input className='border p-2 rounded-xl' type="password" />
+            <label className='text-sm md:text-base lg:text-lg font-interFont  m-1'>Password</label>
+            <input className='border p-2 rounded-xl ' type="password" placeholder='Password' />
           </div>
           <div className='flex justify-between items-center font-interFont'>
             <p className='flex text-sm md:text-base lg:text-lg items-center'>

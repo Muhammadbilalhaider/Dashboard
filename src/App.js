@@ -19,9 +19,9 @@ function App() {
 
   const AppLayout = () => {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col min-h-screen">
         <Navbar />
-        <main className='flex mt-20 h-full'>
+        <main className='flex  flex-1 h-full  mt-8'>
           <Outlet />
         </main>
 

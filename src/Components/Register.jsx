@@ -12,26 +12,26 @@ const Register = () => {
 
   return (
     <div className='flex justify-center items-center h-screen w-full bg-white'>
-      <div className='max-w-[1000px] w-full mx-auto bg-white p-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center'>
+      <div className='grid grid-cols-1 md:grid-cols-2 max-w-[1000px] w-full mx-auto bg-white p-4  gap-4 items-center'>
 
         <form className='order-2 md:order-1 flex flex-col justify-center items-center md:items-start md:mx-0'>
-     
-            <h2 className='text-sm md:text-base lg:text-lg font-interFont font-extrabold text-center lg:text-left'>
-              Register
-            </h2>
-          
+
+          <h2 className='text-sm md:text-base lg:text-lg font-interFont font-extrabold text-center lg:text-left'>
+            Register
+          </h2>
+
           <h1 className='text-sm md:text-base lg:text-lg font-normal text-center '>
             Please fill your details to access your account
           </h1>
           <div className='flex flex-col py-4 w-full max-w-md'>
             <label className='text-sm md:text-base lg:text-lg py-1'>First Name</label>
-            <input className='border p-2 rounded-xl' type="text" />
+            <input className='border p-2 rounded-xl' type="text" placeholder='Enter First Name' />
             <label className='text-sm md:text-base lg:text-lg py-1 mt-2'>Last Name</label>
-            <input className='border p-2 rounded-xl' type="text" />
+            <input className='border p-2 rounded-xl' type="text" placeholder='Enter Last Name' />
             <label className='text-sm md:text-base lg:text-lg py-1 mt-2'>Email</label>
-            <input className='border p-2 rounded-xl' type="email" />
+            <input className='border p-2 rounded-xl' type="email" placeholder='name@gmail.com' />
             <label className='text-sm md:text-base lg:text-lg py-1 mt-2'>Password</label>
-            <input className='border p-2 rounded-xl' type="password" />
+            <input className='border p-2 rounded-xl' type="password" placeholder='Enter Password' />
             <label className='text-sm md:text-base lg:text-lg pt-4 pb-1 mt-3'>Gender</label>
             <select className='border p-2 rounded-xl w-40' name="gender" onChange={handleGenderChange}>
               <option className='w-24' value="">Select Gender</option>
