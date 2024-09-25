@@ -6,10 +6,9 @@ module.exports = {
     extend: {
       fontFamily: {
         interFont: ["Inter", "sans-serif"],
-        robotoFont: ["Roboto", "sans-serif"],
       },
       colors: {
-        buttonColor: "#280559"
+        buttonColor: "#280559",
       },
     },
   },

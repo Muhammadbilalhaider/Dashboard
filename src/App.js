@@ -1,33 +1,30 @@
-import './App.css';
+import "./App.css";
 
 import {
   BrowserRouter as Router,
   Outlet,
   Route,
   Routes,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import AboutUs from './Components/AboutUs';
-import ApplicationLogin from './Components/ApplicationLogin';
-import ContactUs from './Components/ContactUs';
-import Login from './Components/Login';
-import Navbar from './Components/Navbar';
-import { PageNotFound } from './Components/PageNotFound';
-import Register from './Components/Register';
+import AboutUs from "./Components/AboutUs";
+import ApplicationLogin from "./Components/ApplicationLogin";
+import ContactUs from "./Components/ContactUs";
+import Login from "./Components/Login";
+import Register from "./Components/Register";
+import Dashboard from "./Components/dashboard";
 
 function App() {
-
   const AppLayout = () => {
     return (
       <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className='flex  flex-1 h-full  mt-8'>
+        <Dashboard />
+        <main className="flex  flex-1 h-full  mt-8">
           <Outlet />
         </main>
-
       </div>
-    )
-  }
+    );
+  };
   return (
     <div>
       <Router>
@@ -39,7 +36,6 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/applicationLogin" element={<ApplicationLogin />} />
             <Route path="/about-us" element={<AboutUs />} />
-            <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </Router>
