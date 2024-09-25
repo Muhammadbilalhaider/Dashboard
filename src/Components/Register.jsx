@@ -11,7 +11,7 @@ const Register = () => {
   };
 
   return (
-    <div className='flex justify-center items-center h-screen w-full bg-white m-10'>
+    <div className='flex justify-center items-center h-screen w-full bg-white mt-10'>
       <div className='grid grid-cols-1 md:grid-cols-2 max-w-[1000px] w-full mx-auto bg-white p-4  gap-4 items-center'>
 
         <form className='order-2 md:order-1 flex flex-col justify-center items-center md:items-start md:mx-0'>
