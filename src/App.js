@@ -1,18 +1,19 @@
-import "./App.css";
+import './App.css';
 
 import {
   BrowserRouter as Router,
   Outlet,
   Route,
   Routes,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import AboutUs from "./Components/AboutUs";
-import ApplicationLogin from "./Components/ApplicationLogin";
-import ContactUs from "./Components/ContactUs";
-import Login from "./Components/Login";
-import Register from "./Components/Register";
-import Dashboard from "./Components/dashboard";
+import AboutUs from './Components/AboutUs';
+import ApplicationLogin from './Components/ApplicationLogin';
+import ContactUs from './Components/ContactUs';
+import Dashboard from './Components/dashboard';
+import Login from './Components/Login';
+import Register from './Components/Register';
+import SignUp from './Components/SignUp';
 
 function App() {
   const AppLayout = () => {
@@ -36,6 +37,7 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/applicationLogin" element={<ApplicationLogin />} />
             <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/sign-up" element={<SignUp />} />
           </Route>
         </Routes>
       </Router>

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import sideimg from "../assets/sidebar.svg";
+import React, { useState } from 'react';
+
+import { Link } from 'react-router-dom';
+
+import sideimg from '../assets/sidebar.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +30,9 @@ const Navbar = () => {
       </li>
       <li className="flex  md:text-base lg:text-lg">
         <Link to="/about-us" onClick={closeSidebar}>About Us</Link>
+      </li>
+      <li className="flex  md:text-base lg:text-lg">
+        <Link to="/sign-up" onClick={closeSidebar}>Sign Up</Link>
       </li>
     </>
   );
