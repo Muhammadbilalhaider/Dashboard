@@ -50,7 +50,7 @@ const Navbar = () => {
         </div>
       )}
       <div
-        className={`flex md:hidden flex-col bg-buttonColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}>
         <nav>
           <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-16">
@@ -59,7 +59,7 @@ const Navbar = () => {
         </nav>
       </div>
 
-      <div className="hidden md:flex justify-center items-center bg-buttonColor p-4 fixed top-0 w-full z-10">
+      <div className="hidden md:flex justify-center items-center bg-navColor p-4 fixed top-0 w-full z-10">
         <nav>
           <ul className="flex justify-between space-x-6 text-cyan-50">
             <NavbarItems />
