@@ -97,23 +97,16 @@ const Login = () => {
 
   return (
 
-    <div className='flex justify-center items-center h-screen w-full bg-slate-100'>
+    <div className='flex flex-col justify-center items-center w-full bg-slate-100'>
+      <div className="grid grid-cols-1 md:grid-cols-2 max-w-[1000px] items-center space-x-5">
 
-      <div className='flex flex-row max-w-[1000px] justify-between space-x-2 lg:space-x-6 px-4 lg:w-full items-center'>
 
-        <div className='flex flex-col lg:w-3/4 md:w-80 sm:w-48 justify-start items-start me-9'>
-          <div className='flex items-start flex-col'>
-            <img className='lg:w-96 md:w-64 sm:w-40' src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg" alt="Login Visual" />
-          </div>
-          <p className='flex lg:text-left lg:px-7 w-full pl-4 sm:text-xs lg:text-2xl'>Facebook helps you connect and share with the people in your life.</p>
-        </div>
+        <form className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white">
+          <div className="flex flex-col py-4 justify-center items-center w-full max-w-md space-y-4">
 
-        <form className='lg:w-2/4 w-40 order-1 justify-center shadow-lg rounded-lg bg-white px-2'>
-
-          <div className='flex flex-col py-5 font-interFont lg:px-3 lg:space-y-5 space-y-1'>
-            <input className='border lg:p-3 p-1 rounded-md' type="text" placeholder='Email' />
-            <input className='border lg:p-3 p-1 rounded-md ' type="password" placeholder='Password' />
-            <button className='border lg:p-3 p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg'>
+            <input className='border lg:p-3 w-full p-1 rounded-md' type="text" placeholder='Email' />
+            <input className='border lg:p-3 w-full p-1 rounded-md ' type="password" placeholder='Password' />
+            <button className='border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg'>
               SignIn
             </button>
             <span className='flex flex-col justify-center items-center px-3 font-interFont'>
@@ -135,6 +128,18 @@ const Login = () => {
 
         </form>
 
+     
+        <div className="order-2 md:order-1 lg:w-96 w-72 h-full flex justify-center items-center lg:m-5 md:m-20">
+
+          <div className='flex flex-col lg:w-96 sm:justify-center sm:items-center'>
+            <span className='justify-center items-center'>
+
+              <img className='md:w-64 sm:w-40' src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg" alt="Login Visual" />
+              <p className='flex lg:text-left sm:text-center lg:px-7 w-full pl-4 sm:text-xs lg:text-2xl'>Facebook helps you connect and share with the people in your life.</p>
+
+            </span>
+          </div>
+        </div>
 
       </div>
       {isSignUpVisible && <SignUp />}

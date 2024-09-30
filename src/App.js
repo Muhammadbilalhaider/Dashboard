@@ -29,7 +29,6 @@ function App() {
   return (
     <div>
       <Router>
-        {" "}
         <Routes>
           <Route path="/" element={<AppLayout />}>
             <Route path="/login" element={<Login />} />

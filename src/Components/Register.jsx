@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import loginimg from "../assets/loginimg.svg";
+import loginimg from '../assets/loginimg.svg';
 
 const Register = () => {
   const [gender, setGender] = useState("");
