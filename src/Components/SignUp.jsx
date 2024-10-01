@@ -18,7 +18,7 @@ const SignUp = () => {
                         <div className='flex flex-row w-full space-x-2'>
                             <input className="border p-2 rounded-xl w-full" type="text" placeholder="Enter First Name" />
                             <input className="border p-2 rounded-xl w-full" type="text" placeholder="Enter First Name" />
-                           
+
                         </div>
 
                         <input className="border p-2 rounded-xl w-full" type="email" placeholder="Email address" />
@@ -36,7 +36,7 @@ const SignUp = () => {
                                 </select>
                                 <select className='border p-2 rounded-md w-full'>
                                     {[
-                                        "January", "Feb", "March", "April", "May", "June", 
+                                        "January", "Feb", "March", "April", "May", "June",
                                         "July", "Aug", "Sep", "Oct", "Nov", "Dec"
                                     ].map((month, index) => (
                                         <option key={index} value={index + 1}>

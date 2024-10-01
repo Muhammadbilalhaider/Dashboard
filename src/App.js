@@ -14,6 +14,7 @@ import Dashboard from './Components/dashboard';
 import Login from './Components/Login';
 import Register from './Components/Register';
 import SignUp from './Components/SignUp';
+import ForgotPassword from './Components/ForgotPassword';
 
 function App() {
   const AppLayout = () => {
@@ -37,6 +38,7 @@ function App() {
             <Route path="/applicationLogin" element={<ApplicationLogin />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/ForgotPassword" element={<ForgotPassword />} />
           </Route>
         </Routes>
       </Router>

@@ -13,7 +13,7 @@ const Login = () => {
   };
 
   const SignUp = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+    <div className="fixed flex-col inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
         <button className="absolute top-3 right-3 text-gray-500 hover:text-gray-700" onClick={handleCloseModal}>
           &#x2715;
@@ -33,7 +33,7 @@ const Login = () => {
               </div>
               <div className="flex flex-col w-full space-x-2 lg:space-x-4 md:space-x-4">
                 <p className="text-sm">Date of birth?</p>
-                <div className="flex">
+                <div className="flex space-x-2 lg:space-x-4 md:space-x-4">
                   <select className="border p-2 rounded-md w-full">
                     {[...Array(31)].map((_, index) => (
                       <option key={index + 1} value={index + 1}>
@@ -110,7 +110,7 @@ const Login = () => {
               SignIn
             </button>
             <span className='flex flex-col justify-center items-center px-3 font-interFont'>
-              <a href='/ApplicationLogin' className='lg:font-medium text-fuchsia-800 text-xs'> Forgoten Password?</a>
+              <a href='/ForgotPassword' className='lg:font-medium text-fuchsia-800 text-xs'> Forgoten Password?</a>
             </span>
 
 
@@ -128,7 +128,7 @@ const Login = () => {
 
         </form>
 
-     
+
         <div className="order-2 md:order-1 lg:w-96 w-72 h-full flex justify-center items-center lg:m-5 md:m-20">
 
           <div className='flex flex-col lg:w-96 sm:justify-center sm:items-center'>
