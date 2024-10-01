@@ -6,6 +6,7 @@ import sideimg from '../assets/sidebar.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   const toggleSidebar = () => {
     setIsOpen((prev) => !prev);
   };
@@ -47,6 +48,13 @@ const Navbar = () => {
             className="cursor-pointer w-8 h-8 text-red-600"
             onClick={toggleSidebar}
           />
+        </div>
+      )}
+      {isOpen && (
+        <div className="flex justify-end items-end  p-4 md:hidden w-fit fixed top-0 left-0 z-10">
+          <button onClick={toggleSidebar} className="cursor-pointer text-xl text-white">
+            &#x2715;
+          </button>
         </div>
       )}
       <div
