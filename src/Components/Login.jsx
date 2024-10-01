@@ -31,9 +31,9 @@ const Login = () => {
                 <input className="border p-2 rounded-md w-full" type="text" placeholder="Enter First Name" />
                 <input className="border p-2 rounded-md w-full" type="text" placeholder="Enter Last Name" />
               </div>
-              <div className="flex flex-col w-full space-x-2 lg:space-x-4 md:space-x-4">
+              <div className="flex flex-col w-full">
                 <p className="text-sm">Date of birth?</p>
-                <div className="flex space-x-2 lg:space-x-4 md:space-x-4">
+                <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
                   <select className="border p-2 rounded-md w-full">
                     {[...Array(31)].map((_, index) => (
                       <option key={index + 1} value={index + 1}>
