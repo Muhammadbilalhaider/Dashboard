@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 const Login = () => {
 
   const [isSignUpVisible, setIsSignUpVisible] = useState(false);
+  const [customGender, setCustomGender] = useState("");
+
+  const [showCustomGender, setShowCustomGenderInput] = useState(false);
+  const [selectedGender, setSelectedGender] = useState('');
 
   const handleSignUpCick = (e) => {
     e.preventDefault();
@@ -11,6 +15,12 @@ const Login = () => {
   const handleCloseModal = () => {
     setIsSignUpVisible(false);
   };
+
+  const handleCustomGender = (event) => {
+    setSelectedGender(event.target.value);
+    setShowCustomGenderInput(event.target.value === 'custom');
+  };
+
 
   const SignUp = () => (
     <div className="fixed flex-col inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
@@ -66,17 +76,21 @@ const Login = () => {
                 <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
                   <label className="border p-2 rounded-md w-full flex justify-between items-center">
                     <span>Male</span>
-                    <input type="radio" name="gender" value="male" />
+                    <input type="radio" name="gender" value="male" checked={selectedGender === 'male'} onChange={handleCustomGender} />
                   </label>
                   <label className="border p-2 rounded-md w-full flex justify-between items-center">
                     <span>Female</span>
-                    <input type="radio" name="gender" value="female" />
+                    <input type="radio" name="gender" value="female" checked={selectedGender === 'female'} onChange={handleCustomGender} />
                   </label>
                   <label className="border p-2 rounded-md w-full flex justify-between items-center">
                     <span>Custom</span>
-                    <input type="radio" name="gender" value="custom" />
+                    <input type="radio" name="gender" value="custom" checked={selectedGender === 'custom'} onChange={handleCustomGender} />
                   </label>
                 </div>
+                {showCustomGender && (
+                  <input className="border p-2 rounded-md w-full mt-2" type='text' placeholder='Enter Custom Gender' value={customGender}
+                    onChange={(e) => setCustomGender(e.target.value)} />
+                )}
               </div>
               <input className="border p-2 rounded-md w-full" type="email" placeholder="Email address" />
               <input className="border p-2 rounded-md w-full" type="password" placeholder="Password" />

@@ -37,7 +37,7 @@ const SignIn = async (req, resp) => {
   const { email, password } = req.body;
   const currentUser = await userModel.findOne({ email: email });
   if (!currentUser) {
-    await resp.status(400).json({ message: "Not Register /n Please Register First" })
+    await resp.status(400).json({ message: "Not Register Please Register First" })
   } else {
     const confirmPass = bcrypt.compare(password, currentUser.password);
     if (!confirmPass) {
