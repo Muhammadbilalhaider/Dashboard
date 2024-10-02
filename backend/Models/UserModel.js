@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
       max: new Date().getFullYear()
     }
   },
-  gender: {
+  Gender: {
     type: String,
     enum: ['Male', 'Female', 'Other'],
     required: false

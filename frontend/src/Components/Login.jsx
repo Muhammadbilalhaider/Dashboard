@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 const Login = () => {
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [FirstName, setFirstName] = useState('');
+  const [LastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState({ day: '', month: '', year: '' });
@@ -29,14 +29,15 @@ const Login = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+
     try {
       const resp = await axios.post("http://localhost:5000/user/SignUp", {
-        FirstName: firstName,
-        LastName: lastName,
+        FirstName: FirstName,
+        LastName: LastName,
         DateOfBirth: dateOfBirth,
         Gender: selectedGender === 'Custom' ? customGender : selectedGender,
-        email,
-        password
+        email: email,
+        password: password
       });
 
       console.log('Signup successful:', resp.data);
@@ -66,11 +67,10 @@ const Login = () => {
                 <input className="border p-2 rounded-md w-full"
                   type="text"
                   placeholder="Enter First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)} />
+                  value={FirstName} onChange={(e) => setFirstName(e.target.value)} />
 
                 <input className="border p-2 rounded-md w-full" type="text" placeholder="Enter Last Name"
-                  value={lastName}
+                  value={LastName}
                   onChange={(e) => setLastName(e.target.value)} />
               </div>
               <div className="flex flex-col w-full">
