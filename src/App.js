@@ -19,7 +19,7 @@ import ForgotPassword from './Components/ForgotPassword';
 function App() {
   const AppLayout = () => {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex w-full flex-col min-h-screen">
         <Dashboard />
         <main className="flex  flex-1 h-full  mt-8">
           <Outlet />
@@ -28,7 +28,7 @@ function App() {
     );
   };
   return (
-    <div>
+    <div className='flex bg-slate-100 w-full'>
       <Router>
         <Routes>
           <Route path="/" element={<AppLayout />}>
