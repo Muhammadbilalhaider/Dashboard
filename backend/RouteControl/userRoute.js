@@ -43,9 +43,13 @@ const SignIn = async (req, resp) => {
     if (!confirmPass) {
       await resp.status(400).json({ message: 'Password Not Matched' })
     } else {
-
       const token = jwt.sign({ FirstName: currentUser.FirstName, LastName: currentUser.LastName, email: email }, SECRET_N);
-      await resp.status(200).json({ User: currentUser, token })
+      const result = await resp.status(200).json({ User: currentUser, token });
+      if (result) {
+        console.log("Success")
+      } else {
+        console.log("Not success")
+      }
     }
   }
 }

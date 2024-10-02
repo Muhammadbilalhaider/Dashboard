@@ -155,10 +155,10 @@ const Login = () => {
         email: email,
         password: password
       })
+
       console.log("Success", resp.data);
-
     } catch (error) {
-
+      console.log({ message: error.message })
     }
   }
 
@@ -168,13 +168,14 @@ const Login = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 max-w-[1000px] items-center space-x-5">
 
 
-        <form className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white" onSubmit={handleSignIn}>
+        <form className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white" onSubmit={handleSignIn} >
           <div className="flex flex-col py-4 justify-center items-center w-full max-w-md space-y-4">
+
             <input className='border lg:p-3 w-full p-1 rounded-md' type="text" placeholder='Email'
-              onChange={(e) => setEmail(e.target.value)} value={email} />
+              value={email} onChange={(e) => setEmail(e.target.value)} />
             <input className='border lg:p-3 w-full p-1 rounded-md ' type="password" placeholder='Password'
-              onChange={(e) => setPassword(e.target.value)} value={password} />
-            <button className='border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg'>
+              value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button className='border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg' type='submit'>
               SignIn
             </button>
             <span className='flex flex-col justify-center items-center px-3 font-interFont'>
@@ -185,7 +186,9 @@ const Login = () => {
             <span className='w-full block border-gray-200 border-t-2'> </span>
 
             <div className='flex justify-center'>
-              <button className='py-2 sm:w-20 lg:w-44 text-white hover:bg-green-600 bg-createAcountColor rounded-md' type='submit'>
+              <button
+                className='py-2 sm:w-20 lg:w-44 text-white hover:bg-green-600 bg-createAcountColor rounded-md'
+                onClick={showSignUpCick} >
                 <p className='items-center text-xs px-2'> Create new Account</p>
 
               </button>
