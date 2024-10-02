@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-
+import axios from 'axios';
 const Login = () => {
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState({ day: '', month: '', year: '' });
   const [isSignUpVisible, setIsSignUpVisible] = useState(false);
   const [customGender, setCustomGender] = useState("");
-
   const [showCustomGender, setShowCustomGenderInput] = useState(false);
   const [selectedGender, setSelectedGender] = useState('');
 
-  const handleSignUpCick = (e) => {
+  const showSignUpCick = (e) => {
     e.preventDefault();
     setIsSignUpVisible(true)
   }
@@ -18,47 +22,81 @@ const Login = () => {
 
   const handleCustomGender = (event) => {
     setSelectedGender(event.target.value);
-    setShowCustomGenderInput(event.target.value === 'custom');
+    setShowCustomGenderInput(event.target.value === 'Custom');
   };
 
 
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const resp = await axios.post("http://localhost:5000/user/SignUp", {
+        FirstName: firstName,
+        LastName: lastName,
+        DateOfBirth: dateOfBirth,
+        Gender: selectedGender === 'Custom' ? customGender : selectedGender,
+        email,
+        password
+      });
+
+      console.log('Signup successful:', resp.data);
+    } catch (error) {
+      console.error('Error signing up:', error.message);
+    }
+
+  }
+
+
   const SignUp = () => (
+
     <div className="fixed flex-col inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
         <button className="absolute top-3 right-3 text-gray-500 hover:text-gray-700" onClick={handleCloseModal}>
           &#x2715;
         </button>
-        <form className="flex flex-col items-center justify-center">
-          <div className="flex flex-col w-full justify-center">
+        <form className="flex flex-col items-center justify-center" onSubmit={handleSignUp}>
 
+          <div className="flex flex-col w-full justify-center">
             <h1 className="text-3xl font-interFont font-extrabold text-left">Sign Up</h1>
             <p className="text-md font-normal text-start ">It's quick and easy.</p>
-
 
             <div className="flex flex-col space-y-3 py-4 w-full">
               <span className="w-full block border-gray-200 border-t-2"></span>
               <div className="flex flex-row w-full space-x-2">
-                <input className="border p-2 rounded-md w-full" type="text" placeholder="Enter First Name" />
-                <input className="border p-2 rounded-md w-full" type="text" placeholder="Enter Last Name" />
+                <input className="border p-2 rounded-md w-full"
+                  type="text"
+                  placeholder="Enter First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)} />
+
+                <input className="border p-2 rounded-md w-full" type="text" placeholder="Enter Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)} />
               </div>
               <div className="flex flex-col w-full">
                 <p className="text-sm">Date of birth?</p>
                 <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
-                  <select className="border p-2 rounded-md w-full">
+                  <select className="border p-2 rounded-md w-full" onChange={(e) => setDateOfBirth((prev) => ({ ...prev, day: e.target.value }))} value={dateOfBirth.day}>
+
+                    <option value="">Day</option>
+
                     {[...Array(31)].map((_, index) => (
                       <option key={index + 1} value={index + 1}>
                         {index + 1}
                       </option>
                     ))}
+
                   </select>
-                  <select className="border p-2 rounded-md w-full">
+                  <select className="border p-2 rounded-md w-full" onChange={(e) => setDateOfBirth((prev) => ({ ...prev, month: e.target.value }))} value={dateOfBirth.month}>
+                    <option value="">Month</option>
                     {["January", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"].map((month, index) => (
                       <option key={index} value={index + 1}>
                         {month}
                       </option>
                     ))}
                   </select>
-                  <select className="border p-2 rounded-md w-full">
+                  <select className="border p-2 rounded-md w-full" onChange={(e) => setDateOfBirth((prev) => ({ ...prev, year: e.target.value }))} value={dateOfBirth.year}>
+                    <option value="">Year</option>
                     {[...Array(2024 - 1975 + 1)].map((_, index) => {
                       const year = 1975 + index;
                       return (
@@ -76,15 +114,15 @@ const Login = () => {
                 <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
                   <label className="border p-2 rounded-md w-full flex justify-between items-center">
                     <span>Male</span>
-                    <input type="radio" name="gender" value="male" checked={selectedGender === 'male'} onChange={handleCustomGender} />
+                    <input type="radio" name="gender" value="Male" checked={selectedGender === 'Male'} onChange={handleCustomGender} />
                   </label>
                   <label className="border p-2 rounded-md w-full flex justify-between items-center">
                     <span>Female</span>
-                    <input type="radio" name="gender" value="female" checked={selectedGender === 'female'} onChange={handleCustomGender} />
+                    <input type="radio" name="gender" value="Female" checked={selectedGender === 'Female'} onChange={handleCustomGender} />
                   </label>
                   <label className="border p-2 rounded-md w-full flex justify-between items-center">
                     <span>Custom</span>
-                    <input type="radio" name="gender" value="custom" checked={selectedGender === 'custom'} onChange={handleCustomGender} />
+                    <input type="radio" name="gender" value="Custom" checked={selectedGender === 'Custom'} onChange={handleCustomGender} />
                   </label>
                 </div>
                 {showCustomGender && (
@@ -92,13 +130,14 @@ const Login = () => {
                     onChange={(e) => setCustomGender(e.target.value)} />
                 )}
               </div>
-              <input className="border p-2 rounded-md w-full" type="email" placeholder="Email address" />
-              <input className="border p-2 rounded-md w-full" type="password" placeholder="Password" />
+              <input className="border p-2 rounded-md w-full" type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} value={email} />
+              <input className="border p-2 rounded-md w-full" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
 
               <div className='flex justify-center items-center'>
-                <button className="border items-center w-44 ite my-5 py-1 text-white hover:bg-green-600 bg-createAcountColor rounded-lg">
+                <button type="submit" className="border items-center w-44 ite my-5 py-1 text-white hover:bg-green-600 bg-createAcountColor rounded-lg">
                   SignUp
                 </button>
+
               </div>
 
             </div>
@@ -109,17 +148,32 @@ const Login = () => {
   );
 
 
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const resp = await axios.post('http://localhost:5000/user/SignIn', {
+        email: email,
+        password: password
+      })
+      console.log("Success", resp.data);
+
+    } catch (error) {
+
+    }
+  }
+
   return (
 
     <div className='flex flex-col justify-center items-center w-full bg-slate-100'>
       <div className="grid grid-cols-1 md:grid-cols-2 max-w-[1000px] items-center space-x-5">
 
 
-        <form className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white">
+        <form className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white" onSubmit={handleSignIn}>
           <div className="flex flex-col py-4 justify-center items-center w-full max-w-md space-y-4">
-
-            <input className='border lg:p-3 w-full p-1 rounded-md' type="text" placeholder='Email' />
-            <input className='border lg:p-3 w-full p-1 rounded-md ' type="password" placeholder='Password' />
+            <input className='border lg:p-3 w-full p-1 rounded-md' type="text" placeholder='Email'
+              onChange={(e) => setEmail(e.target.value)} value={email} />
+            <input className='border lg:p-3 w-full p-1 rounded-md ' type="password" placeholder='Password'
+              onChange={(e) => setPassword(e.target.value)} value={password} />
             <button className='border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg'>
               SignIn
             </button>
@@ -131,9 +185,7 @@ const Login = () => {
             <span className='w-full block border-gray-200 border-t-2'> </span>
 
             <div className='flex justify-center'>
-              <button
-                className='py-2 sm:w-20 lg:w-44 text-white hover:bg-green-600 bg-createAcountColor rounded-md'
-                onClick={handleSignUpCick} >
+              <button className='py-2 sm:w-20 lg:w-44 text-white hover:bg-green-600 bg-createAcountColor rounded-md' type='submit'>
                 <p className='items-center text-xs px-2'> Create new Account</p>
 
               </button>

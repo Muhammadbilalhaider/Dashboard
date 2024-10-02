@@ -7,7 +7,7 @@ require('dotenv').config();
 const app = express();
 const PORT = 5000;
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 const MongoUrl = process.env.MONGO_URL;
 
 app.use('/user', router)
