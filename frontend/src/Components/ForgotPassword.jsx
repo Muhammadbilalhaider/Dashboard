@@ -1,6 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react';
+
+import axios from 'axios';
 
 const ForgotPassword = () => {
+
+const [email,setEmail] = useState('');
+  const shareMail = async()=>{
+    try {
+      const result = await axios.post('http://localhost:5000/user/ForgotPassword',
+        {
+          email,
+        }
+      )
+      console.log(result.data);
+    }
+     catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert('User Not Found');
+      } else {
+        alert('An error occurred. Please try again.');
+      }
+    }
+  }
+
+
+
   return (
     <div className='flex flex-col w-full max-h-screen bg-slate-100'>
 
@@ -25,7 +49,7 @@ const ForgotPassword = () => {
 
         <div className='flex flex-col w-full justify-center items-center'>
 
-          <div className='flex flex-col lg:w-3/12 w-72 h-52 lg:h-72 shadow-lg lg:justify-center  shadow-slate-400 lg:space-y-4 space-y-2 bg-white rounded-md mt-11'>
+          <div className='flex flex-col lg:w-4/12 md:w-3/12 w-72 h-52 lg:h-72 shadow-lg lg:justify-center  shadow-slate-400 lg:space-y-4 space-y-2 bg-white rounded-md mt-11'>
 
             <div className='flex flex-col'>
               <span className='flex p-3 lg:items-start lg:justify-start justify-center items-center'>
@@ -34,14 +58,14 @@ const ForgotPassword = () => {
               <span className='border-gray-200 border-t-2 w-full'></span>
             </div>
 
-            <div className='flex flex-col justify-center lg:w-full w-72 space-y-4 p-1 lg:p-3'>
+            <div className='flex flex-col justify-center lg:w-full space-y-4 p-1 lg:p-3'>
               <p className='text-xs lg:text-base font-medium font-interFont lg:text-start text-center'>Please enter your email address or mobile number to search for your account.</p>
-              <input className='border lg:p-3 p-2 rounded-md w-full' type='email' placeholder='Email Address' />
+              <input className='border lg:p-3 p-2 rounded-md lg:w-full' type='email' placeholder='Email Address' value={email} onChange={(e)=>setEmail(e.target.value)}/>
             </div>
-            <span className='border-gray-200 border-t-2 w-full ' />
-            <div className='flex flex-row lg:space-x-3 justify-end items-end pr-3 space-x-2'>
+            <span className='border-gray-200 border-t-2 w-full mb-3' />
+            <div className='flex flex-row lg:space-x-3 justify-end items-center pr-3 space-x-2'>
               <button className='rounded-md bg-slate-200 lg:p-2 lg:w-24 w-14 sm:text-xs p-1'>Cancel</button>
-              <button className='rounded-md bg-buttonColor lg:p-2 lg:w-24 w-14 sm:text-sm p-1 text-white'>Search</button>
+              <button className='rounded-md bg-buttonColor lg:p-2 lg:w-24 w-14 sm:text-sm p-1 text-white' onClick={shareMail}>Search</button>
             </div>
 
           </div>

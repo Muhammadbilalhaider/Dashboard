@@ -102,9 +102,9 @@ exports.ForgotPassword = async (req, resp, next) => {
       const payload = { email: email };
       const token = jwtSimple.encode(payload, secret);
 
-      const link = `http://localhost:3000/pages/resetpassword/${token}`;
+      const link = `http://localhost:3000/resetpassword/${token}`;
       const mailOptions = {
-        from: 'muhammadbilalhaider91@gmail.com',
+        from: 'haiderb894@gmail.com',
         to: email,
         subject: 'Password Reset Link',
         text: `Click on the following link to reset your password: ${link}`,

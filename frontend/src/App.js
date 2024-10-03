@@ -11,9 +11,10 @@ import AboutUs from './Components/AboutUs';
 import ApplicationLogin from './Components/ApplicationLogin';
 import ContactUs from './Components/ContactUs';
 import Dashboard from './Components/dashboard';
+import ForgotPassword from './Components/ForgotPassword';
 import Login from './Components/Login';
 import Register from './Components/Register';
-import ForgotPassword from './Components/ForgotPassword';
+import ResetPassword from './Components/ResetPassword';
 
 function App() {
   const AppLayout = () => {
@@ -37,7 +38,7 @@ function App() {
             <Route path="/applicationLogin" element={<ApplicationLogin />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-
+            <Route path="/resetpassword/:token" element={<ResetPassword />} />
           </Route>
         </Routes>
       </Router>
