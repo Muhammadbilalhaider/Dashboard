@@ -20,7 +20,7 @@ function App() {
     return (
       <div className="flex w-full flex-col min-h-screen">
         <Dashboard />
-        <main className="flex  flex-1 h-full  mt-8">
+        <main className="flex  flex-1 h-full ">
           <Outlet />
         </main>
       </div>
@@ -36,7 +36,8 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/applicationLogin" element={<ApplicationLogin />} />
             <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+
           </Route>
         </Routes>
       </Router>

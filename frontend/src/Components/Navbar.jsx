@@ -16,24 +16,15 @@ const Navbar = () => {
   }
   const NavbarItems = () => (
     <>
-
       <li className="flex md:text-base lg:text-lg">
         <Link to="/" onClick={closeSidebar}>Home</Link>
       </li>
-      <li className="flex md:text-base lg:text-lg">
-        <Link to="/Login" onClick={closeSidebar}>Login</Link>
-      </li>
-      <li className="flex md:text-base lg:text-lg">
-        <Link to="/register" onClick={closeSidebar}>Register</Link>
-      </li>
+
       <li className="flex  md:text-base lg:text-lg">
         <Link to="/contact-us" onClick={closeSidebar}>Contact Us</Link>
       </li>
       <li className="flex  md:text-base lg:text-lg">
         <Link to="/about-us" onClick={closeSidebar}>About Us</Link>
-      </li>
-      <li className="flex  md:text-base lg:text-lg">
-        <Link to="/sign-up" onClick={closeSidebar}>Sign Up</Link>
       </li>
     </>
   );

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,8 +58,14 @@ const Login = () => {
         email: email,
         password: password,
       });
-
+      const token = resp.data.accessToken;
       console.log("Success", resp.data);
+
+      if (token) {
+        console.log("Success", token);
+        localStorage.setItem('authToken', token);
+        navigate("/");
+      }
     } catch (error) {
       console.log({ message: error.message });
     }
@@ -92,12 +100,12 @@ const Login = () => {
               SignIn
             </button>
             <span className="flex flex-col justify-center items-center px-3 font-interFont">
-              <a
-                href="/ForgotPassword"
+              <Link
+                to="/forgot-password"
                 className="lg:font-medium text-fuchsia-800 text-xs"
               >
                 Forgotten Password?
-              </a>
+              </Link>
             </span>
             <span className="w-full block border-gray-200 border-t-2"></span>
             <div className="flex justify-center">

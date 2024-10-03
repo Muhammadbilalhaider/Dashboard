@@ -1,7 +1,9 @@
 const userModel = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
-
+const jwtSimple = require("jwt-simple");
+const nodemailer = require('nodemailer');
+const secret = process.env.JWT_SECRET;
 exports.SignUp = async (req, res, next) => {
   try {
     console.log("req.body", req.body);
@@ -30,10 +32,8 @@ exports.SignUp = async (req, res, next) => {
       dateOfBirth: req.body.dateOfBirth,
     });
 
-    // Save the user object to the database
     await user.save();
 
-    // Generate an access token for the user
     const accessToken = await user.token();
     console.log("access token ===>", accessToken);
     return res.json({
@@ -80,3 +80,41 @@ exports.SignIn = async (req, res) => {
     res.status(400).json({ msg: "Something went wrong" });
   }
 };
+
+
+exports.ForgotPassword = async (req, resp, next) => {
+  const { email } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'haiderb894@gmail.com',
+      pass: 'aqox qphq zhgy xwia',
+    },
+  });
+  try {
+    const existUser = await userModel.findOne({ email: email });
+    if (!existUser) {
+      resp.status(400).json({ message: 'User Not registered' });
+    } else {
+
+
+      const payload = { email: email };
+      const token = jwtSimple.encode(payload, secret);
+
+      const link = `http://localhost:3000/pages/resetpassword/${token}`;
+      const mailOptions = {
+        from: 'muhammadbilalhaider91@gmail.com',
+        to: email,
+        subject: 'Password Reset Link',
+        text: `Click on the following link to reset your password: ${link}`,
+      };
+
+      await transporter.sendMail(mailOptions);
+      await resp.status(200).json({ message: 'Password reset link sent to the email' });
+    }
+
+  } catch (error) {
+
+  }
+} 
