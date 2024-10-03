@@ -35,10 +35,10 @@ const Login = () => {
 
     try {
       const resp = await axios.post("http://localhost:5000/user/SignUp", {
-        FirstName: FirstName,
-        LastName: LastName,
-        DateOfBirth: dateOfBirth,
-        Gender: selectedGender === "Custom" ? customGender : selectedGender,
+        firstName: FirstName,
+        lastName: LastName,
+        dateOfBirth: dateOfBirth,
+        gender: selectedGender === "Custom" ? customGender : selectedGender,
         email: email,
         password: password,
       });
@@ -127,12 +127,11 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Always render the modal and control visibility via CSS */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
-          isSignUpVisible ? "block" : "hidden"
-        }`}
+        className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${isSignUpVisible ? "block" : "hidden"
+          }`}
       >
+
         <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
           <button
             className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"

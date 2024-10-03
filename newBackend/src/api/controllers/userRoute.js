@@ -6,12 +6,10 @@ exports.SignUp = async (req, res, next) => {
   try {
     console.log("req.body", req.body);
     const { email } = req.body;
-    // find if user exists
     let user = await userModel.findOne({
       email,
     });
 
-    // already exists
     if (user != null) {
       return res.send(
         "This email already exists. You cannot create a new account with the same email address."
@@ -24,7 +22,8 @@ exports.SignUp = async (req, res, next) => {
 
     // Create a new user object with the hashed password
     user = new userModel({
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
       gender: req.body.gender,
