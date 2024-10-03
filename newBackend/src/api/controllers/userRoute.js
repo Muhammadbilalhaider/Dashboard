@@ -96,9 +96,9 @@ exports.ForgotPassword = async (req, resp, next) => {
     const existUser = await userModel.findOne({ email: email });
     if (!existUser) {
       resp.status(400).json({ message: 'User Not registered' });
-    } else {
-
-
+    } 
+    else 
+    {
       const payload = { email: email };
       const token = jwtSimple.encode(payload, secret);
 
