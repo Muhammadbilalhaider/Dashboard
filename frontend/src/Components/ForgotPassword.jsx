@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const ForgotPassword = () => {
 
-const [email,setEmail] = useState('');
-  const shareMail = async()=>{
+  const [email, setEmail] = useState('');
+  const { accessToken } = useParams();
+
+  const shareMail = async () => {
     try {
-      const result = await axios.post('http://localhost:5000/user/ForgotPassword',
+      const result = await axios.post(`http://localhost:5000/user/ForgotPassword/${accessToken}`,
         {
           email,
         }
       )
       console.log(result.data);
     }
-     catch (error) {
+    catch (error) {
       if (error.response && error.response.status === 400) {
         alert('User Not Found');
       } else {
@@ -60,7 +63,7 @@ const [email,setEmail] = useState('');
 
             <div className='flex flex-col justify-center lg:w-full space-y-4 p-1 lg:p-3'>
               <p className='text-xs lg:text-base font-medium font-interFont lg:text-start text-center'>Please enter your email address or mobile number to search for your account.</p>
-              <input className='border lg:p-3 p-2 rounded-md lg:w-full' type='email' placeholder='Email Address' value={email} onChange={(e)=>setEmail(e.target.value)}/>
+              <input className='border lg:p-3 p-2 rounded-md lg:w-full' type='email' placeholder='Email Address' value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <span className='border-gray-200 border-t-2 w-full mb-3' />
             <div className='flex flex-row lg:space-x-3 justify-end items-center pr-3 space-x-2'>
