@@ -4,6 +4,8 @@ require("dotenv").config();
 const jwtSimple = require("jwt-simple");
 const nodemailer = require("nodemailer");
 const secret = process.env.JWT_SECRET;
+const authEmail = process.env.authEmail;
+const authPass = process.env.authPass;
 exports.SignUp = async (req, res, next) => {
   try {
     console.log("req.body", req.body);
@@ -82,8 +84,8 @@ exports.ForgotPassword = async (req, resp, next) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "haiderb894@gmail.com",
-      pass: "aqox qphq zhgy xwia",
+      user: authEmail,
+      pass: authPass,
     },
   });
   try {
@@ -96,7 +98,7 @@ exports.ForgotPassword = async (req, resp, next) => {
 
       const link = `http://localhost:3000/resetpassword/${token}`;
       const mailOptions = {
-        from: "muhammadbilalhaider91@gmail.com",
+        from: authEmail,
         to: email,
         subject: "Password Reset Link",
         text: `Click on the following link to reset your password: ${link}`,
