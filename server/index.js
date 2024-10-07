@@ -2,10 +2,9 @@ const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser"); // parse the body of request
-
+const router = require("./src/api/routes/route");
 const port = 5000;
 
-const router = require("../newBackend/src/api/routes/route");
 require("dotenv").config();
 
 const app = express();
