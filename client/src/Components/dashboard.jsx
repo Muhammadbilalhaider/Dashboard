@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import Navbar from "./Navbar";
+import Navbar from './Navbar';
 
 const Dashboard = () => {
   const [token, setToken] = useState(localStorage.getItem("authToken"));
@@ -18,7 +21,7 @@ const Dashboard = () => {
         !currentPath.startsWith("/resetpassword")
       ) {
         navigate("/login");
-      } else if (currentPath.startsWith("/Login")) {
+      } else if (currentToken &&  (currentPath === "/login" || currentPath.startsWith("/forgot-password") || currentPath.startsWith("/resetpassword"))) {
         navigate("/");
       }
     };

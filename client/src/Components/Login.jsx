@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,6 +54,11 @@ const Login = () => {
       console.log("Signup successful:", resp.data);
       if (resp.data.success) {
         setIsSignUpSuccessful(true);
+        setFirstName('');
+        setLastName('');
+        setDateOfBirth({ day: '', month: '', year: '' });
+        setEmail('');
+        setPassword('')
         navigate("/login");
       }
     } catch (error) {

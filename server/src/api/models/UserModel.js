@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const jwt = require("jwt-simple");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const userSchema = mongoose.Schema({
   firstName: {
@@ -37,16 +37,27 @@ const userSchema = mongoose.Schema({
     required: true,
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now, 
+  },
 });
 
 userSchema.methods.token = function () {
+  const expiresIn = 3600; 
+  const iat = Math.floor(Date.now() / 1000);
+ 
   const payload = {
     id: this._id,
     email: this.email,
-    iat: Date.now()
-  }
-  const token = jwt.encode(payload, process.env.JWT_SECRET);
+    createdAt: this.createdAt,
+  };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: '1h', 
+  });
   return token
+
 }
 
 

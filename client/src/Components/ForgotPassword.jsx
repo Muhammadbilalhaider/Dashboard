@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const { accessToken } = useParams();
   const navigate = useNavigate();
   const shareMail = async () => {
     try {
