@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import sideimg from "../assets/sidebar.svg";
+import mission from '../assets/mission.svg';
+import sideimg from '../assets/sidebar.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("authToken"));
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen((prev) => !prev);
   };
-
+  const handleImageClick = () => {
+    setDropdownOpen((prev) => !prev);
+  }
   const closeSidebar = () => {
+    setDropdownOpen(false);
     setIsOpen(false);
+  };
+  const logOut = () => {
+    localStorage.removeItem("authToken");
+    setToken(null);
+    navigate('/login');
   };
   const NavbarItems = () => (
     <>
@@ -34,6 +49,23 @@ const Navbar = () => {
           <Link to="/about-us" onClick={closeSidebar}>
             About Us
           </Link>
+        </li>
+        <li className="lg:flex hidden md:text-base lg:text-lg">
+          <img
+            src={mission}
+            alt="profile"
+            className="w-8 cursor-pointer"
+            onClick={handleImageClick}
+          />
+          {dropdownOpen && (
+            <div className="absolute right-1 mt-11 bg-slate-900 rounded-md shadow-lg z-10">
+              <ul className="flex flex-col border border-gray-300 rounded-md">
+                <li className="p-2 cursor-pointer hover:bg-gray-700">Profile</li>
+                <li className="p-2 cursor-pointer hover:bg-gray-700">Settings</li>
+                <li className="p-2 cursor-pointer hover:bg-gray-700" onClick={logOut}>Logout</li>
+              </ul>
+            </div>
+          )}
         </li>
       </div>
     </>
@@ -62,9 +94,8 @@ const Navbar = () => {
         </div>
       )}
       <div
-        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <nav className="flex w-full justify-center">
           <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-16">

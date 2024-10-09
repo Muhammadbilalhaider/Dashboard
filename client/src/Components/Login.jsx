@@ -165,9 +165,7 @@ const Login = () => {
             </button>
             <form
               className="flex flex-col items-center justify-center"
-              onSubmit={handleSignUp}
-            >
-              {/* Modal content */}
+              onSubmit={handleSignUp}>
               <div className="flex flex-col w-full justify-center">
                 <h1 className="text-3xl font-interFont font-extrabold text-left">
                   Sign Up
@@ -325,9 +323,7 @@ const Login = () => {
                       value={password}
                     />
                   </div>
-
-                  {/* Date of Birth and other fields */}
-                  {/* The rest of the form */}
+                  
                   <div className="flex justify-center items-center">
                     <button
                       type="submit"
