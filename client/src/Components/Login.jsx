@@ -6,6 +6,10 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
+import facebookImg from '../assets/facebook.svg';
+import githubImg from '../assets/github.svg';
+import googleImg from '../assets/google.svg';
+
 const Login = () => {
   const navigate = useNavigate();
   const [FirstName, setFirstName] = useState("");
@@ -37,6 +41,11 @@ const Login = () => {
     setSelectedGender(event.target.value);
     setShowCustomGenderInput(event.target.value === "Custom");
   };
+
+  const handleGoogleSignin = () => {
+    alert("Hello")
+  }
+
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -117,12 +126,22 @@ const Login = () => {
             <span className="flex flex-col justify-center items-center px-3 font-interFont">
               <Link
                 to="/forgot-password"
-                className="lg:font-medium text-fuchsia-800 text-xs"
-              >
+                className="lg:font-medium text-fuchsia-800 text-xs">
                 Forgotten Password?
               </Link>
             </span>
             <span className="w-full block border-gray-200 border-t-2"></span>
+
+            <div className='flex w-full justify-center items-center'>
+              <div className='flex flex-row w-4 lg:w-8 items-center justify-center space-x-1 lg:space-x-3'>
+              
+                <img className='cursor-pointer' src={googleImg} alt='Google' onClick={handleGoogleSignin}/>
+             
+                <img className='cursor-pointer' src={facebookImg} alt='' />
+                <img className='cursor-pointer hover:Hello' src={githubImg} alt='' />
+              </div>
+            </div>
+
             <div className="flex justify-center">
               <button
                 className="py-2 sm:w-20 lg:w-44 text-white hover:bg-green-600 bg-createAcountColor rounded-md"
@@ -142,7 +161,7 @@ const Login = () => {
                 alt="Login Visual"
               />
               <p className="flex lg:text-left sm:text-center lg:px-7 w-full pl-4 sm:text-xs lg:text-2xl">
-                Facebook helps you connect and share with the people in your
+                This Platform helps you connect and share with the people in your
                 life.
               </p>
             </span>
@@ -152,9 +171,8 @@ const Login = () => {
 
       {!isSignUpSuccessful && (
         <div
-          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
-            isSignUpVisible ? "block" : "hidden"
-          }`}
+          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${isSignUpVisible ? "block" : "hidden"
+            }`}
         >
           <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
             <button
@@ -314,7 +332,6 @@ const Login = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
                     />
-
                     <input
                       className="border p-2 rounded-md w-full"
                       type="password"
@@ -323,7 +340,7 @@ const Login = () => {
                       value={password}
                     />
                   </div>
-                  
+
                   <div className="flex justify-center items-center">
                     <button
                       type="submit"
