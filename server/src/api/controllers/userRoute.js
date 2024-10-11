@@ -160,6 +160,7 @@ exports.GoogleAuth = async (req, resp) => {
 }
 
 
+
 exports.GoogleAuthCallback = async (req, res) => {
   const oAuth2Client = new OAuth2Client(client_ID, client_Secret, redirect_URL);
   const code = req.query.code;
@@ -167,10 +168,26 @@ exports.GoogleAuthCallback = async (req, res) => {
   const { tokens } = await oAuth2Client.getToken(code);
   oAuth2Client.setCredentials(tokens);
 
-  const userInfo = await oAuth2Client.request({
-    url: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json'
+  const userInfoResponse = await oAuth2Client.request({
+    url: 'https://www.googleapis.com/oauth2/v3/userinfo',
   });
 
-  const user = userInfo.data;
-  await res.status(200).json({ user });
+  const user = userInfoResponse.data;
+
+  let existingUser = await userModel.findOne({ email: user.email });
+  if (!existingUser) {
+    // If user doesn't exist, you might want to create a new user record
+    existingUser = new userModel({
+      firstName: user.given_name,
+      lastName: user.family_name,
+      email: user.email,
+      // You may want to handle the profile picture or other details
+    });
+    await existingUser.save();
+  }
+
+  // You might want to generate a JWT for the user here
+  const accessToken = await existingUser.token();
+
+  return res.status(200).json({ user: existingUser, accessToken });
 };

@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import axios from 'axios';
 import {
@@ -41,7 +44,32 @@ const Login = () => {
     setSelectedGender(event.target.value);
     setShowCustomGenderInput(event.target.value === "Custom");
   };
+ 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
 
+    if (code) {
+      const fetchToken = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/user/GoogleCallback', {
+            params: { code },
+          });
+          console.log("Full Response:", response);
+          localStorage.setItem('authToken', response.data.accessToken);
+          console.log("User Data:", response.data.user);
+
+          navigate('/');
+        } catch (error) {
+          console.error("Error fetching token or user info:", error);
+        }
+      };
+      fetchToken();
+    }
+  }, [navigate]);
+  
+
+  
   const handleGoogleSignin = async () => {
     try {
    
