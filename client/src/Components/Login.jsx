@@ -18,6 +18,8 @@ const Login = () => {
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [emailSignIn, setEmailSgnIn] = useState("");
+  const [passwordSignIn, setPasswordSignIn] = useState("");
   const [password, setPassword] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState({
     day: "",
@@ -113,8 +115,8 @@ const Login = () => {
     e.preventDefault();
     try {
       const resp = await axios.post("http://localhost:5000/user/SignIn", {
-        email: email,
-        password: password,
+        email: emailSignIn,
+        password: passwordSignIn,
       });
       const token = resp.data.accessToken;
       console.log("Success", resp.data);
@@ -141,15 +143,15 @@ const Login = () => {
               className="border lg:p-3 w-full p-1 rounded-md"
               type="text"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={emailSignIn}
+              onChange={(e) => setEmailSgnIn(e.target.value)}
             />
             <input
               className="border lg:p-3 w-full p-1 rounded-md"
               type="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={passwordSignIn}
+              onChange={(e) => setPasswordSignIn(e.target.value)}
             />
             <button
               className="border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg"
