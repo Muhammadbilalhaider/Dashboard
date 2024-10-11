@@ -42,10 +42,16 @@ const Login = () => {
     setShowCustomGenderInput(event.target.value === "Custom");
   };
 
-  const handleGoogleSignin = () => {
-    alert("Hello")
-  }
-
+  const handleGoogleSignin = async () => {
+    try {
+   
+      const response = await axios.post('http://localhost:5000/user/GoogleSignin'); 
+      window.location.href = response.data.url; 
+    } catch (error) {
+      console.error("Error during Google Sign-In:", error);
+    }
+  };
+  
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -134,11 +140,11 @@ const Login = () => {
 
             <div className='flex w-full justify-center items-center'>
               <div className='flex flex-row w-4 lg:w-8 items-center justify-center space-x-1 lg:space-x-3'>
-              
+
                 <img className='cursor-pointer' src={googleImg} alt='Google' onClick={handleGoogleSignin}/>
-             
                 <img className='cursor-pointer' src={facebookImg} alt='' />
                 <img className='cursor-pointer hover:Hello' src={githubImg} alt='' />
+              
               </div>
             </div>
 

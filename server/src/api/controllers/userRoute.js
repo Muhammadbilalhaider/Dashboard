@@ -6,6 +6,11 @@ const nodemailer = require("nodemailer");
 const secret = process.env.JWT_SECRET;
 const authEmail = process.env.authEmail;
 const authPass = process.env.authPass;
+const client_Secret = process.env.client_Secret;
+const redirect_URL = process.env.redirect_URL;
+const cient_ID = process.env.Cient_ID;
+const { OAuth2Client } = require('google-auth-library');
+
 exports.SignUp = async (req, res, next) => {
   try {
     console.log("req.body", req.body);
@@ -109,7 +114,7 @@ exports.ForgotPassword = async (req, resp, next) => {
         .status(200)
         .json({ message: "Password reset link sent to the email" });
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 exports.ResetPassword = async (req, resp) => {
@@ -138,4 +143,34 @@ exports.ResetPassword = async (req, resp) => {
       .status(400)
       .json({ message: "Invalid token or error during password reset" });
   }
+};
+
+exports.GoogleAuth = async (req, resp) => {
+  const oAuth2Client = new OAuth2Client(
+    cient_ID,
+    client_Secret,
+    redirect_URL
+  )
+  const authorizeUrl = oAuth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: 'https://www.googleapis.com/auth/userinfo.profile openid',
+    prompt: 'consent'
+  })
+  await resp.status(200).json({ url: authorizeUrl });
+}
+
+
+exports.GoogleAuthCallback = async (req, res) => {
+  const oAuth2Client = new OAuth2Client(client_ID, client_Secret, redirect_URL);
+  const code = req.query.code;
+
+  const { tokens } = await oAuth2Client.getToken(code);
+  oAuth2Client.setCredentials(tokens);
+
+  const userInfo = await oAuth2Client.request({
+    url: 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json'
+  });
+
+  const user = userInfo.data;
+  await res.status(200).json({ user });
 };
