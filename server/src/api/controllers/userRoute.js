@@ -190,13 +190,13 @@ passport.use(new GoogleStreategy({
   callbackURL: redirect_URL
 },
 async function (accessToken, refreshToken, profile, done) {
-  console.log("Google profile:", profile); // Log the profile to inspect its structure
+  console.log("Google profile:", profile);
   try {
     let user = await userModel.findOne({ email: profile.emails[0].value });
     if (!user) {
       user = new userModel({
-        firstName: profile.name.givenName || '', // Fallback if undefined
-        lastName: profile.name.familyName || '',  // Fallback if undefined
+        firstName: profile.name.givenName || '', 
+        lastName: profile.name.familyName || '',  
         email: profile.emails[0].value,
         oauth: true,
       });
@@ -225,28 +225,28 @@ passport.deserializeUser(async function (id, done) {
 
 exports.GoogleAuthCallback = (req, res) => {
   try {
-    // Ensure req.user is defined
+
     if (!req.user) {
       throw new Error("User information is incomplete.");
     }
 
-    // Extracting values from req.user
+  
     const givenName = req.user.name?.givenName || req.user._json?.given_name || 'Guest';
     const familyName = req.user.name?.familyName || req.user._json?.family_name || 'No Last Name';
 
-    // Ensure emails array exists and has at least one element
+
     const email = (req.user.emails && req.user.emails.length > 0)
       ? req.user.emails[0].value
       : (req.user._json?.email || 'No Email');
 
-    // Include user's ID, name, and email in the token payload
+
     const tokenPayload = {
-      id: req.user.id,                 // User ID
-      name: `${givenName} ${familyName}`, // User's full name
-      email: email,                   // User's email
+      id: req.user.id,                
+      name: `${givenName} ${familyName}`, 
+      email: email,                   
     };
     
-    // Encode the payload to create a JWT token
+   
     const token = jwtSimple.encode(tokenPayload, secret);
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("Redirect URL:", redirectUrl);
