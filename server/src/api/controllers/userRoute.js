@@ -8,8 +8,10 @@ const authEmail = process.env.authEmail;
 const authPass = process.env.authPass;
 const client_Secret = process.env.client_Secret;
 const redirect_URL = process.env.redirect_URL;
-const cient_ID = process.env.Cient_ID;
-const { OAuth2Client } = require('google-auth-library');
+const clientID = process.env.Cient_ID;
+const passport = require('passport');
+const GoogleStreategy = require('passport-google-oauth20').Strategy;
+
 
 exports.SignUp = async (req, res, next) => {
   try {
@@ -145,49 +147,116 @@ exports.ResetPassword = async (req, resp) => {
   }
 };
 
-exports.GoogleAuth = async (req, resp) => {
-  const oAuth2Client = new OAuth2Client(
-    cient_ID,
-    client_Secret,
-    redirect_URL
-  )
-  const authorizeUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: 'https://www.googleapis.com/auth/userinfo.profile openid',
-    prompt: 'consent'
-  })
-  await resp.status(200).json({ url: authorizeUrl });
-}
 
 
-
-exports.GoogleAuthCallback = async (req, res) => {
-  const oAuth2Client = new OAuth2Client(client_ID, client_Secret, redirect_URL);
-  const code = req.query.code;
-
-  const { tokens } = await oAuth2Client.getToken(code);
-  oAuth2Client.setCredentials(tokens);
-
-  const userInfoResponse = await oAuth2Client.request({
-    url: 'https://www.googleapis.com/oauth2/v3/userinfo',
-  });
-
-  const user = userInfoResponse.data;
-
-  let existingUser = await userModel.findOne({ email: user.email });
-  if (!existingUser) {
-    // If user doesn't exist, you might want to create a new user record
-    existingUser = new userModel({
-      firstName: user.given_name,
-      lastName: user.family_name,
-      email: user.email,
-      // You may want to handle the profile picture or other details
-    });
-    await existingUser.save();
+passport.use(new GoogleStreategy({
+  clientID: clientID,
+  clientSecret: client_Secret,
+  callbackURL: redirect_URL
+}, async function (accessToken, refreshToken, profile, done) {
+  console.log("Google profile:", profile); // Log the profile to inspect its structure
+  try {
+    let user = await userModel.findOne({ email: profile.emails[0].value });
+    if (!user) {
+      user = new userModel({
+        firstName: profile.name.givenName || 'No Name', // Fallback if undefined
+        lastName: profile.name.familyName || 'No Last Name', // Fallback if undefined
+        email: profile.emails[0].value,
+        oauth: true,
+      });
+      await user.save();
+    }
+    return done(null, user);
+  } catch (err) {
+    return done(err, null);
   }
+}));
 
-  // You might want to generate a JWT for the user here
-  const accessToken = await existingUser.token();
 
-  return res.status(200).json({ user: existingUser, accessToken });
+passport.serializeUser(function (user, done) {
+  done(null, user)
+}
+)
+passport.deserializeUser(function (user, done) {
+  done(null, user)
+}
+)
+
+
+
+passport.use(new GoogleStreategy({
+  clientID: clientID,
+  clientSecret: client_Secret,
+  callbackURL: redirect_URL
+},
+async function (accessToken, refreshToken, profile, done) {
+  console.log("Google profile:", profile); // Log the profile to inspect its structure
+  try {
+    let user = await userModel.findOne({ email: profile.emails[0].value });
+    if (!user) {
+      user = new userModel({
+        firstName: profile.name.givenName || '', // Fallback if undefined
+        lastName: profile.name.familyName || '',  // Fallback if undefined
+        email: profile.emails[0].value,
+        oauth: true,
+      });
+      await user.save();
+    }
+    return done(null, user);
+  } catch (err) {
+    return done(err, null);
+  }
+}));
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async function (id, done) {
+  try {
+    const user = await userModel.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
+
+
+exports.GoogleAuthCallback = (req, res) => {
+  try {
+    // Ensure req.user is defined
+    if (!req.user) {
+      throw new Error("User information is incomplete.");
+    }
+
+    // Extracting values from req.user
+    const givenName = req.user.name?.givenName || req.user._json?.given_name || 'Guest';
+    const familyName = req.user.name?.familyName || req.user._json?.family_name || 'No Last Name';
+
+    // Ensure emails array exists and has at least one element
+    const email = (req.user.emails && req.user.emails.length > 0)
+      ? req.user.emails[0].value
+      : (req.user._json?.email || 'No Email');
+
+    // Include user's ID, name, and email in the token payload
+    const tokenPayload = {
+      id: req.user.id,                 // User ID
+      name: `${givenName} ${familyName}`, // User's full name
+      email: email,                   // User's email
+    };
+    
+    // Encode the payload to create a JWT token
+    const token = jwtSimple.encode(tokenPayload, secret);
+    const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
+    console.log("Redirect URL:", redirectUrl);
+    
+    res.redirect(redirectUrl);
+  } catch (error) {
+    console.error("Error in GoogleAuthCallback:", error);
+    res.status(500).json({ success: false, msg: "Error during Google login" });
+  }
 };
+
+
+

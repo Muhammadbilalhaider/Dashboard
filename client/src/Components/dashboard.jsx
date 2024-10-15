@@ -1,40 +1,35 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import Navbar from './Navbar';
 
 const Dashboard = () => {
-  const [token, setToken] = useState(localStorage.getItem("authToken"));
   const navigate = useNavigate();
+
   useEffect(() => {
-    const checkToken = () => {
-      const currentToken = localStorage.getItem("authToken");
-      setToken(currentToken);
-      const currentPath = window.location.pathname;
-      if (
-        !currentToken &&
-        !currentPath.startsWith("/forgot-password") &&
-        !currentPath.startsWith("/resetpassword")
-      ) {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+
+    if (token) {
+      localStorage.setItem("authToken", token);
+      navigate("/");
+    } else {
+      const storedToken = localStorage.getItem("authToken");
+      if (!storedToken) {
         navigate("/login");
-      } else if (currentToken &&  (currentPath === "/login" || currentPath.startsWith("/forgot-password") || currentPath.startsWith("/resetpassword"))) {
-        navigate("/");
+      }else
+      {
+        navigate("/")
       }
-    };
-
-    checkToken();
-    window.addEventListener("storage", checkToken);
-
-    return () => {
-      window.removeEventListener("storage", checkToken);
-    };
+    }
   }, [navigate]);
 
-  return <div>{token ? <Navbar /> : null}</div>;
+  return (
+    <div>
+      {localStorage.getItem("authToken") ? <Navbar /> : null}
+    </div>
+  );
 };
 
 export default Dashboard;

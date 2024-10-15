@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import {
   Link,
   useNavigate,
@@ -47,41 +48,35 @@ const Login = () => {
     setShowCustomGenderInput(event.target.value === "Custom");
   };
  
+ 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
+    const fetchToken = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
 
-    if (code) {
-      const fetchToken = async () => {
-        try {
-          const response = await axios.get('http://localhost:5000/user/GoogleCallback', {
-            params: { code },
-          });
-          console.log("Full Response:", response);
-          localStorage.setItem('authToken', response.data.accessToken);
-          console.log("User Data:", response.data.user);
+      if (token) {
+        localStorage.setItem('authToken', token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        
+        const decodedToken = jwtDecode(token);
+        console.log("Decoded Token:", decodedToken);
+        console.log("User Email:", decodedToken.email); 
+        
+        navigate('/'); 
+      }
+    };
 
-          navigate('/');
-        } catch (error) {
-          console.error("Error fetching token or user info:", error);
-        }
-      };
-      fetchToken();
-    }
+    fetchToken();
   }, [navigate]);
-  
-
   
   const handleGoogleSignin = async () => {
     try {
-   
-      const response = await axios.post('http://localhost:5000/user/GoogleSignin'); 
-      window.location.href = response.data.url; 
+      // Redirect the user to the Google sign-in page
+      window.location.href = 'http://localhost:5000/user/auth/google'; 
     } catch (error) {
       console.error("Error during Google Sign-In:", error);
     }
   };
-  
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -95,7 +90,6 @@ const Login = () => {
         email: email,
         password: password,
       });
-
       console.log("Signup successful:", resp.data);
       if (resp.data.success) {
         setIsSignUpSuccessful(true);
@@ -120,7 +114,6 @@ const Login = () => {
       });
       const token = resp.data.accessToken;
       console.log("Success", resp.data);
-
       if (token) {
         console.log("Success", token);
         localStorage.setItem("authToken", token);
