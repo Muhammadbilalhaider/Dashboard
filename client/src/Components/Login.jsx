@@ -76,7 +76,6 @@ const Login = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
     try {
       const resp = await axios.post("http://localhost:5000/user/SignUp", {
         firstName: FirstName,
