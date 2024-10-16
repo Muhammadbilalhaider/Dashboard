@@ -1,18 +1,12 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { Link, useNavigate } from "react-router-dom";
 
-import facebookImg from '../assets/facebook.svg';
-import githubImg from '../assets/github.svg';
-import googleImg from '../assets/google.svg';
+import facebookImg from "../assets/facebook.svg";
+import githubImg from "../assets/github.svg";
+import googleImg from "../assets/google.svg";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -47,35 +41,37 @@ const Login = () => {
     setSelectedGender(event.target.value);
     setShowCustomGenderInput(event.target.value === "Custom");
   };
- 
- 
+
   useEffect(() => {
     const fetchToken = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get('token');
+      const token = urlParams.get("token");
 
       if (token) {
-        localStorage.setItem('authToken', token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        
+        localStorage.setItem("authToken", token);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
         const decodedToken = jwtDecode(token);
         console.log("Decoded Token:", decodedToken);
-        console.log("User Email:", decodedToken.email); 
-        
-        navigate('/'); 
+        console.log("User Email:", decodedToken.email);
+
+        navigate("/");
       }
     };
 
     fetchToken();
   }, [navigate]);
-  
+
   const handleGoogleSignin = async () => {
     try {
       // Redirect the user to the Google sign-in page
-      window.location.href = 'http://localhost:5000/user/auth/google'; 
+      window.location.href = "http://localhost:5000/user/auth/google";
     } catch (error) {
       console.error("Error during Google Sign-In:", error);
     }
+  };
+  const handleFacebookSign = async () => {
+    window.location.href = "http://localhost:5000/user/auth/facebook";
   };
 
   const handleSignUp = async (e) => {
@@ -93,11 +89,11 @@ const Login = () => {
       console.log("Signup successful:", resp.data);
       if (resp.data.success) {
         setIsSignUpSuccessful(true);
-        setFirstName('');
-        setLastName('');
-        setDateOfBirth({ day: '', month: '', year: '' });
-        setEmail('');
-        setPassword('')
+        setFirstName("");
+        setLastName("");
+        setDateOfBirth({ day: "", month: "", year: "" });
+        setEmail("");
+        setPassword("");
         navigate("/login");
       }
     } catch (error) {
@@ -155,19 +151,32 @@ const Login = () => {
             <span className="flex flex-col justify-center items-center px-3 font-interFont">
               <Link
                 to="/forgot-password"
-                className="lg:font-medium text-fuchsia-800 text-xs">
+                className="lg:font-medium text-fuchsia-800 text-xs"
+              >
                 Forgotten Password?
               </Link>
             </span>
             <span className="w-full block border-gray-200 border-t-2"></span>
 
-            <div className='flex w-full justify-center items-center'>
-              <div className='flex flex-row w-4 lg:w-8 items-center justify-center space-x-1 lg:space-x-3'>
-
-                <img className='cursor-pointer' src={googleImg} alt='Google' onClick={handleGoogleSignin}/>
-                <img className='cursor-pointer' src={facebookImg} alt='' />
-                <img className='cursor-pointer hover:Hello' src={githubImg} alt='' />
-              
+            <div className="flex w-full justify-center items-center">
+              <div className="flex flex-row w-4 lg:w-8 items-center justify-center space-x-1 lg:space-x-3">
+                <img
+                  className="cursor-pointer"
+                  src={googleImg}
+                  alt="Google"
+                  onClick={handleGoogleSignin}
+                />
+                <img
+                  className="cursor-pointer"
+                  src={facebookImg}
+                  alt=""
+                  onClick={handleFacebookSign}
+                />
+                <img
+                  className="cursor-pointer hover:Hello"
+                  src={githubImg}
+                  alt=""
+                />
               </div>
             </div>
 
@@ -190,8 +199,8 @@ const Login = () => {
                 alt="Login Visual"
               />
               <p className="flex lg:text-left sm:text-center lg:px-7 w-full pl-4 sm:text-xs lg:text-2xl">
-                This Platform helps you connect and share with the people in your
-                life.
+                This Platform helps you connect and share with the people in
+                your life.
               </p>
             </span>
           </div>
@@ -200,8 +209,9 @@ const Login = () => {
 
       {!isSignUpSuccessful && (
         <div
-          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${isSignUpVisible ? "block" : "hidden"
-            }`}
+          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
+            isSignUpVisible ? "block" : "hidden"
+          }`}
         >
           <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
             <button
@@ -212,7 +222,8 @@ const Login = () => {
             </button>
             <form
               className="flex flex-col items-center justify-center"
-              onSubmit={handleSignUp}>
+              onSubmit={handleSignUp}
+            >
               <div className="flex flex-col w-full justify-center">
                 <h1 className="text-3xl font-interFont font-extrabold text-left">
                   Sign Up

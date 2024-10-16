@@ -15,19 +15,19 @@ const userSchema = mongoose.Schema({
     day: {
       type: Number,
       required: function () {
-        return !!this.password; // Required if the user has a password (not Google OAuth)
+        return !!this.password;
       },
     },
     month: {
       type: Number,
       required: function () {
-        return !!this.password; // Required if the user has a password (not Google OAuth)
+        return !!this.password;
       },
     },
     year: {
       type: Number,
       required: function () {
-        return !!this.password; // Required if the user has a password (not Google OAuth)
+        return !!this.password;
       },
     },
   },
@@ -42,11 +42,11 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: function () {
-      return !this.oauth; // Password is required if not using OAuth
+      return !this.oauth;
     },
   },
   oauth: {
-    type: Boolean, // Field to indicate if the user signed up via Google OAuth
+    type: Boolean,
     default: false,
   },
   createdAt: {
@@ -55,9 +55,8 @@ const userSchema = mongoose.Schema({
   },
 });
 
-// JWT generation method
 userSchema.methods.token = function () {
-  const expiresIn = 3600; 
+  const expiresIn = 3600;
   const iat = Math.floor(Date.now() / 1000);
 
   const payload = {
@@ -67,7 +66,7 @@ userSchema.methods.token = function () {
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: '1h',
+    expiresIn: "1h",
   });
   return token;
 };

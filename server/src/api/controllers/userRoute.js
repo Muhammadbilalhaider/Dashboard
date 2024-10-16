@@ -9,10 +9,12 @@ const authPass = process.env.authPass;
 const client_Secret = process.env.client_Secret;
 const redirect_URL = process.env.redirect_URL;
 const clientID = process.env.Cient_ID;
-const passport = require('passport');
-const GoogleStreategy = require('passport-google-oauth20').Strategy;
-
-
+const passport = require("passport");
+const GoogleStreategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
+const Facebook_ID = process.env.Facebook_ID;
+Facebook_Secret = process.env.Facebook_Secret;
+facebook_Callback_URL = process.env.facebook_Callback_URL;
 exports.SignUp = async (req, res, next) => {
   try {
     console.log("req.body", req.body);
@@ -116,7 +118,7 @@ exports.ForgotPassword = async (req, resp, next) => {
         .status(200)
         .json({ message: "Password reset link sent to the email" });
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 exports.ResetPassword = async (req, resp) => {
@@ -147,66 +149,80 @@ exports.ResetPassword = async (req, resp) => {
   }
 };
 
-
-
-passport.use(new GoogleStreategy({
-  clientID: clientID,
-  clientSecret: client_Secret,
-  callbackURL: redirect_URL
-}, async function (accessToken, refreshToken, profile, done) {
-  console.log("Google profile:", profile); // Log the profile to inspect its structure
-  try {
-    let user = await userModel.findOne({ email: profile.emails[0].value });
-    if (!user) {
-      user = new userModel({
-        firstName: profile.name.givenName || 'No Name', // Fallback if undefined
-        lastName: profile.name.familyName || 'No Last Name', // Fallback if undefined
-        email: profile.emails[0].value,
-        oauth: true,
-      });
-      await user.save();
-    }
-    return done(null, user);
-  } catch (err) {
-    return done(err, null);
-  }
-}));
-
-
 passport.serializeUser(function (user, done) {
-  done(null, user)
-}
-)
+  done(null, user);
+});
 passport.deserializeUser(function (user, done) {
-  done(null, user)
-}
-)
+  done(null, user);
+});
 
-
-
-passport.use(new GoogleStreategy({
-  clientID: clientID,
-  clientSecret: client_Secret,
-  callbackURL: redirect_URL
-},
-async function (accessToken, refreshToken, profile, done) {
-  console.log("Google profile:", profile);
-  try {
-    let user = await userModel.findOne({ email: profile.emails[0].value });
-    if (!user) {
-      user = new userModel({
-        firstName: profile.name.givenName || '', 
-        lastName: profile.name.familyName || '',  
-        email: profile.emails[0].value,
-        oauth: true,
-      });
-      await user.save();
+passport.use(
+  new GoogleStreategy(
+    {
+      clientID: clientID,
+      clientSecret: client_Secret,
+      callbackURL: redirect_URL,
+    },
+    async function (accessToken, refreshToken, profile, done) {
+      console.log("Google profile:", profile);
+      try {
+        let user = await userModel.findOne({ email: profile.emails[0].value });
+        if (!user) {
+          user = new userModel({
+            firstName: profile.name.givenName || "",
+            lastName: profile.name.familyName || "",
+            email: profile.emails[0].value,
+            oauth: true,
+          });
+          await user.save();
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
     }
-    return done(null, user);
-  } catch (err) {
-    return done(err, null);
-  }
-}));
+  )
+);
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: Facebook_ID,
+      clientSecret: Facebook_Secret,
+      callbackURL: facebook_Callback_URL,
+      profileFields: ["id", "emails", "name"],
+    },
+    async function (accessToken, refreshToken, profile, done) {
+      console.log("Facebook profile:", profile);
+
+      const email =
+        profile.emails && profile.emails.length > 0
+          ? profile.emails[0].value
+          : null;
+
+      if (!email) {
+        console.log("No email found in the profile");
+        return done(new Error("No email found"), null);
+      }
+
+      try {
+        let user = await userModel.findOne({ email: email });
+        if (!user) {
+          user = new userModel({
+            firstName: profile.name.givenName || "No Name",
+            lastName: profile.name.familyName || "No Last Name",
+            email: email,
+            oauth: true,
+          });
+          await user.save();
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
+    }
+  )
+);
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -221,36 +237,32 @@ passport.deserializeUser(async function (id, done) {
   }
 });
 
-
-
 exports.GoogleAuthCallback = (req, res) => {
   try {
-
     if (!req.user) {
       throw new Error("User information is incomplete.");
     }
 
-  
-    const givenName = req.user.name?.givenName || req.user._json?.given_name || 'Guest';
-    const familyName = req.user.name?.familyName || req.user._json?.family_name || 'No Last Name';
+    const givenName =
+      req.user.name?.givenName || req.user._json?.given_name || "Guest";
+    const familyName =
+      req.user.name?.familyName ||
+      req.user._json?.family_name ||
+      "No Last Name";
 
-
-    const email = (req.user.emails && req.user.emails.length > 0)
-      ? req.user.emails[0].value
-      : (req.user._json?.email || 'No Email');
-
+    const email =
+      req.user.emails && req.user.emails.length > 0
+        ? req.user.emails[0].value
+        : req.user._json?.email || "No Email";
 
     const tokenPayload = {
-      id: req.user.id,                
-      name: `${givenName} ${familyName}`, 
-      email: email,                   
+      id: req.user.id,
+      name: `${givenName} ${familyName}`,
+      email: email,
     };
-    
-   
     const token = jwtSimple.encode(tokenPayload, secret);
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("Redirect URL:", redirectUrl);
-    
     res.redirect(redirectUrl);
   } catch (error) {
     console.error("Error in GoogleAuthCallback:", error);
@@ -258,5 +270,30 @@ exports.GoogleAuthCallback = (req, res) => {
   }
 };
 
+exports.FacebookAuthCallback = (req, resp) => {
+  try {
+    if (!req.user) {
+      throw new Error("User information is incomplete.");
+    }
 
+    const email = req.user.email || "No Email";
+    if (email === "No Email") {
+      return resp.redirect("/email-collection-page");
+    }
 
+    const tokenPayload = {
+      id: req.user.id,
+      name: `${req.user.firstName} ${req.user.lastName}`,
+      email: email,
+    };
+    const token = jwtSimple.encode(tokenPayload, secret);
+    const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
+    console.log("Redirect URL:", redirectUrl);
+    resp.redirect(redirectUrl);
+  } catch (error) {
+    console.error("Error in FacebookAuthCallback:", error);
+    resp
+      .status(500)
+      .json({ success: false, msg: "Error during Facebook login" });
+  }
+};
