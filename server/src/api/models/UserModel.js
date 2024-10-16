@@ -49,6 +49,14 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  googleId: {
+    type: String,
+    default: null,
+  },
+  facebookId: {
+    type: String,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

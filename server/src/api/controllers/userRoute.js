@@ -6,9 +6,6 @@ const nodemailer = require("nodemailer");
 const secret = process.env.JWT_SECRET;
 const authEmail = process.env.authEmail;
 const authPass = process.env.authPass;
-const client_Secret = process.env.client_Secret;
-const redirect_URL = process.env.redirect_URL;
-const clientID = process.env.Cient_ID;
 const passport = require("passport");
 const GoogleStreategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
@@ -159,9 +156,9 @@ passport.deserializeUser(function (user, done) {
 passport.use(
   new GoogleStreategy(
     {
-      clientID: clientID,
-      clientSecret: client_Secret,
-      callbackURL: redirect_URL,
+      clientID: process.env.GOOGLE_Cient_ID,
+      clientSecret: process.env.GOOGLE_client_Secret,
+      callbackURL: process.env.GOOGLE_redirect_URL,
     },
     async function (accessToken, refreshToken, profile, done) {
       console.log("Google profile:", profile);
@@ -193,6 +190,7 @@ passport.use(
       profileFields: ["id", "emails", "name"],
     },
     async function (accessToken, refreshToken, profile, done) {
+      console.log("accessToken", accessToken);
       console.log("Facebook profile:", profile);
 
       const email =
