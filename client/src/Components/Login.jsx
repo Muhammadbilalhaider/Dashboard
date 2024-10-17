@@ -70,6 +70,7 @@ const Login = () => {
       console.error("Error during Google Sign-In:", error);
     }
   };
+
   const handleFacebookSign = async () => {
     window.location.href = "http://localhost:5000/user/auth/facebook";
   };

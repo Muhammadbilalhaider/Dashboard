@@ -1,7 +1,6 @@
 const express = require("express");
 const controller = require("../controllers/userRoute");
 const passport = require("passport");
-
 const router = express.Router();
 
 router.post("/SignUp", controller.SignUp);
@@ -9,6 +8,7 @@ router.post("/SignIn", controller.SignIn);
 router.post("/ForgotPassword", controller.ForgotPassword);
 router.post("/ResetPassword", controller.ResetPassword);
 
+// google routes
 router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -19,6 +19,7 @@ router.get(
   controller.GoogleAuthCallback
 );
 
+// facebook routes
 router.get(
   "/auth/facebook",
   passport.authenticate("facebook", { scope: ["email"] })
