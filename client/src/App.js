@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 
 import {
   BrowserRouter as Router,
@@ -6,14 +6,14 @@ import {
   Outlet,
   Route,
   Routes,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import AboutUs from './Components/AboutUs';
-import ContactUs from './Components/ContactUs';
-import Dashboard from './Components/dashboard';
-import ForgotPassword from './Components/ForgotPassword';
-import Login from './Components/Login';
-import ResetPassword from './Components/ResetPassword';
+import AboutUs from "./Components/AboutUs";
+import ContactUs from "./Components/ContactUs";
+import Dashboard from "./Components/dashboard";
+import ForgotPassword from "./Components/ForgotPassword";
+import Login from "./Components/Login";
+import ResetPassword from "./Components/ResetPassword";
 
 function App() {
   const AppLayout = () => {
@@ -27,7 +27,7 @@ function App() {
     );
   };
   return (
-    <div className='flex w-full'>
+    <div className="flex w-full">
       <Router>
         <Routes>
           <Route path="/" element={<AppLayout />}>

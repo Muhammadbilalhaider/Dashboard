@@ -1,5 +1,6 @@
 const express = require("express");
 const controller = require("../controllers/userRoute");
+const passportController = require("../passport/passport");
 const passport = require("passport");
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get(
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
-  controller.GoogleAuthCallback
+  passportController.GoogleAuthCallback
 );
 
 // facebook routes
@@ -28,7 +29,19 @@ router.get(
 router.get(
   "/auth/facebook/callback",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
-  controller.FacebookAuthCallback
+  passportController.FacebookAuthCallback
+);
+
+// GitHub routes
+router.get(
+  "/auth/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
+
+router.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  passportController.GithubAuthCallback
 );
 
 module.exports = router;

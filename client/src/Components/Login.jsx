@@ -64,15 +64,17 @@ const Login = () => {
 
   const handleGoogleSignin = async () => {
     try {
-      // Redirect the user to the Google sign-in page
       window.location.href = "http://localhost:5000/user/auth/google";
     } catch (error) {
       console.error("Error during Google Sign-In:", error);
     }
   };
-
   const handleFacebookSign = async () => {
     window.location.href = "http://localhost:5000/user/auth/facebook";
+  };
+
+  const handleGithubSign = async () => {
+    window.location.href = "http://localhost:5000/user/auth/github";
   };
 
   const handleSignUp = async (e) => {
@@ -176,6 +178,7 @@ const Login = () => {
                   className="cursor-pointer hover:Hello"
                   src={githubImg}
                   alt=""
+                  onClick={handleGithubSign}
                 />
               </div>
             </div>
