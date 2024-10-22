@@ -94,6 +94,42 @@ passport.use(
   )
 );
 
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: Github_ID,
+      clientSecret: Github_Secret,
+      callbackURL: "http://localhost:5000/user/auth/github/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Fetch the user's emails from GitHub
+        const response = await axios.get("https://api.github.com/user/emails", {
+          headers: {
+            Authorization: `token ${accessToken}`,
+          },
+        });
+
+        const emails = response.data;
+        const primaryEmail = emails.find((email) => email.primary);
+
+        if (!primaryEmail) {
+          return done(null, false, { message: "No primary email found" });
+        }
+
+        console.log("GitHub profile:", profile);
+        console.log("Primary email:", primaryEmail.email);
+
+        // For demonstration, we can return the profile with the primary email
+        return done(null, { ...profile, email: primaryEmail.email });
+      } catch (error) {
+        console.error("Error fetching emails from GitHub:", error);
+        return done(error);
+      }
+    }
+  )
+);
+
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
@@ -168,51 +204,17 @@ exports.FacebookAuthCallback = (req, resp) => {
   }
 };
 
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: Github_ID,
-      clientSecret: Github_Secret,
-      callbackURL: "http://localhost:5000/user/auth/github/callback",
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        console.log("ACCESS TOKENS ", accessToken);
-        // Fetch the user's emails from GitHub
-        const response = await axios.get("https://api.github.com/user/emails", {
-          headers: {
-            Authorization: `token ${accessToken}`,
-          },
-        });
-
-        const emails = response.data;
-        const primaryEmail = emails.find((email) => email.primary);
-
-        if (!primaryEmail) {
-          return done(null, false, { message: "No primary email found" });
-        }
-
-        console.log("GitHub profile:", profile);
-        console.log("Primary email:", primaryEmail.email);
-
-        // For demonstration, we can return the profile with the primary email
-        return done(null, { ...profile, email: primaryEmail.email });
-      } catch (error) {
-        console.error("Error fetching emails from GitHub:", error);
-        return done(error);
-      }
-    }
-  )
-);
 exports.GithubAuthCallback = (req, res) => {
   try {
     if (!req.user) {
       throw new Error("User information is incomplete.");
     }
+
     const email = req.user.email || "No Email";
     if (email === "No Email") {
       return res.redirect("/email-collection-page");
     }
+
     const tokenPayload = {
       id: req.user.id,
       name: `${req.user.firstName} ${req.user.lastName}`,
