@@ -18,6 +18,7 @@ Github_Secret = process.env.Github_Secret;
 facebook_Callback_URL = process.env.facebook_Callback_URL;
 github_Callback_URL = process.env.github_Callback_URL;
 
+var token ;
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -33,6 +34,7 @@ passport.use(
       callbackURL: process.env.GOOGLE_redirect_URL,
     },
     async function (accessToken, refreshToken, profile, done) {
+      token = accessToken;
       console.log("Google profile:", profile);
       try {
         let user = await userModel.findOne({ email: profile.emails[0].value });
@@ -62,6 +64,7 @@ passport.use(
       profileFields: ["id", "emails", "name"],
     },
     async function (accessToken, refreshToken, profile, done) {
+      token = accessToken;
       console.log("accessToken", accessToken);
       console.log("Facebook profile:", profile);
 
@@ -102,6 +105,7 @@ passport.use(
       callbackURL: "http://localhost:5000/user/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      token = accessToken;
       try {
         // Fetch the user's emails from GitHub
         const response = await axios.get("https://api.github.com/user/emails", {
@@ -147,26 +151,8 @@ exports.GoogleAuthCallback = (req, res) => {
   try {
     if (!req.user) {
       throw new Error("User information is incomplete.");
-    }
-
-    const givenName =
-      req.user.name?.givenName || req.user._json?.given_name || "Guest";
-    const familyName =
-      req.user.name?.familyName ||
-      req.user._json?.family_name ||
-      "No Last Name";
-
-    const email =
-      req.user.emails && req.user.emails.length > 0
-        ? req.user.emails[0].value
-        : req.user._json?.email || "No Email";
-
-    const tokenPayload = {
-      id: req.user.id,
-      name: `${givenName} ${familyName}`,
-      email: email,
-    };
-    const token = jwtSimple.encode(tokenPayload, secret);
+    }   
+    const token = req.user.token;
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("Redirect URL:", redirectUrl);
     res.redirect(redirectUrl);
@@ -186,13 +172,6 @@ exports.FacebookAuthCallback = (req, resp) => {
     if (email === "No Email") {
       return resp.redirect("/email-collection-page");
     }
-
-    const tokenPayload = {
-      id: req.user.id,
-      name: `${req.user.firstName} ${req.user.lastName}`,
-      email: email,
-    };
-    const token = jwtSimple.encode(tokenPayload, secret);
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("Redirect URL:", redirectUrl);
     resp.redirect(redirectUrl);
@@ -220,7 +199,7 @@ exports.GithubAuthCallback = (req, res) => {
       name: `${req.user.firstName} ${req.user.lastName}`,
       email: email,
     };
-    const token = jwtSimple.encode(tokenPayload, secret);
+    // const token = jwtSimple.encode(tokenPayload, secret);
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("GitHub Redirect URL:", redirectUrl);
     res.redirect(redirectUrl);
