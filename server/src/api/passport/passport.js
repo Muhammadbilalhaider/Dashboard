@@ -152,7 +152,10 @@ exports.GoogleAuthCallback = (req, res) => {
     if (!req.user) {
       throw new Error("User information is incomplete.");
     }   
-    const token = req.user.token;
+      const email = req.user.email || "No Email";
+    if (email === "No Email") {
+      return res.redirect("/email-collection-page");
+    }
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("Redirect URL:", redirectUrl);
     res.redirect(redirectUrl);
@@ -193,13 +196,6 @@ exports.GithubAuthCallback = (req, res) => {
     if (email === "No Email") {
       return res.redirect("/email-collection-page");
     }
-
-    const tokenPayload = {
-      id: req.user.id,
-      name: `${req.user.firstName} ${req.user.lastName}`,
-      email: email,
-    };
-    // const token = jwtSimple.encode(tokenPayload, secret);
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("GitHub Redirect URL:", redirectUrl);
     res.redirect(redirectUrl);

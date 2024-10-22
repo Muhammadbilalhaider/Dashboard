@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import facebookImg from "../assets/facebook.svg";
-import githubImg from "../assets/github.svg";
-import googleImg from "../assets/google.svg";
+import facebookImg from '../assets/facebook.svg';
+import githubImg from '../assets/github.svg';
+import googleImg from '../assets/google.svg';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -54,6 +60,16 @@ const Login = () => {
         const decodedToken = jwtDecode(token);
         console.log("Decoded Token:", decodedToken);
         console.log("User Email:", decodedToken.email);
+
+
+        // Extract user's name and profile image
+        const userName = decodedToken.name || decodedToken.displayName || decodedToken.username;
+        const userProfileImage = decodedToken.picture || (decodedToken.photos && decodedToken.photos[0]?.value) || '';
+
+        // Log name and profile image for debugging
+        console.log("User Name:", userName);
+        console.log("Profile Image URL:", userProfileImage);
+
 
         navigate("/");
       }
@@ -212,9 +228,8 @@ const Login = () => {
 
       {!isSignUpSuccessful && (
         <div
-          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
-            isSignUpVisible ? "block" : "hidden"
-          }`}
+          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${isSignUpVisible ? "block" : "hidden"
+            }`}
         >
           <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
             <button

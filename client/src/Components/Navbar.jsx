@@ -11,6 +11,7 @@ import sideimg from '../assets/sidebar.svg';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("authToken"));
   const navigate = useNavigate();
 
@@ -29,6 +30,18 @@ const Navbar = () => {
     setToken(null);
     navigate('/login');
   };
+
+    const confirmLogout = () => {
+    setShowLogoutConfirmation(true);
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutConfirmation(false);
+  };
+
+
+
+
   const NavbarItems = () => (
     <>
       <div className="flex md:text-base lg:text-lg">
@@ -39,7 +52,7 @@ const Navbar = () => {
         </li>
       </div>
 
-      <div className="flex lg:flex-row flex-col md:text-base space-y-4 lg:space-y-0 items-center lg:text-lg lg:space-x-14 ">
+      <div className="flex lg:flex-row md:flex-row flex-col md:text-base space-x-4 md:space-y-0 space-y-4 lg:space-y-0 items-center lg:text-lg lg:space-x-14 ">
         <li className="flex md:text-base lg:text-lg">
           <Link to="/contact-us" onClick={closeSidebar}>
             Contact Us
@@ -50,7 +63,7 @@ const Navbar = () => {
             About Us
           </Link>
         </li>
-        <li className="lg:flex hidden md:text-base lg:text-lg">
+        <li className="lg:flex md:text-base lg:text-lg">
           <img
             src={mission}
             alt="profile"
@@ -58,11 +71,11 @@ const Navbar = () => {
             onClick={handleImageClick}
           />
           {dropdownOpen && (
-            <div className="absolute right-1 mt-11 bg-slate-900 rounded-md shadow-lg z-10">
+            <div className="absolute right-1 md:mt-3 lg:mt-11 bg-slate-900 rounded-md shadow-lg z-10">
               <ul className="flex flex-col border border-gray-300 rounded-md">
                 <li className="p-2 cursor-pointer hover:bg-gray-700">Profile</li>
                 <li className="p-2 cursor-pointer hover:bg-gray-700">Settings</li>
-                <li className="p-2 cursor-pointer hover:bg-gray-700" onClick={logOut}>Logout</li>
+                <li className="p-2 cursor-pointer hover:bg-gray-700" onClick={confirmLogout}>Logout</li>
               </ul>
             </div>
           )}
@@ -71,8 +84,34 @@ const Navbar = () => {
     </>
   );
 
+  
+
   return (
     <>
+
+{showLogoutConfirmation && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20"> 
+  <div className="bg-white p-6 rounded-md shadow-lg">
+            <p className="mb-4">Are you sure you want to logout?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={cancelLogout}
+                className="px-4 py-2 bg-gray-500 text-white rounded-md"
+              >
+                No
+              </button>
+              <button
+                onClick={logOut}
+                className="px-4 py-2 bg-red-600 text-white rounded-md"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+  </div>
+)}
+
+
       {!isOpen && (
         <div className="flex justify-between items-center p-4 md:hidden w-fit fixed top-0 left-0 z-10">
           <img
@@ -97,15 +136,15 @@ const Navbar = () => {
         className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
-        <nav className="flex w-full justify-center">
-          <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-16">
+      <nav className="flex w-full justify-center">
+          <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-10">
             <NavbarItems />
           </ul>
         </nav>
       </div>
 
       <div className="hidden md:flex justify-between items-center bg-navColor p-4 fixed top-0 w-full z-10">
-        <nav className="flex w-full justify-between">
+      <nav className="flex  w-full justify-between">
           <ul className="flex justify-between w-full text-cyan-50">
             <NavbarItems />
           </ul>
