@@ -177,6 +177,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        console.log("ACCESS TOKENS ", accessToken);
         // Fetch the user's emails from GitHub
         const response = await axios.get("https://api.github.com/user/emails", {
           headers: {
