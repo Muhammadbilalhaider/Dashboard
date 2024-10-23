@@ -14,6 +14,8 @@ import Dashboard from "./Components/dashboard";
 import ForgotPassword from "./Components/ForgotPassword";
 import Login from "./Components/Login";
 import ResetPassword from "./Components/ResetPassword";
+import Profile from "./Components/Profile";
+import Setting from "./Components/Setting";
 
 function App() {
   const AppLayout = () => {
@@ -33,6 +35,8 @@ function App() {
           <Route path="/" element={<AppLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/setting" element={<Setting />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/resetpassword/:token" element={<ResetPassword />} />
