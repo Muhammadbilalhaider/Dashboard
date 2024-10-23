@@ -15,6 +15,8 @@ const Dashboard = () => {
       navigate("/");
     } else {
       const storedToken = localStorage.getItem("authToken");
+      const name = localStorage.getItem("name");
+      console.log("Name isss", name);
       const currentPath = window.location.pathname;
       if (
         !storedToken &&

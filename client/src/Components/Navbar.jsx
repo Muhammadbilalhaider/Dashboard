@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,6 +10,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("authToken"));
+  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -43,6 +44,11 @@ const Navbar = () => {
     navigate("/setting");
   };
 
+  useEffect(() => {
+    setUserName(localStorage.getItem("name"));
+    console.log(localStorage.getItem("name"));
+  }, [userName]);
+  console.log("NAME IS ", userName);
   const NavbarItems = () => (
     <>
       <div className="flex md:text-base lg:text-lg">
@@ -65,12 +71,15 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="lg:flex md:text-base lg:text-lg">
-          <img
-            src={mission}
-            alt="profile"
-            className="w-8 cursor-pointer"
-            onClick={handleImageClick}
-          />
+          <div className="flex lg:flex-row space-x-4">
+            <h3>{userName}</h3>
+            <img
+              src={mission}
+              alt="profile"
+              className="w-8 cursor-pointer"
+              onClick={handleImageClick}
+            />
+          </div>
           {dropdownOpen && (
             <div className="absolute right-1 md:mt-3 lg:mt-11 bg-slate-900 rounded-md shadow-lg z-10">
               <ul className="flex flex-col border border-gray-300 rounded-md">

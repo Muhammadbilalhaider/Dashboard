@@ -51,9 +51,8 @@ const Login = () => {
         localStorage.setItem("authToken", token);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-        const decodedToken = jwtDecode(token);
+        const decodedToken = jwtDecode(token); // Decode JWT token
         console.log("Decoded Token:", decodedToken);
-        console.log("User Email:", decodedToken.email);
 
         // Extract user's name and profile image
         const userName =
@@ -68,6 +67,11 @@ const Login = () => {
         // Log name and profile image for debugging
         console.log("User Name:", userName);
         console.log("Profile Image URL:", userProfileImage);
+
+        // Store user info in localStorage for later use in the UI
+        if (userName) localStorage.setItem("name", userName);
+        if (userProfileImage)
+          localStorage.setItem("profileImage", userProfileImage);
 
         navigate("/");
       }
@@ -125,9 +129,12 @@ const Login = () => {
         password: passwordSignIn,
       });
       const token = resp.data.accessToken;
-      console.log("Success", resp.data);
+
+      console.log("Success", resp.data.firstName);
       if (token) {
         console.log("Success", token);
+        const firstName = resp.data.data.firstName;
+        localStorage.setItem("name", firstName);
         localStorage.setItem("authToken", token);
         navigate("/");
       }

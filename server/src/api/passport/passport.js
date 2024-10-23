@@ -18,7 +18,7 @@ Github_Secret = process.env.Github_Secret;
 facebook_Callback_URL = process.env.facebook_Callback_URL;
 github_Callback_URL = process.env.github_Callback_URL;
 
-var token ;
+var token;
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -34,8 +34,8 @@ passport.use(
       callbackURL: process.env.GOOGLE_redirect_URL,
     },
     async function (accessToken, refreshToken, profile, done) {
-      token = accessToken;
       console.log("Google profile:", profile);
+
       try {
         let user = await userModel.findOne({ email: profile.emails[0].value });
         if (!user) {
@@ -151,11 +151,21 @@ exports.GoogleAuthCallback = (req, res) => {
   try {
     if (!req.user) {
       throw new Error("User information is incomplete.");
-    }   
-      const email = req.user.email || "No Email";
+    }
+    const email = req.user.email || "No Email";
     if (email === "No Email") {
       return res.redirect("/email-collection-page");
     }
+    token = jwtSimple.encode(
+      {
+        email: profile.emails[0].value,
+        name:
+          profile.displayName ||
+          `${profile.name.givenName} ${profile.name.familyName}`,
+        picture: profile.photos[0].value,
+      },
+      secret
+    );
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("Redirect URL:", redirectUrl);
     res.redirect(redirectUrl);
