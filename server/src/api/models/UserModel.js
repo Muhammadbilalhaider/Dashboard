@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     type: String,
   },
   lastName: {
-    required: true,
+    required: false,
     type: String,
   },
   dateOfBirth: {
@@ -50,6 +50,10 @@ const userSchema = mongoose.Schema({
     default: false,
   },
   googleId: {
+    type: String,
+    default: null,
+  },
+  githubId: {
     type: String,
     default: null,
   },
