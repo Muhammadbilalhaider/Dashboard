@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const passport = require("passport");
-require("./src/api/controllers/userRoute"); // This initializes the passport strategy
+require("./src/api/controllers/userController"); // This initializes the passport strategy
 
 const port = 5000;
 const router = require("./src/api/routes/route");

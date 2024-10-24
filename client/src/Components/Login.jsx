@@ -43,41 +43,37 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const fetchToken = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const token = urlParams.get("token");
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
 
-      if (token) {
-        localStorage.setItem("authToken", token);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    if (token) {
+      // Store the token in localStorage
+      localStorage.setItem("authToken", token);
 
-        const decodedToken = jwtDecode(token); // Decode JWT token
-        console.log("Decoded Token:", decodedToken);
+      // Decode the token to extract the name
+      const decodedToken = jwtDecode(token);
+      const userName = decodedToken.name || "Anonymous User";
+      localStorage.setItem("name", userName);
 
-        // Extract user's name and profile image
-        const userName =
-          decodedToken.name ||
-          decodedToken.displayName ||
-          decodedToken.username;
-        const userProfileImage =
-          decodedToken.picture ||
-          (decodedToken.photos && decodedToken.photos[0]?.value) ||
-          "";
+      // Navigate to the home/dashboard page
+      navigate("/");
+    } else {
+      const storedToken = localStorage.getItem("authToken");
+      const name = localStorage.getItem("name");
+      console.log("Name isss", name); // Check if name is retrieved correctly
+      const currentPath = window.location.pathname;
 
-        // Log name and profile image for debugging
-        console.log("User Name:", userName);
-        console.log("Profile Image URL:", userProfileImage);
-
-        // Store user info in localStorage for later use in the UI
-        if (userName) localStorage.setItem("name", userName);
-        if (userProfileImage)
-          localStorage.setItem("profileImage", userProfileImage);
-
-        navigate("/");
+      // Redirect to login if not authenticated
+      if (
+        !storedToken &&
+        !currentPath.startsWith("/forgot-password") &&
+        !currentPath.startsWith("/resetpassword")
+      ) {
+        navigate("/login");
+      } else if (storedToken && currentPath.startsWith("/login")) {
+        navigate("/"); // Redirect to home if already logged in
       }
-    };
-
-    fetchToken();
+    }
   }, [navigate]);
 
   const handleGoogleSignin = async () => {
