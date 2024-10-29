@@ -129,7 +129,7 @@ passport.use(
             firstName: displayName.split(" ")[0],
 
             email,
-            picture, // Save profile picture if desired
+            picture,
             oauth: true,
           });
           await user.save();
@@ -182,41 +182,49 @@ passport.use(
       clientSecret: config.GITHUB_CLIENT_SECRET,
       callbackURL: config.GITHUB_CALLBACK_URL,
     },
-
     async function (accessToken, refreshToken, profile, done) {
       console.log("GitHub profile:", profile);
-      console.log("GitHub AccessToken:", accessToken);
 
-      const firstName = profile.displayName || "No First Name"; // GitHub doesn't provide first/last name
-      const lastName = ""; // Leave empty or handle if needed
-      const picture = profile.photos[0].value;
+      const firstName = profile.displayName || "No First Name";
+      const lastName = ""; // GitHub does not provide last names
+      const picture = profile.photos[0]?.value || null;
 
-      try {
-        // Fetch the user's email from GitHub
+      // Check if email is directly available
+      let email =
+        profile.emails && profile.emails.length > 0
+          ? profile.emails[0].value
+          : null;
+
+      if (!email) {
+        // Fallback: Fetch the user's email from GitHub API
         const emailResponse = await axios.get(
           "https://api.github.com/user/emails",
           {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+            headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
+        email =
+          emailResponse.data.find((emailObj) => emailObj.primary)?.email ||
+          null;
+      }
 
-        const email =
-          emailResponse.data.length > 0
-            ? emailResponse.data[0].email
-            : "No Email"; // Use the primary email
+      // Proceed only if email is available
+      if (!email) {
+        console.log("No email found, preventing sign-in.");
+        return done(null, false, {
+          message: "Email not available. Sign-in not allowed.",
+        });
+      }
 
-        // Check if the user already exists
+      try {
         let user = await userModel.findOne({ email });
         if (!user) {
-          // Create a new user if it doesn't exist
           user = new userModel({
             firstName,
             lastName,
             email,
             oauth: true,
-            picture, // Save the profile picture if needed
+            picture,
           });
           await user.save();
         }
@@ -230,12 +238,10 @@ passport.use(
           secret
         );
 
-        const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
-        console.log("Redirect URL:", redirectUrl);
-
-        return done(null, user, { token });
+        done(null, user, { token });
       } catch (err) {
-        return done(err, null);
+        console.error("Error in GitHub strategy:", err);
+        done(err, null);
       }
     }
   )
@@ -247,13 +253,11 @@ exports.GithubAuthCallback = (req, res) => {
       throw new Error("User information is incomplete.");
     }
 
-    // Assuming user creation is successful and user is retrieved
     const email = req.user.email || "No Email";
     if (email === "No Email") {
       return res.redirect("/email-collection-page");
     }
 
-    const token = req.user.token; // Ensure you have the token ready from done()
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
     console.log("Redirect URL:", redirectUrl);
     res.redirect(redirectUrl);
