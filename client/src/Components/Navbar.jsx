@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import mission from "../assets/mission.svg";
-import sideimg from "../assets/sidebar.svg";
+import mission from '../assets/mission.svg';
+import sideimg from '../assets/sidebar.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +79,11 @@ const Navbar = () => {
         </li>
         <li className="lg:flex md:text-base lg:text-lg">
           <div className="flex lg:flex-row space-x-4">
-            <h3>{userName}</h3>
+          <li
+                  className="p-2 cursor-pointer"
+                  onClick={openProfile}
+                >
+            <h3>{userName}</h3></li>
             <img
               src={mission}
               alt="profile"

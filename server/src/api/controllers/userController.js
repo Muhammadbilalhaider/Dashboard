@@ -3,15 +3,12 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const jwtSimple = require("jwt-simple");
 const nodemailer = require("nodemailer");
-const secret = process.env.JWT_SECRET;
-const authEmail = process.env.authEmail;
-const authPass = process.env.authPass;
-const passport = require("passport");
-const GoogleStreategy = require("passport-google-oauth20").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-const Facebook_ID = process.env.Facebook_ID;
-Facebook_Secret = process.env.Facebook_Secret;
-facebook_Callback_URL = process.env.facebook_Callback_URL;
+
+
+const { MONGO_URL, JWT_SECRET,
+  authPass,
+  authEmail, } = require('../Config/Config')
+
 exports.SignUp = async (req, res, next) => {
   try {
     console.log("req.body", req.body);
@@ -84,6 +81,35 @@ exports.SignIn = async (req, res) => {
   }
 };
 
+
+exports.UpdateProfile = async (req, res) => {
+  try {
+    const { firstName, lastName, email, password, gender, dateOfBirth } = req.body;
+    const userId = req.params.id 
+
+    const user = await userModel.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Update fields if provided in request
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    if (email) user.email = email;
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+    }
+    if (gender) user.gender = gender;
+    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
+
+    await user.save();
+    res.json({ success: true, message: "Profile updated successfully", data: user });
+  }
+  catch (error) {
+    res.status(500).json({ message: "Error updating profile", error });
+  }
+};
+
+
 exports.ForgotPassword = async (req, resp, next) => {
   const { email } = req.body;
 
@@ -100,7 +126,7 @@ exports.ForgotPassword = async (req, resp, next) => {
       resp.status(400).json({ message: "User Not registered" });
     } else {
       const payload = { email: email };
-      const token = jwtSimple.encode(payload, secret);
+      const token = jwtSimple.encode(payload, JWT_SECRET);
 
       const link = `http://localhost:3000/resetpassword/${token}`;
       const mailOptions = {
@@ -115,7 +141,7 @@ exports.ForgotPassword = async (req, resp, next) => {
         .status(200)
         .json({ message: "Password reset link sent to the email" });
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 exports.ResetPassword = async (req, resp) => {

@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import facebookImg from "../assets/facebook.svg";
-import githubImg from "../assets/github.svg";
-import googleImg from "../assets/google.svg";
+import facebookImg from '../assets/facebook.svg';
+import githubImg from '../assets/github.svg';
+import googleImg from '../assets/google.svg';
 
 const Login = () => {
+  
   const navigate = useNavigate();
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
@@ -131,7 +138,9 @@ const Login = () => {
         console.log("Success", token);
         const firstName = resp.data.data.firstName;
         localStorage.setItem("name", firstName);
+        localStorage.setItem("lastName", LastName);
         localStorage.setItem("authToken", token);
+
         navigate("/");
       }
     } catch (error) {
@@ -142,6 +151,7 @@ const Login = () => {
   return (
     <div className="flex flex-col justify-center items-center w-full bg-slate-100">
       <div className="grid grid-cols-1 md:grid-cols-2 max-w-[1000px] items-center space-x-5">
+
         <form
           className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white"
           onSubmit={handleSignIn}
@@ -415,6 +425,7 @@ const Login = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
