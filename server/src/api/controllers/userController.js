@@ -81,33 +81,94 @@ exports.SignIn = async (req, res) => {
   }
 };
 
+exports.GetUserDetails = async (req, resp) => {
+  const { email } = req.body;
+  const clientId = req.params.id;
+
+  if (!email) {
+    return resp.status(400).json({ success: false, msg: "Email is required" });
+  }
+  const users = await userModel.findOne({ email });
+  if (users) {
+    return resp.json({
+      success: true,
+      data: users,
+      msg: "User details retrieved successfully",
+    });
+  } else {
+    return resp.json({ msg: "Not Found" })
+  }
+}
+
+// exports.UpdateProfile = async (req, res) => {
+//   try {
+//     const { firstName, lastName, email, password, gender, dateOfBirth } = req.body;
+//     const userId = req.params.id
+
+//     const user = await userModel.findById(userId);
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     // Update fields if provided in request
+//     user.firstName = firstName;
+//     user.lastName = lastName;
+//     user.email = email;
+//     if (password) {
+//       const salt = await bcrypt.genSalt(10);
+//       user.password = await bcrypt.hash(password, salt);
+//     }
+//     if (gender) user.gender = gender;
+//     if (dateOfBirth) user.dateOfBirth = dateOfBirth;
+
+//     await user.save();
+//     res.json({ success: true, message: "Profile updated successfully", data: user });
+
+
+
+
+
+
+
+//   }
+//   catch (error) {
+//     res.status(500).json({ message: "Error updating profile", error });
+//   }
+
+
+
+// };
+
 
 exports.UpdateProfile = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, gender, dateOfBirth } = req.body;
-    const userId = req.params.id 
+    const clientId = req.params.id;
 
-    const user = await userModel.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const updateFields = req.body;
+    console.log("Update", updateFields)
+    const updatedClient = await userModel.findByIdAndUpdate(
+      clientId,
+      updateFields,
+      {
+        new: true,
+      }
+    );
 
-    // Update fields if provided in request
-    if (firstName) user.firstName = firstName;
-    if (lastName) user.lastName = lastName;
-    if (email) user.email = email;
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
+    if (!updatedClient) {
+      return res
+        .status(404)
+        .json({ message: "client with the Given id was not found" });
     }
-    if (gender) user.gender = gender;
-    if (dateOfBirth) user.dateOfBirth = dateOfBirth;
 
-    await user.save();
-    res.json({ success: true, message: "Profile updated successfully", data: user });
+    return res.json({
+      success: true,
+      data: updatedClient,
+      msg: "client updated",
+    });
   }
-  catch (error) {
-    res.status(500).json({ message: "Error updating profile", error });
+  catch (err) {
+    console.log(err);
   }
-};
+}
+
 
 
 exports.ForgotPassword = async (req, resp, next) => {

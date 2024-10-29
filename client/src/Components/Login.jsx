@@ -137,8 +137,10 @@ const Login = () => {
       if (token) {
         console.log("Success", token);
         const firstName = resp.data.data.firstName;
+        const email = resp.data.data.email;
         localStorage.setItem("name", firstName);
-        localStorage.setItem("lastName", LastName);
+        localStorage.setItem("email", email);
+       
         localStorage.setItem("authToken", token);
 
         navigate("/");

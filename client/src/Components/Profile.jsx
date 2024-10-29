@@ -3,15 +3,14 @@ import React, {
   useState,
 } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Profile = () => {
 
-  const navigate = useNavigate();
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState({
     day: "",
     month: "",
@@ -28,23 +27,47 @@ const Profile = () => {
   };
 
 
-  useEffect(()=>{
-    const firstName = localStorage.getItem("name");
-    setFirstName(firstName)
 
-  },[])
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+
+    const userData = async () => {
+
+      try {
+        let result = await axios.post("http://localhost:5000/user/UserDetails",
+          {
+            email
+          }
+        );
+        console.log("firstName ", result.data.data.firstName)
+        setEmail(result.data.data.email)
+        setFirstName(result.data.data.firstName)
+        setLastName(result.data.data.lastName)
+        setDateOfBirth(result.data.data.dateOfBirth)
+        setSelectedGender(result.data.data.gender)
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    }
+
+    userData();
+  }, []);
+
+
+
+
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
       <div className="flex justify-center items-center  bg-slate-100 p-5 rounded-lg">
         <form
           className="flex flex-col items-center justify-center">
-            
+
           <div className="flex flex-col w-full justify-center">
             <h1 className="text-3xl justify-center items-center font-interFont font-extrabold text-center">
-             Profile
+              Profile
             </h1>
-           
+
             <div className="flex flex-col space-y-3 py-4 w-full">
               <span className="w-full block border-gray-200 border-t-2"></span>
               <div className="flex flex-row w-full space-x-2">
@@ -55,7 +78,7 @@ const Profile = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                 />
-            
+
               </div>
               <div className="flex flex-row w-full space-x-2">
                 <input
@@ -188,7 +211,7 @@ const Profile = () => {
                   />
                 )}
               </div>
-           
+
 
               <div className="flex justify-center items-center">
                 <button

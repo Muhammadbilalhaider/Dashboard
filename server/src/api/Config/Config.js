@@ -1,12 +1,10 @@
 require("dotenv").config();
 
 module.exports = {
-
   MONGO_URL,
   JWT_SECRET,
   authPass,
   authEmail,
-
 
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
@@ -19,4 +17,5 @@ module.exports = {
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   GITHUB_CALLBACK_URL,
+  
 } = process.env;

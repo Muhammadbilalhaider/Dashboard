@@ -7,7 +7,18 @@ const passport = require("passport");
 const GoogleStretegy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
-const config = require("../Config/Config");
+const {GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_CALLBACK_URL,
+
+  FACEBOOK_CLIENT_ID,
+  FACEBOOK_CLIENT_SECRET,
+  FACEBOOK_CALLBACK_URL,
+
+  GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET,
+  GITHUB_CALLBACK_URL,
+  } = require("../Config/Config");
 
 var token;
 
@@ -27,9 +38,9 @@ passport.deserializeUser(async function (id, done) {
 passport.use(
   new GoogleStretegy(
     {
-      clientID: config.GOOGLE_CLIENT_ID,
-      clientSecret: config.GOOGLE_CLIENT_SECRET,
-      callbackURL: config.GOOGLE_CALLBACK_URL,
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: GOOGLE_CALLBACK_URL,
     },
 
     async function (accessToken, refreshToken, profile, done) {
@@ -95,10 +106,10 @@ exports.GoogleAuthCallback = (req, res) => {
 passport.use(
   new FacebookStrategy(
     {
-      clientID: config.FACEBOOK_CLIENT_ID,
-      clientSecret: config.FACEBOOK_CLIENT_SECRET,
-      callbackURL: config.FACEBOOK_CALLBACK_URL,
-      profileFields: ["id", "displayName", "photos", "email"], // Ensure these fields are requested
+      clientID: FACEBOOK_CLIENT_ID,
+      clientSecret: FACEBOOK_CLIENT_SECRET,
+      callbackURL: FACEBOOK_CALLBACK_URL,
+      profileFields: ["id", "displayName", "photos", "email"], 
     },
     async function (accessToken, refreshToken, profile, done) {
       console.log("Facebook profile:", profile);
@@ -178,9 +189,10 @@ exports.FacebookAuthCallback = (req, res) => {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: config.GITHUB_CLIENT_ID,
-      clientSecret: config.GITHUB_CLIENT_SECRET,
-      callbackURL: config.GITHUB_CALLBACK_URL,
+      clientID: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_CLIENT_SECRET,
+      callbackURL: GITHUB_CALLBACK_URL,
+      scope: ['user:email']
     },
     async function (accessToken, refreshToken, profile, done) {
       console.log("GitHub profile:", profile);
@@ -195,18 +207,17 @@ passport.use(
           ? profile.emails[0].value
           : null;
 
-      if (!email) {
-        // Fallback: Fetch the user's email from GitHub API
-        const emailResponse = await axios.get(
-          "https://api.github.com/user/emails",
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        email =
-          emailResponse.data.find((emailObj) => emailObj.primary)?.email ||
-          null;
-      }
+      // if (!email) {
+      //   const emailResponse = await axios.get(
+      //     "https://api.github.com/user/emails",
+      //     {
+      //       headers: { Authorization: `Bearer ${accessToken}` },
+      //     }
+      //   );
+      //   email =
+      //     emailResponse.data.find((emailObj) => emailObj.primary)?.email ||
+      //     null;
+      // }
 
       // Proceed only if email is available
       if (!email) {
