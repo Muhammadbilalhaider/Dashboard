@@ -13,11 +13,11 @@ const Profile = () => {
     month: "",
     year: "",
   });
-  const [isSignUpVisible, setIsSignUpVisible] = useState(false);
+
   const [customGender, setCustomGender] = useState("");
   const [showCustomGender, setShowCustomGenderInput] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
-  const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
+
   const [userId, setUserId] = useState("");
 
   const handleCustomGender = (event) => {
@@ -41,7 +41,7 @@ const Profile = () => {
 
         const userData = result.data.data;
         setUserId(userData._id);
-        setEmail(userData.email);
+
         setFirstName(userData.firstName);
         setLastName(userData.lastName);
         setDateOfBirth(userData.dateOfBirth);
@@ -71,7 +71,6 @@ const Profile = () => {
         {
           FirstName,
           LastName,
-          email,
           password,
           dateOfBirth,
           gender,
@@ -94,15 +93,7 @@ const Profile = () => {
 
             <div className="flex flex-col space-y-3 py-4 w-full">
               <span className="w-full block border-gray-200 border-t-2"></span>
-              <div className="flex flex-row w-full space-x-2">
-                <input
-                  className="border p-2 rounded-md w-full"
-                  type="email"
-                  placeholder="Email address"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />
-              </div>
+
               <div className="flex flex-row w-full space-x-2">
                 <input
                   className="border p-2 rounded-md w-full"

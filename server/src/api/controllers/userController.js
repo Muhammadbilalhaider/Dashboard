@@ -183,7 +183,7 @@ exports.ResetPassword = async (req, resp) => {
   }
 
   try {
-    const decodedPayload = jwtSimple.decode(accessToken, secret);
+    const decodedPayload = jwtSimple.decode(accessToken, JWT_SECRET);
     console.log("Decoded Payload:", decodedPayload);
     const existUser = await userModel.findOne({ email: decodedPayload.email });
     if (!existUser) {
