@@ -15,7 +15,7 @@ import githubImg from '../assets/github.svg';
 import googleImg from '../assets/google.svg';
 
 const Login = () => {
-  
+
   const navigate = useNavigate();
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
@@ -33,6 +33,7 @@ const Login = () => {
   const [showCustomGender, setShowCustomGenderInput] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
   const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const showSignUpClick = (e) => {
     e.preventDefault();
@@ -98,16 +99,35 @@ const Login = () => {
     window.location.href = "http://localhost:5000/user/auth/github";
   };
 
+
+  const handleFileChange = (event) => {
+    setProfilePicture(event.target.files[0]);
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("firstName", FirstName);
+    formData.append("lastName", LastName);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("gender", selectedGender);
+
+    formData.append("day", dateOfBirth.day);
+    formData.append("month", dateOfBirth.month);
+    formData.append("year", dateOfBirth.year);
+
+    if (profilePicture) {
+      formData.append("profilePic", profilePicture)
+    }
     try {
-      const resp = await axios.post("http://localhost:5000/user/SignUp", {
-        firstName: FirstName,
-        lastName: LastName,
-        dateOfBirth: dateOfBirth,
-        gender: selectedGender === "Custom" ? customGender : selectedGender,
-        email: email,
-        password: password,
+      const resp = await axios.post("http://localhost:5000/user/SignUp", formData, {
+
+        headers: {
+          "Content-Type": "multipart/form-data"
+
+        }
       });
       console.log("Signup successful:", resp.data);
       if (resp.data.success) {
@@ -140,7 +160,7 @@ const Login = () => {
         const email = resp.data.data.email;
         localStorage.setItem("name", firstName);
         localStorage.setItem("email", email);
-       
+
         localStorage.setItem("authToken", token);
 
         navigate("/");
@@ -156,7 +176,7 @@ const Login = () => {
 
         <form
           className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white"
-          onSubmit={handleSignIn}
+          onSubmit={handleSignIn} typeof='multipart/form-data'
         >
           <div className="flex flex-col py-4 justify-center items-center w-full max-w-md space-y-4">
             <input
@@ -241,9 +261,8 @@ const Login = () => {
 
       {!isSignUpSuccessful && (
         <div
-          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
-            isSignUpVisible ? "block" : "hidden"
-          }`}
+          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${isSignUpVisible ? "block" : "hidden"
+            }`}
         >
           <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
             <button
@@ -411,6 +430,10 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       value={password}
                     />
+                  </div>
+                  <div className="flex flex-col">
+
+                    <input type='file' onChange={handleFileChange} />
                   </div>
 
                   <div className="flex justify-center items-center">

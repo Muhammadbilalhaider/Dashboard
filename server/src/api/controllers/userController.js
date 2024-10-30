@@ -12,9 +12,9 @@ const {
 } = require("../Config/Config");
 
 exports.SignUp = async (req, res, next) => {
+
   try {
-    console.log("req.body", req.body);
-    const { email } = req.body;
+    const { email, password, firstName, lastName, gender, day, month, year } = req.body;
     let user = await userModel.findOne({
       email,
     });
@@ -27,20 +27,26 @@ exports.SignUp = async (req, res, next) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
+    const dateOfBirth = [{
+      day: Number(day),  
+      month: Number(month),
+      year: Number(year), 
+    }];
+    const profilePic = req.file.buffer.toString('base64');
     user = new userModel({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
+      firstName,
+      lastName,
+      email,
       password: hashedPassword,
-      gender: req.body.gender,
-      dateOfBirth: req.body.dateOfBirth,
+      gender,
+      dateOfBirth, 
+      profile: profilePic,
     });
 
     await user.save();
 
     const token = await user.token();
-    console.log("access token ===>", token);
+
     return res.json({
       token,
       success: true,
@@ -70,7 +76,6 @@ exports.SignIn = async (req, res) => {
 
     var accessToken = await user.token();
 
-    console.log("access token ==>", accessToken);
 
     return res.json({
       accessToken,
@@ -112,7 +117,6 @@ exports.UpdateProfile = async (req, res) => {
   try {
     const { password, ...updateFields } = req.body;
 
-    console.log("Update", updateFields);
     if (password) {
       const salt = await bcrypt.genSalt(10);
       updateFields.password = await bcrypt.hash(password, salt);
@@ -173,7 +177,7 @@ exports.ForgotPassword = async (req, resp, next) => {
         .status(200)
         .json({ message: "Password reset link sent to the email" });
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 exports.ResetPassword = async (req, resp) => {

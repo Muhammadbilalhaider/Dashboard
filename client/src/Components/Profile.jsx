@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import axios from 'axios';
 
 const Profile = () => {
   const [FirstName, setFirstName] = useState("");
@@ -40,11 +42,26 @@ const Profile = () => {
         console.log("firstName ", result.data.data.firstName);
 
         const userData = result.data.data;
+        console.log("Data is ",userData)
+    
+
+
+        if (userData.dateOfBirth && userData.dateOfBirth.length > 0) {
+          const dob = userData.dateOfBirth[0];
+          setDateOfBirth({
+            day: dob.day ,
+            month: dob.month,
+            year: dob.year ,
+          });
+        }
+
+
+
+
         setUserId(userData._id);
 
         setFirstName(userData.firstName);
         setLastName(userData.lastName);
-        setDateOfBirth(userData.dateOfBirth);
 
         setSelectedGender(userData.gender);
 
@@ -81,11 +98,14 @@ const Profile = () => {
       console.error("Error updating profile:", error);
     }
   };
-
+  const handleSubmit = (e) => {
+    e.preventDefault(); 
+    updateUserProfile(); 
+  };
   return (
     <div className="flex flex-col justify-center items-center w-full">
       <div className="flex justify-center items-center  bg-slate-100 p-5 rounded-lg">
-        <form className="flex flex-col items-center justify-center">
+        <form className="flex flex-col items-center justify-center" onSubmit={handleSubmit}>
           <div className="flex flex-col w-full justify-center">
             <h1 className="text-3xl justify-center items-center font-interFont font-extrabold text-center">
               Profile

@@ -2,9 +2,15 @@ const express = require("express");
 const controller = require("../controllers/userController");
 const passportController = require("../passport/passport");
 const passport = require("passport");
+const multer = require("multer");
 const router = express.Router();
 
-router.post("/SignUp", controller.SignUp);
+const storage = multer.memoryStorage();
+
+
+const uploads = multer({ storage: storage });
+
+router.post("/SignUp",uploads.single("profilePic") ,controller.SignUp);
 router.post("/SignIn", controller.SignIn);
 router.post("/UserDetails", controller.GetUserDetails);
 router.put("/Update/:id", controller.UpdateProfile);
