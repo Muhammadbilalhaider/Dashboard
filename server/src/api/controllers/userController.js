@@ -102,39 +102,14 @@ exports.GetUserDetails = async (req, resp) => {
   }
 };
 
-// exports.UpdateProfile = async (req, res) => {
-//   try {
-//     const { firstName, lastName, email, password, gender, dateOfBirth } = req.body;
-//     const userId = req.params.id
-
-//     const user = await userModel.findById(userId);
-//     if (!user) return res.status(404).json({ message: "User not found" });
-
-//     // Update fields if provided in request
-//     user.firstName = firstName;
-//     user.lastName = lastName;
-//     user.email = email;
-//     if (password) {
-//       const salt = await bcrypt.genSalt(10);
-//       user.password = await bcrypt.hash(password, salt);
-//     }
-//     if (gender) user.gender = gender;
-//     if (dateOfBirth) user.dateOfBirth = dateOfBirth;
-
-//     await user.save();
-//     res.json({ success: true, message: "Profile updated successfully", data: user });
-
-//   }
-//   catch (error) {
-//     res.status(500).json({ message: "Error updating profile", error });
-//   }
-
-// };
-
 exports.UpdateProfile = async (req, res) => {
+  const clientId = req.params.id;
+  if (!clientId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User ID is required" });
+  }
   try {
-    const clientId = req.params.id;
-
     const { password, ...updateFields } = req.body;
 
     console.log("Update", updateFields);

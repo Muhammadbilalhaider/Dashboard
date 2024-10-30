@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const Profile = () => {
   const [FirstName, setFirstName] = useState("");
@@ -17,11 +18,12 @@ const Profile = () => {
   const [showCustomGender, setShowCustomGenderInput] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
   const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const handleCustomGender = (event) => {
     const genderValue = event.target.value;
     setSelectedGender(genderValue);
-    // setShowCustomGenderInput(genderValue === "Custom");
+    setShowCustomGenderInput(genderValue === "Custom");
   };
 
   useEffect(() => {
@@ -38,13 +40,14 @@ const Profile = () => {
         console.log("firstName ", result.data.data.firstName);
 
         const userData = result.data.data;
-        console.log("User Data", userData);
+        setUserId(userData._id);
         setEmail(userData.email);
         setFirstName(userData.firstName);
         setLastName(userData.lastName);
         setDateOfBirth(userData.dateOfBirth);
 
         setSelectedGender(userData.gender);
+
         setShowCustomGenderInput(
           userData.gender !== "Male" && userData.gender !== "Female"
         );
@@ -58,6 +61,27 @@ const Profile = () => {
 
     userData();
   }, []);
+
+  const updateUserProfile = async () => {
+    try {
+      const gender =
+        selectedGender === "Custom" ? customGender : selectedGender;
+      let result = await axios.put(
+        `http://localhost:5000/user/Update/${userId}`,
+        {
+          FirstName,
+          LastName,
+          email,
+          password,
+          dateOfBirth,
+          gender,
+        }
+      );
+      console.log(result.data);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center items-center w-full">
@@ -217,6 +241,7 @@ const Profile = () => {
                 <button
                   type="submit"
                   className="border items-center w-44 ite my-5 py-1 text-white hover:bg-green-600 bg-createAcountColor rounded-lg"
+                  onClick={updateUserProfile}
                 >
                   Update
                 </button>
