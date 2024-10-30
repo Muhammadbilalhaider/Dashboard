@@ -1,12 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
+import axios from "axios";
 
 const Profile = () => {
-
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,48 +17,52 @@ const Profile = () => {
   const [showCustomGender, setShowCustomGenderInput] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
   const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
+
   const handleCustomGender = (event) => {
-    setSelectedGender(event.target.value);
-    setShowCustomGenderInput(event.target.value === "Custom");
+    const genderValue = event.target.value;
+    setSelectedGender(genderValue);
+    // setShowCustomGenderInput(genderValue === "Custom");
   };
-
-
 
   useEffect(() => {
     const email = localStorage.getItem("email");
 
     const userData = async () => {
-
       try {
-        let result = await axios.post("http://localhost:5000/user/UserDetails",
+        let result = await axios.post(
+          "http://localhost:5000/user/UserDetails",
           {
-            email
+            email,
           }
         );
-        console.log("firstName ", result.data.data.firstName)
-        setEmail(result.data.data.email)
-        setFirstName(result.data.data.firstName)
-        setLastName(result.data.data.lastName)
-        setDateOfBirth(result.data.data.dateOfBirth)
-        setSelectedGender(result.data.data.gender)
+        console.log("firstName ", result.data.data.firstName);
+
+        const userData = result.data.data;
+        console.log("User Data", userData);
+        setEmail(userData.email);
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setDateOfBirth(userData.dateOfBirth);
+
+        setSelectedGender(userData.gender);
+        setShowCustomGenderInput(
+          userData.gender !== "Male" && userData.gender !== "Female"
+        );
+        if (userData.gender !== "Male" && userData.gender !== "Female") {
+          setCustomGender(userData.gender);
+        }
       } catch (error) {
         console.error("Error fetching user details:", error);
       }
-    }
+    };
 
     userData();
   }, []);
 
-
-
-
-
   return (
     <div className="flex flex-col justify-center items-center w-full">
       <div className="flex justify-center items-center  bg-slate-100 p-5 rounded-lg">
-        <form
-          className="flex flex-col items-center justify-center">
-
+        <form className="flex flex-col items-center justify-center">
           <div className="flex flex-col w-full justify-center">
             <h1 className="text-3xl justify-center items-center font-interFont font-extrabold text-center">
               Profile
@@ -78,7 +78,6 @@ const Profile = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                 />
-
               </div>
               <div className="flex flex-row w-full space-x-2">
                 <input
@@ -196,7 +195,9 @@ const Profile = () => {
                       type="radio"
                       name="gender"
                       value="Custom"
-                      checked={selectedGender === "Custom"}
+                      checked={
+                        selectedGender !== "Male" && selectedGender !== "Female"
+                      }
                       onChange={handleCustomGender}
                     />
                   </label>
@@ -211,7 +212,6 @@ const Profile = () => {
                   />
                 )}
               </div>
-
 
               <div className="flex justify-center items-center">
                 <button

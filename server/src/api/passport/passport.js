@@ -7,7 +7,8 @@ const passport = require("passport");
 const GoogleStretegy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
-const {GOOGLE_CLIENT_ID,
+const {
+  GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   GOOGLE_CALLBACK_URL,
 
@@ -18,7 +19,7 @@ const {GOOGLE_CLIENT_ID,
   GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET,
   GITHUB_CALLBACK_URL,
-  } = require("../Config/Config");
+} = require("../Config/Config");
 
 var token;
 
@@ -109,7 +110,7 @@ passport.use(
       clientID: FACEBOOK_CLIENT_ID,
       clientSecret: FACEBOOK_CLIENT_SECRET,
       callbackURL: FACEBOOK_CALLBACK_URL,
-      profileFields: ["id", "displayName", "photos", "email"], 
+      profileFields: ["id", "displayName", "photos", "email"],
     },
     async function (accessToken, refreshToken, profile, done) {
       console.log("Facebook profile:", profile);
@@ -192,7 +193,7 @@ passport.use(
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
       callbackURL: GITHUB_CALLBACK_URL,
-      scope: ['user:email']
+      scope: ["user:email"],
     },
     async function (accessToken, refreshToken, profile, done) {
       console.log("GitHub profile:", profile);

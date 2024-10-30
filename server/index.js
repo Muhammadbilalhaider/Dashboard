@@ -4,8 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const passport = require("passport");
-const { MONGO_URL } = require('./src/api/Config/Config')
-
+const { MONGO_URL } = require("./src/api/Config/Config");
 
 const port = 5000;
 const router = require("./src/api/routes/route");
@@ -15,8 +14,6 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 app.use(cors());
-
-
 
 app.use(
   session({

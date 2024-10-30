@@ -4,10 +4,12 @@ require("dotenv").config();
 const jwtSimple = require("jwt-simple");
 const nodemailer = require("nodemailer");
 
-
-const { MONGO_URL, JWT_SECRET,
+const {
+  MONGO_URL,
+  JWT_SECRET,
   authPass,
-  authEmail, } = require('../Config/Config')
+  authEmail,
+} = require("../Config/Config");
 
 exports.SignUp = async (req, res, next) => {
   try {
@@ -96,9 +98,9 @@ exports.GetUserDetails = async (req, resp) => {
       msg: "User details retrieved successfully",
     });
   } else {
-    return resp.json({ msg: "Not Found" })
+    return resp.json({ msg: "Not Found" });
   }
-}
+};
 
 // exports.UpdateProfile = async (req, res) => {
 //   try {
@@ -122,28 +124,25 @@ exports.GetUserDetails = async (req, resp) => {
 //     await user.save();
 //     res.json({ success: true, message: "Profile updated successfully", data: user });
 
-
-
-
-
-
-
 //   }
 //   catch (error) {
 //     res.status(500).json({ message: "Error updating profile", error });
 //   }
 
-
-
 // };
-
 
 exports.UpdateProfile = async (req, res) => {
   try {
     const clientId = req.params.id;
 
-    const updateFields = req.body;
-    console.log("Update", updateFields)
+    const { password, ...updateFields } = req.body;
+
+    console.log("Update", updateFields);
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updateFields.password = await bcrypt.hash(password, salt);
+    }
+
     const updatedClient = await userModel.findByIdAndUpdate(
       clientId,
       updateFields,
@@ -163,13 +162,10 @@ exports.UpdateProfile = async (req, res) => {
       data: updatedClient,
       msg: "client updated",
     });
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
   }
-}
-
-
+};
 
 exports.ForgotPassword = async (req, resp, next) => {
   const { email } = req.body;
@@ -202,7 +198,7 @@ exports.ForgotPassword = async (req, resp, next) => {
         .status(200)
         .json({ message: "Password reset link sent to the email" });
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 exports.ResetPassword = async (req, resp) => {
