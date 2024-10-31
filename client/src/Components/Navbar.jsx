@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import mission from "../assets/mission.svg";
-import sideimg from "../assets/sidebar.svg";
-import axios from "axios";
+import sideimg from '../assets/sidebar.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,12 +68,22 @@ const Navbar = () => {
       let result = await axios.post("http://localhost:5000/user/UserDetails", {
         email,
       });
-      console.log("firstName ", result.data.data.profile);
+      const profileImage = result.data.data.profile;
 
-      setProfilePicture(result.data.data.profile);
+      const base64Image = profileImage.startsWith("http") ? profileImage :
+      
+      `data:image/jpeg;base64,${profileImage}`
+
+      setProfilePicture(base64Image);
+
+
+      console.log("profile ", result.data.data.profile);
+  
+   
     };
 
     userDetails();
+
   }, []);
   console.log("NAME IS ", userName);
 
@@ -131,7 +146,7 @@ const Navbar = () => {
               <h3>{userName}</h3>
             </li>
             <img
-              src={`data:image/jpeg;base64,${profilePicture}`}
+              src={profilePicture}
               alt="profile"
               className="justify-center items-center w-10 cursor-pointer h-10"
               onClick={handleImageClick}

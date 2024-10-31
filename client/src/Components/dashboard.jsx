@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
-import Navbar from "./Navbar";
-import { jwtDecode } from "jwt-decode";
+import Navbar from './Navbar';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
@@ -17,10 +21,17 @@ const Dashboard = () => {
 
       const decodedToken = jwtDecode(token);
       const name = decodedToken.name || "Anonymous User";
-
+      const email = decodedToken.email || "Anonymous User";
+   
       // Store the user's name in localStorage
       localStorage.setItem("name", name);
-      setUserName(name); // Set the user's name in state
+      localStorage.setItem("email", email);
+
+     
+
+
+      setUserName(name);
+    
       navigate("/");
     } else {
       const storedToken = localStorage.getItem("authToken");

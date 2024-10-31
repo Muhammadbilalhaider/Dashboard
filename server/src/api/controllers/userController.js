@@ -37,7 +37,7 @@ exports.SignUp = async (req, res, next) => {
       firstName,
       lastName,
       email,
-      password: hashedPassword,
+      password : hashedPassword,
       gender,
       dateOfBirth, 
       profile: profilePic,

@@ -60,6 +60,7 @@ passport.use(
             firstName,
             lastName,
             email,
+            profile:picture,
             oauth: true,
           });
           await user.save();
@@ -70,6 +71,7 @@ passport.use(
             email,
             name: `${firstName} ${lastName}`,
             googleAccessToken: accessToken,
+            picture
           },
           secret
         );
