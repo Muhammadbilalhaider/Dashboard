@@ -1,9 +1,6 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
+import axios from "axios";
 
 const Profile = () => {
   const [FirstName, setFirstName] = useState("");
@@ -19,6 +16,7 @@ const Profile = () => {
   const [customGender, setCustomGender] = useState("");
   const [showCustomGender, setShowCustomGenderInput] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
+  const [profilePic, setProfilePic] = useState("");
 
   const [userId, setUserId] = useState("");
 
@@ -42,21 +40,16 @@ const Profile = () => {
         console.log("firstName ", result.data.data.firstName);
 
         const userData = result.data.data;
-        console.log("Data is ",userData)
-    
-
+        console.log("Data is ", userData);
 
         if (userData.dateOfBirth && userData.dateOfBirth.length > 0) {
           const dob = userData.dateOfBirth[0];
           setDateOfBirth({
-            day: dob.day ,
+            day: dob.day,
             month: dob.month,
-            year: dob.year ,
+            year: dob.year,
           });
         }
-
-
-
 
         setUserId(userData._id);
 
@@ -99,13 +92,16 @@ const Profile = () => {
     }
   };
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    updateUserProfile(); 
+    e.preventDefault();
+    updateUserProfile();
   };
   return (
     <div className="flex flex-col justify-center items-center w-full">
       <div className="flex justify-center items-center  bg-slate-100 p-5 rounded-lg">
-        <form className="flex flex-col items-center justify-center" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-col items-center justify-center"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-col w-full justify-center">
             <h1 className="text-3xl justify-center items-center font-interFont font-extrabold text-center">
               Profile

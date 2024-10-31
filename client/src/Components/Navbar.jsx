@@ -1,15 +1,10 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
-import mission from '../assets/mission.svg';
-import sideimg from '../assets/sidebar.svg';
+import mission from "../assets/mission.svg";
+import sideimg from "../assets/sidebar.svg";
+import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +12,7 @@ const Navbar = () => {
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("authToken"));
   const [userName, setUserName] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -54,7 +50,19 @@ const Navbar = () => {
   useEffect(() => {
     setUserName(localStorage.getItem("name"));
     console.log(localStorage.getItem("name"));
-  }, [userName]);
+    const email = localStorage.getItem("email");
+
+    const userDetails = async () => {
+      let result = await axios.post("http://localhost:5000/user/UserDetails", {
+        email,
+      });
+      console.log("firstName ", result.data.data.profile);
+
+      setProfilePicture(result.data.data.profile);
+    };
+
+    userDetails();
+  }, []);
   console.log("NAME IS ", userName);
   const NavbarItems = () => (
     <>
@@ -79,15 +87,13 @@ const Navbar = () => {
         </li>
         <li className="lg:flex md:text-base lg:text-lg">
           <div className="flex lg:flex-row space-x-4">
-          <li
-                  className="p-2 cursor-pointer"
-                  onClick={openProfile}
-                >
-            <h3>{userName}</h3></li>
+            <li className="p-2 cursor-pointer" onClick={openProfile}>
+              <h3>{userName}</h3>
+            </li>
             <img
-              src={mission}
+              src={`data:image/jpeg;base64,${profilePicture}`}
               alt="profile"
-              className="w-8 cursor-pointer"
+              className="justify-center items-center w-10 cursor-pointer h-10"
               onClick={handleImageClick}
             />
           </div>
