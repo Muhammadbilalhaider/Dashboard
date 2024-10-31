@@ -93,16 +93,21 @@ const Navbar = () => {
           </button>
 
           {categoryDropOpen && (
-            <div className=" absolute mt-10 bg-slate-900 rounded-md shadow-lg z-10">
-              <ul className="flex flex-col border border-gray-300 rounded-md">
+            <div className=" absolute mt-12 w-full justify-center items-center bg-slate-900 rounded-md shadow-lg z-10">
+              <ul className="flex flex-col border items-center border-gray-300 rounded-md">
                 <li className="p-2 cursor-pointer hover:bg-gray-700">
-                  <Link to="/snickers" onClick={closeSidebar}>
+                  <Link to="/sneakers" onClick={closeSidebar}>
                     Snickers
                   </Link>
                 </li>
                 <li className="p-2 cursor-pointer hover:bg-gray-700">
                   <Link to="/boots" onClick={closeSidebar}>
                     Boots
+                  </Link>
+                </li>
+                <li className="p-2 cursor-pointer hover:bg-gray-700">
+                  <Link to="/loofers" onClick={closeSidebar}>
+                    Leefers
                   </Link>
                 </li>
               </ul>

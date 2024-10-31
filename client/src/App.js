@@ -16,6 +16,9 @@ import Login from "./Components/Login";
 import ResetPassword from "./Components/ResetPassword";
 import Profile from "./Components/Profile";
 import Setting from "./Components/Setting";
+import Sneakers from "./Components/Sneakers";
+import Boots from "./Components/Boots";
+import Loofers from "./Components/Loofers";
 
 function App() {
   const AppLayout = () => {
@@ -39,6 +42,9 @@ function App() {
             <Route path="/setting" element={<Setting />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/sneakers" element={<Sneakers />} />
+            <Route path="/boots" element={<Boots />} />
+            <Route path="/loofers" element={<Loofers />} />
             <Route path="/resetpassword/:token" element={<ResetPassword />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Route>
