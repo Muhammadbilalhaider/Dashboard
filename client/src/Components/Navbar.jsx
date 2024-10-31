@@ -13,6 +13,8 @@ const Navbar = () => {
   const [token, setToken] = useState(localStorage.getItem("authToken"));
   const [userName, setUserName] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
+  const [categoryDropOpen, setCategoryDropOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -24,6 +26,7 @@ const Navbar = () => {
   const closeSidebar = () => {
     setDropdownOpen(false);
     setIsOpen(false);
+    setCategoryDropOpen(false);
   };
   const logOut = () => {
     localStorage.removeItem("authToken");
@@ -47,6 +50,10 @@ const Navbar = () => {
     navigate("/setting");
   };
 
+  const toggleCategoryDown = () => {
+    setCategoryDropOpen((prev) => !prev);
+  };
+
   useEffect(() => {
     setUserName(localStorage.getItem("name"));
     console.log(localStorage.getItem("name"));
@@ -64,6 +71,7 @@ const Navbar = () => {
     userDetails();
   }, []);
   console.log("NAME IS ", userName);
+
   const NavbarItems = () => (
     <>
       <div className="flex md:text-base lg:text-lg">
@@ -75,6 +83,33 @@ const Navbar = () => {
       </div>
 
       <div className="flex lg:flex-row md:flex-row flex-col md:text-base space-x-4 md:space-y-0 space-y-4 lg:space-y-0 items-center lg:text-lg lg:space-x-14 ">
+        <li className="flex md:text-base lg:text-lg relative">
+          <button
+            className="flex items-center md:text-base lg:text-lg cursor-pointer"
+            onClick={toggleCategoryDown}
+          >
+            Categories
+            <span className="ml-2">{categoryDropOpen ? "▲" : "▼"}</span>
+          </button>
+
+          {categoryDropOpen && (
+            <div className=" absolute mt-10 bg-slate-900 rounded-md shadow-lg z-10">
+              <ul className="flex flex-col border border-gray-300 rounded-md">
+                <li className="p-2 cursor-pointer hover:bg-gray-700">
+                  <Link to="/snickers" onClick={closeSidebar}>
+                    Snickers
+                  </Link>
+                </li>
+                <li className="p-2 cursor-pointer hover:bg-gray-700">
+                  <Link to="/boots" onClick={closeSidebar}>
+                    Boots
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+        </li>
+
         <li className="flex md:text-base lg:text-lg">
           <Link to="/contact-us" onClick={closeSidebar}>
             Contact Us

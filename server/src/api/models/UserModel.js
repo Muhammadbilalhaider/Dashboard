@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-
-
-
-
-
 const userSchema = mongoose.Schema({
   firstName: {
     required: true,
@@ -16,26 +11,28 @@ const userSchema = mongoose.Schema({
     required: false,
     type: String,
   },
-  dateOfBirth:[{
-    day: {
-      type: Number,
-      required: function () {
-        return !!this.password; 
+  dateOfBirth: [
+    {
+      day: {
+        type: Number,
+        required: function () {
+          return !!this.password;
+        },
+      },
+      month: {
+        type: Number,
+        required: function () {
+          return !!this.password;
+        },
+      },
+      year: {
+        type: Number,
+        required: function () {
+          return !!this.password;
+        },
       },
     },
-    month: {
-      type: Number,
-      required: function () {
-        return !!this.password; 
-      },
-    },
-    year: {
-      type: Number,
-      required: function () {
-        return !!this.password; 
-      },
-    },
-  }],
+  ],
 
   gender: {
     type: String,
@@ -48,7 +45,7 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: function () {
-      return !!this.oauth;
+      return !this.oauth;
     },
   },
   profile: {
