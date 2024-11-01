@@ -1,15 +1,9 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
-import sideimg from '../assets/sidebar.svg';
+import sideimg from "../assets/sidebar.svg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,20 +64,16 @@ const Navbar = () => {
       });
       const profileImage = result.data.data.profile;
 
-      const base64Image = profileImage.startsWith("http") ? profileImage :
-      
-      `data:image/jpeg;base64,${profileImage}`
+      const base64Image = profileImage.startsWith("http")
+        ? profileImage
+        : `data:image/jpeg;base64,${profileImage}`;
 
       setProfilePicture(base64Image);
 
-
       console.log("profile ", result.data.data.profile);
-  
-   
     };
 
     userDetails();
-
   }, []);
   console.log("NAME IS ", userName);
 
@@ -108,8 +98,8 @@ const Navbar = () => {
           </button>
 
           {categoryDropOpen && (
-            <div className=" absolute mt-12 w-full justify-center items-center bg-slate-900 rounded-md shadow-lg z-10">
-              <ul className="flex flex-col border items-center border-gray-300 rounded-md">
+            <div className=" absolute mt-12 w-full justify-center items-center bg-slate-900 rounded-md shadow-lg z-10 ">
+              <ul className="flex flex-col border  border-gray-300 rounded-md  ">
                 <li className="p-2 cursor-pointer hover:bg-gray-700">
                   <Link to="/sneakers" onClick={closeSidebar}>
                     Snickers
@@ -148,7 +138,7 @@ const Navbar = () => {
             <img
               src={profilePicture}
               alt="profile"
-              className="justify-center items-center w-10 cursor-pointer h-10"
+              className="justify-center items-center w-10 cursor-pointer h-10 rounded-3xl"
               onClick={handleImageClick}
             />
           </div>

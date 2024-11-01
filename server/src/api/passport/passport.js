@@ -60,7 +60,7 @@ passport.use(
             firstName,
             lastName,
             email,
-            profile:picture,
+            profile: picture,
             oauth: true,
           });
           await user.save();
@@ -71,13 +71,12 @@ passport.use(
             email,
             name: `${firstName} ${lastName}`,
             googleAccessToken: accessToken,
-            picture
+            picture,
           },
           secret
         );
 
         const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
-        console.log("Redirect URL:", redirectUrl);
 
         return done(null, user, { token });
       } catch (err) {
@@ -98,7 +97,7 @@ exports.GoogleAuthCallback = (req, res) => {
     }
 
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
-    console.log("Redirect URL:", redirectUrl);
+
     res.redirect(redirectUrl);
   } catch (error) {
     console.error("Error in GoogleAuthCallback:", error);
@@ -159,7 +158,6 @@ passport.use(
         );
 
         const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
-        console.log("Redirect URL:", redirectUrl);
 
         return done(null, user, { token });
       } catch (err) {
@@ -181,7 +179,7 @@ exports.FacebookAuthCallback = (req, res) => {
     }
 
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
-    console.log("Redirect URL:", redirectUrl);
+
     res.redirect(redirectUrl);
   } catch (error) {
     console.error("Error in GoogleAuthCallback:", error);
@@ -273,7 +271,7 @@ exports.GithubAuthCallback = (req, res) => {
     }
 
     const redirectUrl = `http://localhost:3000/dashboard?token=${token}`;
-    console.log("Redirect URL:", redirectUrl);
+
     res.redirect(redirectUrl);
   } catch (error) {
     console.error("Error in GithubAuthCallback:", error);
