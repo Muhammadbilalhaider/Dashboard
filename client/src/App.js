@@ -1,4 +1,4 @@
-import "./App.css";
+import './App.css';
 
 import {
   BrowserRouter as Router,
@@ -6,28 +6,31 @@ import {
   Outlet,
   Route,
   Routes,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import AboutUs from "./Components/AboutUs";
-import ContactUs from "./Components/ContactUs";
-import Dashboard from "./Components/dashboard";
-import ForgotPassword from "./Components/ForgotPassword";
-import Login from "./Components/Login";
-import ResetPassword from "./Components/ResetPassword";
-import Profile from "./Components/Profile";
-import Setting from "./Components/Setting";
-import Sneakers from "./Components/Sneakers";
-import Boots from "./Components/Boots";
-import Loofers from "./Components/Loofers";
+import AboutUs from './Components/AboutUs';
+import Boots from './Components/Boots';
+import ContactUs from './Components/ContactUs';
+import Dashboard from './Components/dashboard';
+import ForgotPassword from './Components/ForgotPassword';
+import Login from './Components/Login';
+import Loofers from './Components/Loofers';
+import Profile from './Components/Profile';
+import ResetPassword from './Components/ResetPassword';
+import Setting from './Components/Setting';
+import Sneakers from './Components/Sneakers';
 
 function App() {
   const AppLayout = () => {
     return (
       <div className="flex w-full flex-col min-h-screen">
         <Dashboard />
-        <main className="flex flex-1 h-full lg:p-10  bg-slate-50">
+     
+        <main className="flex-1 bg-slate-50 pt-16">
           <Outlet />
         </main>
+        
+     
       </div>
     );
   };

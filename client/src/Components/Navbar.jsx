@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import sideimg from "../assets/sidebar.svg";
+import sideimg from '../assets/sidebar.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,13 +69,10 @@ const Navbar = () => {
         email,
       });
       const profileImage = result.data.data.profile;
-
       const base64Image = profileImage.startsWith("http")
         ? profileImage
         : `data:image/jpeg;base64,${profileImage}`;
-
       setProfilePicture(base64Image);
-
       console.log("profile ", result.data.data.profile);
     };
 
@@ -227,7 +230,7 @@ const Navbar = () => {
         </nav>
       </div>
 
-      <div className="hidden md:flex justify-between items-center bg-navColor p-4 fixed top-0 w-full z-10">
+      <div className="hidden md:flex justify-between h-16 items-center bg-navColor p-4 fixed top-0 w-full z-10">
         <nav className="flex  w-full justify-between">
           <ul className="flex justify-between w-full text-cyan-50">
             <NavbarItems />
