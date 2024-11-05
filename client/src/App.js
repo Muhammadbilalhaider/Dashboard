@@ -8,6 +8,7 @@ import {
   Routes,
 } from 'react-router-dom';
 
+import ProductDetails from './Components/...ProductDetails';
 import AboutUs from './Components/AboutUs';
 import Boots from './Components/Boots';
 import ContactUs from './Components/ContactUs';
@@ -48,6 +49,7 @@ function App() {
             <Route path="/sneakers" element={<Sneakers />} />
             <Route path="/boots" element={<Boots />} />
             <Route path="/loofers" element={<Loofers />} />
+            <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path="/resetpassword/:token" element={<ResetPassword />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Route>

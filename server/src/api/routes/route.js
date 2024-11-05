@@ -3,6 +3,7 @@ const controller = require("../controllers/userController");
 const passportController = require("../passport/passport");
 const passport = require("passport");
 const multer = require("multer");
+const { GetProducts } = require("../controllers/productController");
 const router = express.Router();
 
 const storage = multer.memoryStorage();
@@ -16,6 +17,12 @@ router.post("/UserDetails", controller.GetUserDetails);
 router.put("/Update/:id", controller.UpdateProfile);
 router.post("/ForgotPassword", controller.ForgotPassword);
 router.post("/ResetPassword", controller.ResetPassword);
+
+
+// For Products
+router.get("/GetProducts",GetProducts);
+
+
 
 // google routes
 router.get(

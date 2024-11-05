@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const config = require('../Config/Config')
 
 const userSchema = mongoose.Schema({
   firstName: {
@@ -84,7 +84,7 @@ userSchema.methods.token = function () {
     createdAt: this.createdAt,
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+  const token = jwt.sign(payload,config.JWT_SECRET, {
     expiresIn: "1h",
   });
   return token;

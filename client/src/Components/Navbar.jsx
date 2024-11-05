@@ -69,11 +69,12 @@ const Navbar = () => {
         email,
       });
       const profileImage = result.data.data.profile;
-      const base64Image = profileImage.startsWith("http")
+      const base64Image = profileImage.startsWith('https')
         ? profileImage
         : `data:image/jpeg;base64,${profileImage}`;
+
       setProfilePicture(base64Image);
-      console.log("profile ", result.data.data.profile);
+      console.log('Profile Picture: ', base64Image);
     };
 
     userDetails();
@@ -219,9 +220,8 @@ const Navbar = () => {
         </div>
       )}
       <div
-        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <nav className="flex w-full justify-center">
           <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-10">
