@@ -3,7 +3,7 @@ const controller = require("../controllers/userController");
 const passportController = require("../passport/passport");
 const passport = require("passport");
 const multer = require("multer");
-const { GetProducts } = require("../controllers/productController");
+const productController = require("../controllers/productController")
 const router = express.Router();
 
 const storage = multer.memoryStorage();
@@ -20,7 +20,11 @@ router.post("/ResetPassword", controller.ResetPassword);
 
 
 // For Products
-router.get("/GetProducts",GetProducts);
+router.post("/addProduct",productController.addProduct)
+router.get("/getProduct",productController.getProduct)
+router.get("/getProductById:id",productController.getProduct)
+router.put("/updateProductById:id",productController.updateProductById)
+router.delete("/deleteProdutct:id",productController.deleteProdutct)
 
 
 

@@ -5,48 +5,74 @@ const jwtSimple = require("jwt-simple");
 
 
 
-const GetProducts = async (req, resp) => {
+exports.addProduct = async (req, resp) => {
+  const { name, category, description, price, color, size } = req.body;
+  const image = req.file.buffer.toString('base64');
+
+  productModel = new productModel({
+    name,
+    image,
+    category,
+    description,
+    price,
+    color,
+    size
+  })
+
+  await productModel.save();
+
+  return resp.json({
+
+    success: true,
+    data: productModel,
+    msg: "Product created successfully.",
+  });
+
+}
+
+
+exports.getProduct = async (req, resp) => {
   try {
- 
-    const { category } = req.query;
-
-   
-    const query = category ? { category } : {};
-    
-  
-    const products = await productModel.find(query);
-
-    if (products.length === 0) {
-      return resp.status(404).json({
-        success: false,
-        msg: "No products found for the specified category",
-      });
+    const products = await productModel.find();
+    if (products.length <= 0) {
+      return resp.send(
+        "Not Found."
+      );
     }
-
     resp.json({
       success: true,
       data: products,
-      msg: "Products shown successfully",
-    });
+      msg: "Product are successfully shown.",
+    })
+
   } catch (error) {
-    console.error("Error fetching products:", error);
-    resp.status(500).json({
+    resp.json({
       success: false,
-      msg: "Failed to fetch products",
-      error: error.message,
-    });
+      msg: "Products created falied.", error,
+
+    })
   }
-};
-
-module.exports = { GetProducts };
-
-const AddProducts = async (req, resp) => {
-
-}
-const UpdateProduct = async (req, resp) => {
 }
 
-const DeleteProducts = async (req, resp) => {
+
+exports.getProductById = async (req, resp) => {
+  const productId = req.params.id;
+  if(!productId){
+    return ("Not Found.")
+  }
+
+  const products = await productModel.findById({productId});
+  resp.json({
+    success: true,
+    data: products,
+    msg: "Product are successfully shown.",
+  })
 }
 
-module.exports = { AddProducts, UpdateProduct, DeleteProducts, GetProducts }
+
+exports.updateProductById = async (req, resp) => { }
+
+
+exports.deleteProdutct = async (req, resp) => { }
+
+

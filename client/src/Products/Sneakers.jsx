@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
 const Sneakers = () => {
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:5000/user/GetProducts?category=Loofers"
+          "http://localhost:5000/user/GetProducts?category=Snickers"
         );
         setProducts(result.data.data);
       } catch (error) {
@@ -20,11 +27,22 @@ const Sneakers = () => {
     fetchProducts();
   }, []);
 
+
+  const addProduct = async()=>{
+    navigate('/addProduct');
+  }
+
+
   return (
     <div className="flex flex-col w-full justify-center items-center bg-black py-5">
-      <h2 className="text-white text-2xl mb-5">Loofers</h2>
+    
+    
+    <div className="flex w-full flex-row justify-between  items-center">
+  <h2 className="flex-1 text-white text-2xl mb-5 text-center">Snickers</h2>
+  <button onClick={addProduct} className="text-white mb-5 mr-5">Add Product</button>
+</div>
 
-      {/* Adjusted Grid Layout */}
+   
       <div className="grid w-80 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((productData) => (
           <div

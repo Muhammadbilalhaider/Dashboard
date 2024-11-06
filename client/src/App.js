@@ -8,18 +8,19 @@ import {
   Routes,
 } from 'react-router-dom';
 
-import ProductDetails from './Components/...ProductDetails';
 import AboutUs from './Components/AboutUs';
-import Boots from './Components/Boots';
 import ContactUs from './Components/ContactUs';
 import Dashboard from './Components/dashboard';
 import ForgotPassword from './Components/ForgotPassword';
 import Login from './Components/Login';
-import Loofers from './Components/Loofers';
 import Profile from './Components/Profile';
 import ResetPassword from './Components/ResetPassword';
 import Setting from './Components/Setting';
-import Sneakers from './Components/Sneakers';
+import ProductDetails from './Products/...ProductDetails';
+import AddProduct from './Products/AddProduct';
+import Boots from './Products/Boots';
+import Loofers from './Products/Loofers';
+import Sneakers from './Products/Sneakers';
 
 function App() {
   const AppLayout = () => {
@@ -51,6 +52,7 @@ function App() {
             <Route path="/loofers" element={<Loofers />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path="/resetpassword/:token" element={<ResetPassword />} />
+            <Route path="addProduct" element={<AddProduct />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Route>
         </Routes>
