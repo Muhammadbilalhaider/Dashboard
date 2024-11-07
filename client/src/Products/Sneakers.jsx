@@ -1,24 +1,31 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Sneakers = () => {
   const [products, setProducts] = useState([]);
+  const [productImage, setProductImage] = useState([]);
   const navigate = useNavigate();
+  const id = useParams();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const result = await axios.get(
-          "http://localhost:5000/user/GetProducts?category=Snickers"
+          `http://localhost:5000/user/getProduct/${id}`
         );
-        setProducts(result.data.data);
+
+        const snickersProducts = result.data.data.filter(
+          (product) => product.category === "Snicker"
+        );
+        setProducts(snickersProducts);
+        const base64Image = productImage.startsWith("h")
+          ? productImage
+          : `data:image/jpeg;base64,${productImage}`;
+
+        setProductImage(base64Image);
+
+        console.log("Profile Picture: ", base64Image);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -27,23 +34,22 @@ const Sneakers = () => {
     fetchProducts();
   }, []);
 
-
-  const addProduct = async()=>{
-    navigate('/addProduct');
-  }
-
+  const addProduct = async () => {
+    navigate("/addProduct");
+  };
 
   return (
-    <div className="flex flex-col w-full justify-center items-center bg-black py-5">
-    
-    
-    <div className="flex w-full flex-row justify-between  items-center">
-  <h2 className="flex-1 text-white text-2xl mb-5 text-center">Snickers</h2>
-  <button onClick={addProduct} className="text-white mb-5 mr-5">Add Product</button>
-</div>
+    <div className="flex flex-col w-full h-screen items-center bg-black py-5">
+      <div className="flex w-full flex-row  items-start">
+        <h2 className="flex-1 text-white text-2xl mb-5 text-center">
+          Snickers
+        </h2>
+        <button onClick={addProduct} className="text-white mb-5 mr-5">
+          Add Product
+        </button>
+      </div>
 
-   
-      <div className="grid w-80 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid w-52 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((productData) => (
           <div
             key={productData._id}
@@ -54,12 +60,14 @@ const Sneakers = () => {
               className="flex flex-col items-center"
             >
               <img
-                className="w-full h-auto rounded"
-                src={productData.image}
+                className="w-60 h-60 object-cover rounded transform transition-transform duration-300 hover:scale-110"
+                src={`data:image/jpeg;base64,${productData.image}`}
                 alt={productData.name}
               />
-              <h2 className="mt-2 text-lg font-bold">{productData.name}</h2>
-              <h2 className="text-gray-600">{productData.price}</h2>
+              <div className="flex flex-col pb-10">
+                <h2 className="mt-2 text-lg font-bold">{productData.name}</h2>
+                <h2 className="text-gray-600">{productData.price}</h2>
+              </div>
             </Link>
           </div>
         ))}

@@ -26,9 +26,9 @@ router.post(
   productController.addProduct
 );
 router.get("/getProduct", productController.getProduct);
-router.get("/getProductById:id", productController.getProduct);
-router.put("/updateProductById:id", productController.updateProductById);
-router.delete("/deleteProdutct:id", productController.deleteProdutct);
+router.get("/getProduct/:id", productController.getProductById);
+router.put("/updateProductById/:id", productController.updateProductById);
+router.delete("/deleteProdutct/:id", productController.deleteProdutct);
 
 // google routes
 router.get(

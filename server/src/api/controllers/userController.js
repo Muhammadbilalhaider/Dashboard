@@ -12,9 +12,9 @@ const {
 } = require("../Config/Config");
 
 exports.SignUp = async (req, res, next) => {
-
   try {
-    const { email, password, firstName, lastName, gender, day, month, year } = req.body;
+    const { email, password, firstName, lastName, gender, day, month, year } =
+      req.body;
     let user = await userModel.findOne({
       email,
     });
@@ -27,19 +27,21 @@ exports.SignUp = async (req, res, next) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    const dateOfBirth = [{
-      day: Number(day),  
-      month: Number(month),
-      year: Number(year), 
-    }];
-    const profilePic = req.file.buffer.toString('base64');
+    const dateOfBirth = [
+      {
+        day: Number(day),
+        month: Number(month),
+        year: Number(year),
+      },
+    ];
+    const profilePic = req.file.buffer.toString("base64");
     user = new userModel({
       firstName,
       lastName,
       email,
-      password : hashedPassword,
+      password: hashedPassword,
       gender,
-      dateOfBirth, 
+      dateOfBirth,
       profile: profilePic,
     });
 
@@ -75,7 +77,6 @@ exports.SignIn = async (req, res) => {
       return res.json({ success: false, msg: "incorrect password" });
 
     var accessToken = await user.token();
-
 
     return res.json({
       accessToken,
@@ -177,7 +178,7 @@ exports.ForgotPassword = async (req, resp, next) => {
         .status(200)
         .json({ message: "Password reset link sent to the email" });
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 exports.ResetPassword = async (req, resp) => {
