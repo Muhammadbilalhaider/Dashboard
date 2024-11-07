@@ -1,21 +1,14 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { Link, useNavigate } from "react-router-dom";
 
-import facebookImg from '../assets/facebook.svg';
-import githubImg from '../assets/github.svg';
-import googleImg from '../assets/google.svg';
+import facebookImg from "../assets/facebook.svg";
+import githubImg from "../assets/github.svg";
+import googleImg from "../assets/google.svg";
 
 const Login = () => {
-
   const navigate = useNavigate();
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
@@ -99,7 +92,6 @@ const Login = () => {
     window.location.href = "http://localhost:5000/user/auth/github";
   };
 
-
   const handleFileChange = (event) => {
     setProfilePicture(event.target.files[0]);
   };
@@ -119,16 +111,18 @@ const Login = () => {
     formData.append("year", dateOfBirth.year);
 
     if (profilePicture) {
-      formData.append("profilePic", profilePicture)
+      formData.append("profilePic", profilePicture);
     }
     try {
-      const resp = await axios.post("http://localhost:5000/user/SignUp", formData, {
-
-        headers: {
-          "Content-Type": "multipart/form-data"
-
+      const resp = await axios.post(
+        "http://localhost:5000/user/SignUp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
       console.log("Signup successful:", resp.data);
       if (resp.data.success) {
         setIsSignUpSuccessful(true);
@@ -173,10 +167,10 @@ const Login = () => {
   return (
     <div className="flex flex-col justify-center items-center w-full bg-slate-100">
       <div className="grid grid-cols-1 md:grid-cols-2 max-w-[1000px] items-center space-x-5">
-
         <form
           className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white"
-          onSubmit={handleSignIn} typeof='multipart/form-data'
+          onSubmit={handleSignIn}
+          typeof="multipart/form-data"
         >
           <div className="flex flex-col py-4 justify-center items-center w-full max-w-md space-y-4">
             <input
@@ -261,8 +255,9 @@ const Login = () => {
 
       {!isSignUpSuccessful && (
         <div
-          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${isSignUpVisible ? "block" : "hidden"
-            }`}
+          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
+            isSignUpVisible ? "block" : "hidden"
+          }`}
         >
           <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
             <button
@@ -432,8 +427,7 @@ const Login = () => {
                     />
                   </div>
                   <div className="flex flex-col">
-
-                    <input type='file' onChange={handleFileChange} />
+                    <input type="file" onChange={handleFileChange} />
                   </div>
 
                   <div className="flex justify-center items-center">
@@ -450,7 +444,6 @@ const Login = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

@@ -3,30 +3,30 @@ const controller = require("../controllers/userController");
 const passportController = require("../passport/passport");
 const passport = require("passport");
 const multer = require("multer");
-const productController = require("../controllers/productController")
+const productController = require("../controllers/productController");
 const router = express.Router();
 
 const storage = multer.memoryStorage();
 
-
 const uploads = multer({ storage: storage });
 
-router.post("/SignUp",uploads.single("profilePic") ,controller.SignUp);
+router.post("/SignUp", uploads.single("profilePic"), controller.SignUp);
 router.post("/SignIn", controller.SignIn);
 router.post("/UserDetails", controller.GetUserDetails);
 router.put("/Update/:id", controller.UpdateProfile);
 router.post("/ForgotPassword", controller.ForgotPassword);
 router.post("/ResetPassword", controller.ResetPassword);
 
-
 // For Products
-router.post("/addProduct",productController.addProduct)
-router.get("/getProduct",productController.getProduct)
-router.get("/getProductById:id",productController.getProduct)
-router.put("/updateProductById:id",productController.updateProductById)
-router.delete("/deleteProdutct:id",productController.deleteProdutct)
-
-
+router.post(
+  "/addProduct",
+  uploads.single("productPic"),
+  productController.addProduct
+);
+router.get("/getProduct", productController.getProduct);
+router.get("/getProductById:id", productController.getProduct);
+router.put("/updateProductById:id", productController.updateProductById);
+router.delete("/deleteProdutct:id", productController.deleteProdutct);
 
 // google routes
 router.get(
