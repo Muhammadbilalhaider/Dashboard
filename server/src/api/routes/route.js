@@ -4,6 +4,7 @@ const passportController = require("../passport/passport");
 const passport = require("passport");
 const multer = require("multer");
 const productController = require("../controllers/productController");
+const authMiddleware = require("../Middleware/authMiddleware");
 const router = express.Router();
 
 const storage = multer.memoryStorage();
@@ -20,6 +21,7 @@ router.post("/ResetPassword", controller.ResetPassword);
 // For Products
 router.post(
   "/addProduct",
+  authMiddleware,
   uploads.single("productPic"),
   productController.addProduct
 );

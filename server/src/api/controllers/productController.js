@@ -15,6 +15,7 @@ exports.addProduct = async (req, resp) => {
     price,
     color,
     size,
+    userId: req.user.id,
   });
 
   await newProduct.save();

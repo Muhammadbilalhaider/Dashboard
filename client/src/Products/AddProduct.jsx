@@ -12,6 +12,9 @@ const AddProduct = () => {
 
   const handleAddProducts = async (e) => {
     e.preventDefault();
+
+    const authToken = localStorage.getItem("authToken");
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("price", price);
@@ -28,6 +31,7 @@ const AddProduct = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${authToken}`,
           },
         }
       );
