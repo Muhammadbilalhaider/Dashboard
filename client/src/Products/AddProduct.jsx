@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import close from "../assets/close.svg";
 
 const AddProduct = () => {
   const [name, setName] = useState("");
@@ -55,8 +56,11 @@ const AddProduct = () => {
     }
   };
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full bg-slate-100">
+    <div className="flex flex-col justify-center items-center w-full h-full">
       <div className="w-full bg-white p-3 justify-center items-center rounded-lg relative m-5 lg:w-1/4 max-w-lg">
+        <div className="flex w-10 items-end ">
+          <img src={close} alt="" />
+        </div>
         <form
           className="w-full flex flex-col items-center justify-center"
           onSubmit={handleAddProducts}
@@ -142,12 +146,37 @@ const AddProduct = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <div className="flex flex-col">
-                <input
-                  type="file"
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
+
+              <div class="flex flex-col items-center justify-center w-full ">
+                <label
+                  for="dropzone-file"
+                  class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg 
+                  cursor-pointer bg-gray-50
+                   hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                  <div class="flex w-full  flex-col items-center justify-center pt-5 pb-6">
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span class="font-semibold">Click to upload</span> or drag
+                      and drop
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      image ? SVG, PNG, JPG or GIF (MAX. 800x400px)
+                    </p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    class="hidden"
+                    onChange={(e) => setImage(e.target.files[0])}
+                  />
+                </label>
+                {image && (
+                  <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                    Uploaded File: {image.name}
+                  </p>
+                )}
               </div>
+
               <div className="flex justify-center items-center">
                 <button
                   type="submit"

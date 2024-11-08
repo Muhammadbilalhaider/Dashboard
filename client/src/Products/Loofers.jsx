@@ -6,6 +6,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 const Loofers = () => {
   const [products, setProducts] = useState([]);
   const [productImage, setProductImage] = useState([]);
+  const [isOpenCard, setIsOpenCard] = useState();
+
   const navigate = useNavigate();
   const id = useParams();
   useEffect(() => {
@@ -39,7 +41,7 @@ const Loofers = () => {
   };
 
   return (
-    <div className="flex flex-col w-full items-center bg-black py-5">
+    <div className="flex flex-col w-full h-full items-center bg-black py-5">
       <div className="flex w-full flex-row justify-between  items-center">
         <h2 className="flex-1 text-white text-2xl mb-5 text-center">Loofers</h2>
         <button onClick={addProduct} className="text-white mb-5 mr-5">
