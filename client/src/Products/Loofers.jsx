@@ -40,11 +40,11 @@ const Loofers = () => {
           `http://localhost:5000/user/getProduct/${id}`
         );
 
-        const snickersProducts = result.data.data.filter(
+        const loofersProducts = result.data.data.filter(
           (product) => product.category === "Loofer"
         );
-        console.log("Snickers", snickersProducts);
-        if (snickersProducts.length === 0) {
+        console.log("Snickers", loofersProducts);
+        if (loofersProducts.length === 0) {
           setAllFieldsData((prev) => ({
             ...prev,
             products: [], isOpenCard: true,
@@ -52,9 +52,9 @@ const Loofers = () => {
           }))
         } else {
           setAllFieldsData((prev) => ({
-            ...prev, products: snickersProducts,
+            ...prev, products: loofersProducts,
             isOpenCard: false,
-            productImage: `data:image/jpeg;base64,${snickersProducts[0].image}`
+            productImage: `data:image/jpeg;base64,${loofersProducts[0].image}`
           }))
 
         }
@@ -145,14 +145,18 @@ const Loofers = () => {
 
         <div className="flex flex-col w-full justify-center items-center ">
           <div className="w-full bg-white justify-center items-center rounded-lg relative m-5 lg:w-1/3 max-w-lg">
-            <div className="flex w-8 items-end ">
-              <img className='cursor-pointer' src={close} alt="" onClick={handleCloseForm} />
-            </div>
+
+            <button
+              onClick={handleCloseForm}
+              className=" top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
+            >
+              <img className='w-6' src={close} alt=''/>
+            </button>
             <form
               className="flex flex-col w-full items-center justify-center"
-              onSubmit={handleAddProducts}
-            >
+              onSubmit={handleAddProducts} >
               <div className="flex flex-col  items-center justify-center">
+
                 <h1 className="text-3xl items-center font-interFont font-extrabold text-left">
                   Add Product
                 </h1>
@@ -310,15 +314,23 @@ const Loofers = () => {
           className={`fixed  inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${allFieldsData.isOpenCard ? "block" : "hidden"
             }`}
         >
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center relative">
+
+   
+            <button
+              onClick={() => toggleModal(false)}
+              className="absolute top-2 left-2 text-gray-500 hover:text-gray-700"
+            >
+             <img className='w-6' src={close} alt=''/>
+            </button>
+
             <h3 className="text-2xl font-semibold mb-4">
               No Products Available
             </h3>
-
             <p className="text-gray-600 mb-6">
               Add new products to display in this category.
             </p>
-
             <button
               onClick={() => {
                 toggleModal(false);
@@ -327,12 +339,6 @@ const Loofers = () => {
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
             >
               Add Product
-            </button>
-            <button
-              onClick={() => toggleModal(false)}
-              className="text-gray-500 mt-4 hover:text-gray-700 transition"
-            >
-              Close
             </button>
           </div>
         </div>

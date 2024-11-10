@@ -24,14 +24,14 @@ const productSchema = mongoose.Schema({
   },
   color: [
     {
-      type: String,
+      type: [String],
       enum: ["white", "blue", "black"],
       required: true,
     },
   ],
   size: [
     {
-      type: String,
+      type: [String],
       enum: ["small", "medium", "large"],
       required: true,
     },

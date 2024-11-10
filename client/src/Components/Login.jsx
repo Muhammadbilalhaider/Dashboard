@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import facebookImg from "../assets/facebook.svg";
-import githubImg from "../assets/github.svg";
-import googleImg from "../assets/google.svg";
+import facebookImg from '../assets/facebook.svg';
+import githubImg from '../assets/github.svg';
+import googleImg from '../assets/google.svg';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -368,7 +374,7 @@ const Login = () => {
                   </div>
                   <div className="flex flex-col w-full">
                     <p className="text-sm">Gender?</p>
-                    <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
+                    <div className="flex flex-row space-x-2 lg:space-x-1 md:space-x-4">
                       <label className="border p-2 rounded-md w-full flex justify-between items-center">
                         <span>Male</span>
                         <input
@@ -426,8 +432,32 @@ const Login = () => {
                       value={password}
                     />
                   </div>
-                  <div className="flex flex-col">
-                    <input type="file" onChange={handleFileChange} />
+                  <div class="flex flex-col items-center justify-center w-full ">
+                    <label
+                      for="dropzone-file"
+                      class="flex flex-col items-center justify-center w-full h-20 border-2 border-gray-300 border-dashed rounded-lg 
+                                  cursor-pointer bg-gray-50 hover:bg-gray-100 dark:border-gray-600 
+                                  dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                    >
+                      <div class="flex w-full  flex-col items-center justify-center pt-5 pb-6">
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                          <span class="font-semibold">Click to upload</span> or drag
+                          and drop
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                          image ? SVG, PNG, JPG or GIF (MAX. 800x400px)
+                        </p>
+                      </div>
+                      <input
+                        id="dropzone-file"
+                        type="file"
+                        class="hidden"
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                 
+                  
+               
                   </div>
 
                   <div className="flex justify-center items-center">

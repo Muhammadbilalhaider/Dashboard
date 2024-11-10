@@ -12,7 +12,7 @@ import {
 
 import close from '../assets/close.svg';
 
-const Sneakers = () => {
+const Loofers = () => {
 
   const [allFieldsData, setAllFieldsData] = useState(
     {
@@ -113,47 +113,49 @@ const Sneakers = () => {
     }))
   };
 
-  const handleCloseForm = () => {
-    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }))
-  }
 
   const handleSizeChange = async (e) => {
     const { value, checked } = e.target;
     setAllFieldsData((prev) => ({
       ...prev,
-      size: checked ? [...prev.color, value] : prev.size.filter((s) => s !== value)
+      size: checked ? [...prev.size, value] : prev.size.filter((s) => s !== value)
     }))
   };
 
-
+  const handleCloseForm = () => {
+    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }))
+  }
 
   return (
     <div className="flex flex-col w-full h-full items-center bg-black">
 
       <div className="flex w-full flex-row items-start">
         <h2 className="flex-1 text-white text-2xl mb-5 text-center">
-          Snicker
+          Snickers
         </h2>
-        <button onClick={addProduct}  className="mt-2 w-24 border text-sm p-2 hover:text-black hover:bg-gray-300 rounded-lg text-white  mb-5 mr-5 transition-colors duration-200">
+        <button onClick={addProduct} className="text-white mb-5 mr-5">
           Add Product
         </button>
       </div>
-      
       // Open Add Product Form
 
 
       {allFieldsData.isAddProductOpen && (
 
         <div className="flex flex-col w-full justify-center items-center ">
-          <div className="w-full bg-white  rounded-lg relative lg:w-1/3 max-w-lg">
-            <div className="flex w-8 items-end ">
-              <img className='cursor-pointer' src={close} alt="" onClick={handleCloseForm} />
-            </div>
+          <div className="w-full bg-white justify-center items-center rounded-lg relative m-5 lg:w-1/3 max-w-lg">
+
+            <button
+              onClick={handleCloseForm}
+              className=" top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
+            >
+             <img className='w-6' src={close} alt=''/>
+            </button>
             <form
               className="flex flex-col w-full items-center justify-center"
-              onSubmit={handleAddProducts}
-            >
+              onSubmit={handleAddProducts} >
               <div className="flex flex-col  items-center justify-center">
+
                 <h1 className="text-3xl items-center font-interFont font-extrabold text-left">
                   Add Product
                 </h1>
@@ -211,15 +213,15 @@ const Sneakers = () => {
                   <div className="flex flex-col w-full">
                     <p className="text-sm">Size</p>
                     <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
-                      {["small", "medium", "large"].map((sz) => (
+                      {["small", "medium", "large"].map((s) => (
                         <label
-                          key={sz}
+                          key={s}
                           className="border p-2 rounded-md w-full flex justify-between items-center"
                         >
-                          <span>{sz.charAt(0).toUpperCase() + sz.slice(1)}</span>
+                          <span>{s.charAt(0).toUpperCase() + s.slice(1)}</span>
                           <input
                             type="checkbox"
-                            value={sz}
+                            value={s}
                             onChange={handleSizeChange}
                           />
                         </label>
@@ -254,8 +256,9 @@ const Sneakers = () => {
                       <input
                         id="dropzone-file"
                         type="file"
+                       name="productPic"
                         class="hidden"
-                        onChange={(e) => setAllFieldsData((prev) => ({ ...prev, image: e.target.value }))}
+                        onChange={(e) => setAllFieldsData((prev) => ({ ...prev, image: e.target.files[0] }))}
                       />
                     </label>
                     {allFieldsData.image && (
@@ -265,15 +268,14 @@ const Sneakers = () => {
                     )}
                   </div>
 
-                  <div className="flex justify-center items-center bg-white">
+                  <div className="flex justify-center items-center">
                     <button
                       type="submit"
-                      className="border items-center w-44 my-5 py-1 text-white bg-blue-500 hover:bg-blue-600 rounded-lg"
+                      className="border items-center w-44 ite my-5 py-1 text-white hover:bg-green-600 bg-createAcountColor rounded-lg"
                     >
                       Add Product
                     </button>
                   </div>
-
                 </div>
               </div>
             </form>
@@ -312,15 +314,23 @@ const Sneakers = () => {
           className={`fixed  inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${allFieldsData.isOpenCard ? "block" : "hidden"
             }`}
         >
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center relative">
+
+            {/* Close Icon */}
+            <button
+              onClick={() => toggleModal(false)}
+              className="absolute top-2 left-2 text-gray-500 hover:text-gray-700"
+            >
+             <img className='w-6' src={close} alt=''/>
+            </button>
+
             <h3 className="text-2xl font-semibold mb-4">
               No Products Available
             </h3>
-
             <p className="text-gray-600 mb-6">
               Add new products to display in this category.
             </p>
-
             <button
               onClick={() => {
                 toggleModal(false);
@@ -330,12 +340,6 @@ const Sneakers = () => {
             >
               Add Product
             </button>
-            <button
-              onClick={() => toggleModal(false)}
-              className="text-gray-500 mt-4 hover:text-gray-700 transition"
-            >
-              Close
-            </button>
           </div>
         </div>
       )}
@@ -343,4 +347,4 @@ const Sneakers = () => {
   );
 };
 
-export default Sneakers;
+export default Loofers;

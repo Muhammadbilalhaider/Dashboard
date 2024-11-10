@@ -110,7 +110,7 @@ const Navbar = () => {
                 </li>
                 <li className="p-2 cursor-pointer hover:bg-gray-700">
                   <Link to="/loofers" onClick={closeSidebar}>
-                    Leefers
+                    Loofers
                   </Link>
                 </li>
               </ul>
