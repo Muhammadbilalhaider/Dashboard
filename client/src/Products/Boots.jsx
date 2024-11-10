@@ -121,7 +121,7 @@ const Loofers = () => {
     const { value, checked } = e.target;
     setAllFieldsData((prev) => ({
       ...prev,
-      size: checked ? [...prev.color, value] : prev.size.filter((s) => s !== value)
+      size: checked ? [...prev.size, value] : prev.size.filter((s) => s !== value)
     }))
   };
 

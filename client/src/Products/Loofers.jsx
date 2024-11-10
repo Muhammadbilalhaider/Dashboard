@@ -121,7 +121,7 @@ const Loofers = () => {
     const { value, checked } = e.target;
     setAllFieldsData((prev) => ({
       ...prev,
-      size: checked ? [...prev.color, value] : prev.size.filter((s) => s !== value)
+      size: checked ? [...prev.size, value] : prev.size.filter((s) => s !== value)
     }))
   };
 
@@ -148,7 +148,7 @@ const Loofers = () => {
 
             <button
               onClick={handleCloseForm}
-              className=" top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
+              className="top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
             >
               <img className='w-6' src={close} alt=''/>
             </button>
