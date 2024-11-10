@@ -113,9 +113,6 @@ const Loofers = () => {
     }))
   };
 
-  const handleCloseForm = () => {
-    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }))
-  }
 
   const handleSizeChange = async (e) => {
     const { value, checked } = e.target;
@@ -125,14 +122,16 @@ const Loofers = () => {
     }))
   };
 
-
+  const handleCloseForm = () => {
+    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }))
+  }
 
   return (
-    <div className="flex flex-col w-full h-full items-center bg-black">
+    <div className="flex flex-col w-full h-full  items-center bg-black">
 
       <div className="flex w-full flex-row items-start">
         <h2 className="flex-1 text-white text-2xl mb-5 text-center">
-          Loofers
+          Snickers
         </h2>
         <button onClick={addProduct} className="text-white mb-5 mr-5">
           Add Product
@@ -143,27 +142,27 @@ const Loofers = () => {
 
       {allFieldsData.isAddProductOpen && (
 
-        <div className="flex flex-col w-full justify-center items-center ">
-          <div className="w-full bg-white justify-center items-center rounded-lg relative m-5 lg:w-1/3 max-w-lg">
+        <div className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}>
+          <div className="bg-white items-center m-10 justify-center overflow-y-auto max-h-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent rounded-lg">
 
             <button
               onClick={handleCloseForm}
-              className="top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
+              className=" top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
             >
-              <img className='w-6' src={close} alt=''/>
+              <img className='w-6' src={close} alt='' />
             </button>
             <form
-              className="flex flex-col w-full items-center justify-center"
+              className="flex flex-col items-center px-5 justify-center"
               onSubmit={handleAddProducts} >
               <div className="flex flex-col  items-center justify-center">
 
-                <h1 className="text-3xl items-center font-interFont font-extrabold text-left">
+                <h4 className="text-3xl items-center font-interFont font-extrabold text-left">
                   Add Product
-                </h1>
+                </h4>
 
-                <div className="flex flex-col space-y-3 py-4 w-full">
+                <div className="flex flex-col space-y-3 w-full">
                   <span className="w-full block border-gray-200 border-t-2"></span>
-                  <div className="flex flex-row w-full space-x-2">
+                  <div className="flex flex-row w-full h-10 space-x-2">
                     <input
                       className="border p-2 rounded-md w-full"
                       type="text"
@@ -172,7 +171,7 @@ const Loofers = () => {
                       onChange={(e) => setAllFieldsData((prev) => ({ ...prev, name: e.target.value }))}
                     />
                   </div>
-                  <div className="flex flex-row w-full space-x-2">
+                  <div className="flex flex-row  w-full h-10  space-x-2">
                     <input
                       className="border p-2 rounded-md w-full"
                       type="text"
@@ -192,9 +191,9 @@ const Loofers = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="flex flex-col w-full">
+                  <div className="flex flex-col w-ful">
                     <p className="text-sm">Color</p>
-                    <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
+                    <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4  h-10">
                       {["white", "blue", "black"].map((col) => (
                         <label
                           key={col}
@@ -213,16 +212,16 @@ const Loofers = () => {
 
                   <div className="flex flex-col w-full">
                     <p className="text-sm">Size</p>
-                    <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
-                      {["small", "medium", "large"].map((sz) => (
+                    <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4 h-10 ">
+                      {["small", "medium", "large"].map((s) => (
                         <label
-                          key={sz}
+                          key={s}
                           className="border p-2 rounded-md w-full flex justify-between items-center"
                         >
-                          <span>{sz.charAt(0).toUpperCase() + sz.slice(1)}</span>
+                          <span>{s.charAt(0).toUpperCase() + s.slice(1)}</span>
                           <input
                             type="checkbox"
-                            value={sz}
+                            value={s}
                             onChange={handleSizeChange}
                           />
                         </label>
@@ -257,8 +256,9 @@ const Loofers = () => {
                       <input
                         id="dropzone-file"
                         type="file"
+                        name="productPic"
                         class="hidden"
-                        onChange={(e) => setAllFieldsData((prev) => ({ ...prev, image: e.target.value }))}
+                        onChange={(e) => setAllFieldsData((prev) => ({ ...prev, image: e.target.files[0] }))}
                       />
                     </label>
                     {allFieldsData.image && (
@@ -268,10 +268,10 @@ const Loofers = () => {
                     )}
                   </div>
 
-                  <div className="flex justify-center items-center">
+                  <div className="flex justify-center items-center py-3">
                     <button
                       type="submit"
-                      className="border items-center w-44 ite my-5 py-1 text-white hover:bg-green-600 bg-createAcountColor rounded-lg"
+                      className="border items-center w-44 py-2 text-white hover:bg-green-600 bg-createAcountColor rounded-lg"
                     >
                       Add Product
                     </button>
@@ -317,12 +317,12 @@ const Loofers = () => {
 
           <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center relative">
 
-   
+
             <button
               onClick={() => toggleModal(false)}
-              className="absolute top-2 left-2 text-gray-500 hover:text-gray-700"
+              className="absolute top-2 left-2"
             >
-             <img className='w-6' src={close} alt=''/>
+              <img className='w-6' src={close} alt='' />
             </button>
 
             <h3 className="text-2xl font-semibold mb-4">

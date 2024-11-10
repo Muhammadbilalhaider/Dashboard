@@ -1,7 +1,6 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
-
   theme: {
     extend: {
       fontFamily: {
@@ -10,9 +9,9 @@ module.exports = {
       colors: {
         buttonColor: "#0866ff",
         navColor: "#280559",
-        createAcountColor : "#42b72a"
+        createAcountColor: "#42b72a",
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')],
 };
