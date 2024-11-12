@@ -49,9 +49,16 @@ exports.getProduct = async (req, resp) => {
 
 exports.getProductById = async (req, res) => {
   try {
-    const userId = req.userId;
-    const products = await productModel.find(userId);
+    const page = parseInt(req.query.page) || 1;
+    const totalCount = await productModel.countDocuments(userId);
+    const limit = 9;
 
+    const userId = req.userId;
+    const products = await productModel
+      .find(userId)
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const totalPages = await Math.ceil(totalCount / limit);
     if (!products) {
       return res.status(404).json({ msg: "No products found for this user." });
     }
@@ -59,6 +66,9 @@ exports.getProductById = async (req, res) => {
     res.json({
       success: true,
       data: products,
+      totalPages: totalPages,
+      currentPage: page,
+      totalCount: totalCount,
       msg: "Products fetched successfully.",
     });
   } catch (error) {

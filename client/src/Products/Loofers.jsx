@@ -1,35 +1,24 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import close from '../assets/close.svg';
+import close from "../assets/close.svg";
 
 const Loofers = () => {
-
-  const [allFieldsData, setAllFieldsData] = useState(
-    {
-      products: [],
-      productImage: [],
-      isOpenCard: false,
-      isAddProductOpen: false,
-      color: [],
-      size: [],
-      name: "",
-      category: "",
-      price: "",
-      description: "",
-      image: ""
-    }
-  )
-
+  const [allFieldsData, setAllFieldsData] = useState({
+    products: [],
+    productImage: [],
+    isOpenCard: false,
+    isAddProductOpen: false,
+    color: [],
+    size: [],
+    name: "",
+    category: "",
+    price: "",
+    description: "",
+    image: "",
+  });
 
   const navigate = useNavigate();
   const id = useParams();
@@ -47,16 +36,17 @@ const Loofers = () => {
         if (loofersProducts.length === 0) {
           setAllFieldsData((prev) => ({
             ...prev,
-            products: [], isOpenCard: true,
-            isAddProductOpen: false
-          }))
+            products: [],
+            isOpenCard: true,
+            isAddProductOpen: false,
+          }));
         } else {
           setAllFieldsData((prev) => ({
-            ...prev, products: loofersProducts,
+            ...prev,
+            products: loofersProducts,
             isOpenCard: false,
-            productImage: `data:image/jpeg;base64,${loofersProducts[0].image}`
-          }))
-
+            productImage: `data:image/jpeg;base64,${loofersProducts[0].image}`,
+          }));
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -67,12 +57,14 @@ const Loofers = () => {
   }, []);
 
   const addProduct = async () => {
-    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: !prev.isAddProductOpen }))
+    setAllFieldsData((prev) => ({
+      ...prev,
+      isAddProductOpen: !prev.isAddProductOpen,
+    }));
   };
   const toggleModal = (open) => {
     setAllFieldsData((prevData) => ({ ...prevData, isOpenCard: open }));
   };
-
 
   const handleAddProducts = async (e) => {
     e.preventDefault();
@@ -109,53 +101,56 @@ const Loofers = () => {
     const { value, checked } = e.target;
     setAllFieldsData((prev) => ({
       ...prev,
-      color: checked ? [...prev.color, value] : prev.color.filter((c) => c !== value)
-    }))
+      color: checked
+        ? [...prev.color, value]
+        : prev.color.filter((c) => c !== value),
+    }));
   };
-
 
   const handleSizeChange = async (e) => {
     const { value, checked } = e.target;
     setAllFieldsData((prev) => ({
       ...prev,
-      size: checked ? [...prev.size, value] : prev.size.filter((s) => s !== value)
-    }))
+      size: checked
+        ? [...prev.size, value]
+        : prev.size.filter((s) => s !== value),
+    }));
   };
 
   const handleCloseForm = () => {
-    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }))
-  }
+    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }));
+  };
 
   return (
     <div className="flex flex-col w-full h-full  items-center bg-black">
-
       <div className="flex w-full flex-row items-start">
         <h2 className="flex-1 text-white text-2xl mb-5 text-center">
           Snickers
         </h2>
-        <button onClick={addProduct} className="text-white mb-5 mr-5">
+        <button
+          onClick={addProduct}
+          className=" border p-2 rounded-lg text-white mb-5 mr-5"
+        >
           Add Product
         </button>
       </div>
-      // Open Add Product Form
-
 
       {allFieldsData.isAddProductOpen && (
-
-        <div className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}>
+        <div
+          className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}
+        >
           <div className="bg-white items-center m-10 justify-center overflow-y-auto max-h-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent rounded-lg">
-
             <button
               onClick={handleCloseForm}
               className=" top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
             >
-              <img className='w-6' src={close} alt='' />
+              <img className="w-6" src={close} alt="" />
             </button>
             <form
               className="flex flex-col items-center px-5 justify-center"
-              onSubmit={handleAddProducts} >
+              onSubmit={handleAddProducts}
+            >
               <div className="flex flex-col  items-center justify-center">
-
                 <h4 className="text-3xl items-center font-interFont font-extrabold text-left">
                   Add Product
                 </h4>
@@ -168,7 +163,12 @@ const Loofers = () => {
                       type="text"
                       placeholder="Name"
                       value={allFieldsData.name}
-                      onChange={(e) => setAllFieldsData((prev) => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) =>
+                        setAllFieldsData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="flex flex-row  w-full h-10  space-x-2">
@@ -177,11 +177,21 @@ const Loofers = () => {
                       type="text"
                       placeholder="Price"
                       value={allFieldsData.price}
-                      onChange={(e) => setAllFieldsData((prev) => ({ ...prev, price: e.target.value }))}
+                      onChange={(e) =>
+                        setAllFieldsData((prev) => ({
+                          ...prev,
+                          price: e.target.value,
+                        }))
+                      }
                     />
                     <select
                       className="border p-2 w-full rounded-md"
-                      onChange={(e) => setAllFieldsData((prev) => ({ ...prev, category: e.target.value }))}
+                      onChange={(e) =>
+                        setAllFieldsData((prev) => ({
+                          ...prev,
+                          category: e.target.value,
+                        }))
+                      }
                     >
                       <option>Select Category</option>
                       {["Snicker", "Boot", "Loofer"].map((cat, index) => (
@@ -199,7 +209,9 @@ const Loofers = () => {
                           key={col}
                           className="border p-2 rounded-md w-full flex justify-between items-center"
                         >
-                          <span>{col.charAt(0).toUpperCase() + col.slice(1)}</span>
+                          <span>
+                            {col.charAt(0).toUpperCase() + col.slice(1)}
+                          </span>
                           <input
                             type="checkbox"
                             value={col}
@@ -234,7 +246,12 @@ const Loofers = () => {
                     type="text"
                     placeholder="Description"
                     value={allFieldsData.description}
-                    onChange={(e) => setAllFieldsData((prev) => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setAllFieldsData((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
                   />
 
                   <div class="flex flex-col items-center justify-center w-full ">
@@ -246,8 +263,8 @@ const Loofers = () => {
                     >
                       <div class="flex w-full  flex-col items-center justify-center pt-5 pb-6">
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                          <span class="font-semibold">Click to upload</span> or drag
-                          and drop
+                          <span class="font-semibold">Click to upload</span> or
+                          drag and drop
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
                           image ? SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -258,7 +275,12 @@ const Loofers = () => {
                         type="file"
                         name="productPic"
                         class="hidden"
-                        onChange={(e) => setAllFieldsData((prev) => ({ ...prev, image: e.target.files[0] }))}
+                        onChange={(e) =>
+                          setAllFieldsData((prev) => ({
+                            ...prev,
+                            image: e.target.files[0],
+                          }))
+                        }
                       />
                     </label>
                     {allFieldsData.image && (
@@ -282,9 +304,6 @@ const Loofers = () => {
           </div>
         </div>
       )}
-
-
-
       {allFieldsData.productImage.length > 0 ? (
         <div className="grid w-52 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {allFieldsData.products.map((productData) => (
@@ -311,35 +330,16 @@ const Loofers = () => {
         </div>
       ) : (
         <div
-          className={`fixed  inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${allFieldsData.isOpenCard ? "block" : "hidden"
-            }`}
+          className={
+            allFieldsData.isOpenCard
+              ? "flex items-center justify-center h-full"
+              : "hidden"
+          }
         >
-
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center relative">
-
-
-            <button
-              onClick={() => toggleModal(false)}
-              className="absolute top-2 left-2"
-            >
-              <img className='w-6' src={close} alt='' />
-            </button>
-
-            <h3 className="text-2xl font-semibold mb-4">
-              No Products Available
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Add new products to display in this category.
-            </p>
-            <button
-              onClick={() => {
-                toggleModal(false);
-                addProduct();
-              }}
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-            >
-              Add Product
-            </button>
+          <div className=" w-full text-center items-center rounded-lg shadow-lg">
+            <h1 className="w-full text-2xl  mb-10 text-white justify-center items-center">
+              No Products Available <br /> Please Add Product
+            </h1>
           </div>
         </div>
       )}
