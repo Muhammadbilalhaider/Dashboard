@@ -4,6 +4,9 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import addImg from "../assets/addProduct.svg";
 import close from "../assets/close.svg";
+import moreOptions from "../assets/more.svg";
+import edit from "../assets/edit.svg";
+import deleteItem from "../assets/deleteItem.svg";
 
 const Loofers = () => {
   const [allFieldsData, setAllFieldsData] = useState({
@@ -21,6 +24,8 @@ const Loofers = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [hoveredProductId, setHoveredProductId] = useState(null);
+
   const navigate = useNavigate();
   const id = useParams();
   useEffect(() => {
@@ -35,7 +40,7 @@ const Loofers = () => {
         );
         setTotalPages(result.data.totalPages);
         console.log("Pages ", result.data.totalPages);
-        console.log("Loofers", loofersProducts);
+        console.log("Loofer", loofersProducts);
         if (loofersProducts.length === 0) {
           setAllFieldsData((prev) => ({
             ...prev,
@@ -129,12 +134,11 @@ const Loofers = () => {
   return (
     <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
-        <h1 className="flex-1 text-4xl mt-5 uppercase text-white mb-5 text-center">
-          Loofers
-        </h1>
+        <h2 className="flex-1 text-white text-2xl mb-5 text-center">Loofers</h2>
 
         <img
-          className="flex h-16 transition-transform hover:scale-105 mr-5 hover:rotate-180 duration-300"
+          onClick={addProduct}
+          className="flex h-16 transition-transform hover:scale-105 mr-5 hover:rotate-180 duration-300 cursor-pointer"
           src={addImg}
           alt=""
         />
@@ -142,7 +146,7 @@ const Loofers = () => {
 
       {allFieldsData.isAddProductOpen && (
         <div
-          className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}
+          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50`}
         >
           <div className="bg-white items-center m-10 justify-center overflow-y-auto max-h-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent rounded-lg">
             <button
@@ -310,34 +314,67 @@ const Loofers = () => {
         </div>
       )}
       {allFieldsData.productImage.length > 0 ? (
-        <div className="grid w-56 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {allFieldsData.products.map((productData) => (
-            <div
-              key={productData.id}
-              className="bg-white rounded-lg w-full p-4 flex flex-col items-center"
-            >
-              <Link
-                to={`/productDetails/${productData._id}`}
-                className="flex flex-col items-center"
+        <div className=" flex flex-col w-full">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 w-full">
+            {allFieldsData.products.map((productData) => (
+              <div
+                key={productData.id}
+                className="bg-white rounded-lg w-full p-4 flex flex-col items-center  relative"
               >
-                <img
-                  className=" lg:w-52 lg:h-52 object-cover rounded transform transition-transform duration-300 hover:scale-110"
-                  src={`data:image/jpeg;base64,${productData.image}`}
-                  alt={productData.name}
-                />
-                <div className="flex flex-col pb-10 justify-center items-center">
-                  <h2 className="mt-2 text-lg font-bold">{productData.name}</h2>
-                  <h2 className="text-gray-600">{productData.price}</h2>
+                <div
+                  className="absolute top-0 right-5 flex flex-col"
+                  onMouseEnter={() => setHoveredProductId(productData._id)}
+                  onMouseLeave={() => setHoveredProductId(null)}
+                >
+                  <img
+                    onClick={handleAddProducts}
+                    src={moreOptions}
+                    alt="More Options"
+                    className={`cursor-pointer p-2 w-12 transition-transform duration-300 ${
+                      hoveredProductId === productData._id ? "rotate-180" : ""
+                    }`}
+                  />
+
+                  {hoveredProductId === productData._id && (
+                    <div className="transition-all duration-300 ease-out mt-2 opacity-100 transform translate-y-0">
+                      <img
+                        className="cursor-pointer p-2 w-12 transition-transform hover:rotate-180 duration-300"
+                        src={edit}
+                        alt="Edit"
+                      />
+                      <img
+                        className="cursor-pointer p-2 w-12 transition-transform "
+                        src={deleteItem}
+                        alt="Delete"
+                      />
+                    </div>
+                  )}
                 </div>
-              </Link>
-            </div>
-          ))}
-          <div className="mb-10 w-full flex justify-center fixed bottom-0 left-0 space-x-3 bg-black bg-opacity-50 py-3">
+                <Link
+                  to={`/productDetails/${productData._id}`}
+                  className="flex flex-col items-center"
+                >
+                  <img
+                    className=" lg:w-52 lg:h-52 object-cover rounded transform transition-transform duration-300 hover:scale-110"
+                    src={`data:image/jpeg;base64,${productData.image}`}
+                    alt={productData.name}
+                  />
+                  <div className="flex flex-col pb-10 justify-center items-center">
+                    <h2 className="mt-2 text-lg font-bold">
+                      {productData.name}
+                    </h2>
+                    <h2 className="text-gray-600">{productData.price}</h2>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center items-center w-full p-4 shadow-md lg:fixed bottom-0 space-x-2">
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index}
                 onClick={() => handlePageChange(index + 1)}
-                className={`px-3 py-1  rounded-full ${
+                className={`px-3 py-1  rounded-full transition-transform hover:scale-110 duration-300 ${
                   currentPage === index + 1
                     ? "bg-blue-500 text-white"
                     : "bg-gray-500 text-white"
@@ -350,7 +387,9 @@ const Loofers = () => {
         </div>
       ) : (
         <div className="flex justify-center items-center w-full h-full">
-          <p className="text-white text-xl">No product available</p>
+          <p className="text-white text-xl  text-center">
+            No product available! <br /> Please Add
+          </p>
         </div>
       )}
     </div>

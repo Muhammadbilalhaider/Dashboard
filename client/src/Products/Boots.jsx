@@ -5,6 +5,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import addImg from "../assets/addProduct.svg";
 import close from "../assets/close.svg";
 import moreOptions from "../assets/more.svg";
+import edit from "../assets/edit.svg";
+import deleteItem from "../assets/deleteItem.svg";
 
 const Boots = () => {
   const [allFieldsData, setAllFieldsData] = useState({
@@ -22,6 +24,8 @@ const Boots = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [hoveredProductId, setHoveredProductId] = useState(null);
+
   const navigate = useNavigate();
   const id = useParams();
   useEffect(() => {
@@ -317,14 +321,34 @@ const Boots = () => {
                 key={productData.id}
                 className="bg-white rounded-lg w-full p-4 flex flex-col items-center  relative"
               >
-                <div className="absolute top-0 right-5 flex flex-col ">
+                <div
+                  className="absolute top-0 right-5 flex flex-col"
+                  onMouseEnter={() => setHoveredProductId(productData._id)}
+                  onMouseLeave={() => setHoveredProductId(null)}
+                >
                   <img
                     onClick={handleAddProducts}
                     src={moreOptions}
                     alt="More Options"
-                    className="cursor-pointer p-2 w-12 transition-transform hover:rotate-180 duration-300"
+                    className={`cursor-pointer w-10 transition-transform duration-300 ${
+                      hoveredProductId === productData._id ? "rotate-180" : ""
+                    }`}
                   />
-                  <h2>Hello</h2>
+
+                  {hoveredProductId === productData._id && (
+                    <div className="transition-all duration-300 ease-out mt-2 opacity-100 transform translate-y-0">
+                      <img
+                        className="cursor-pointer  w-12 transition-transform hover:rotate-180 duration-300"
+                        src={edit}
+                        alt="Edit"
+                      />
+                      <img
+                        className="cursor-pointer w-12 delay-1000"
+                        src={deleteItem}
+                        alt="Delete"
+                      />
+                    </div>
+                  )}
                 </div>
                 <Link
                   to={`/productDetails/${productData._id}`}
@@ -345,7 +369,7 @@ const Boots = () => {
               </div>
             ))}
           </div>
-          <div className="flex justify-center items-center w-full p-4  shadow-md lg:fixed bottom-0 space-x-2">
+          <div className="flex justify-center items-center w-full p-4 shadow-md lg:fixed bottom-0 space-x-2">
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index}
@@ -363,7 +387,9 @@ const Boots = () => {
         </div>
       ) : (
         <div className="flex justify-center items-center w-full h-full">
-          <p className="text-white text-xl">No product available</p>
+          <p className="text-white text-xl  text-center">
+            No product available! <br /> Please Add
+          </p>
         </div>
       )}
     </div>
