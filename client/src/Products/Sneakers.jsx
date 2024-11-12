@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import close from "../assets/close.svg";
-
+import addImg from "../assets/addProduct.svg";
 const Sneakers = () => {
   const [allFieldsData, setAllFieldsData] = useState({
     products: [],
@@ -21,6 +21,7 @@ const Sneakers = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
   const navigate = useNavigate();
   const id = useParams();
   useEffect(() => {
@@ -129,15 +130,14 @@ const Sneakers = () => {
   return (
     <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
-        <h2 className="flex-1 text-white text-2xl mb-5 text-center">
+        <h1 className="flex-1 text-4xl mt-5 uppercase text-white mb-5 text-center">
           Snickers
-        </h2>
-        <button
-          onClick={addProduct}
-          className="border rounded-lg p-1 mt-2 hover:text-white hover:bg-blue-800  transition-transform hover:scale-100  text-white mb-5 mr-5"
-        >
-          Add Product
-        </button>
+        </h1>
+        <img
+          className="flex h-16 transition-transform hover:scale-105 mr-5 hover:rotate-180 duration-300"
+          src={addImg}
+          alt=""
+        />
       </div>
 
       {allFieldsData.isAddProductOpen && (
