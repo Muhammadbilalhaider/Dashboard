@@ -33,6 +33,8 @@ const Boots = () => {
         const bootsProducts = result.data.data.filter(
           (product) => product.category === "Boot"
         );
+        setTotalPages(result.data.totalPages);
+        console.log("Pages ", result.data.totalPages);
         console.log("Boots", bootsProducts);
         if (bootsProducts.length === 0) {
           setAllFieldsData((prev) => ({
@@ -343,6 +345,7 @@ const Boots = () => {
         </div>
       )}
       <div className="flex mt-6 space-x-2">
+        {/* Previous Button */}
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -350,6 +353,8 @@ const Boots = () => {
         >
           Previous
         </button>
+
+        {/* Page Number Buttons */}
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index}
@@ -363,8 +368,11 @@ const Boots = () => {
             {index + 1}
           </button>
         ))}
+
+        {/* Next Button */}
         <button
           onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
           className="bg-gray-500 text-white px-3 py-1 rounded disabled:bg-gray-300"
         >
           Next
