@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import addImg from "../assets/addProduct.svg";
-import close from "../assets/close.svg";
-import moreOptions from "../assets/more.svg";
-import edit from "../assets/edit.svg";
-import deleteItem from "../assets/deleteItem.svg";
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
+
+import addImg from '../assets/addProduct.svg';
+import close from '../assets/close.svg';
+import deleteItem from '../assets/deleteItem.svg';
+import edit from '../assets/edit.svg';
+import moreOptions from '../assets/more.svg';
 
 const Loofers = () => {
   const [allFieldsData, setAllFieldsData] = useState({
@@ -354,8 +362,8 @@ const Loofers = () => {
                   to={`/productDetails/${productData._id}`}
                   className="flex flex-col items-center"
                 >
-                  <img
-                    className=" lg:w-52 lg:h-52 object-cover rounded transform transition-transform duration-300 hover:scale-110"
+                 <img
+                    className="w-40 h-40 object-contain items-center justify-center rounded transform transition-transform duration-300 hover:scale-110"
                     src={`data:image/jpeg;base64,${productData.image}`}
                     alt={productData.name}
                   />
