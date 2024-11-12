@@ -346,12 +346,12 @@ const Loofers = () => {
                   {hoveredProductId === productData._id && (
                     <div className="transition-all duration-300 ease-out mt-2 opacity-100 transform translate-y-0">
                       <img
-                        className="cursor-pointer p-2 w-12 transition-transform hover:rotate-180 duration-300"
+                        className="cursor-pointer p-2 w-8 transition-transform hover:rotate-180 duration-300"
                         src={edit}
                         alt="Edit"
                       />
                       <img
-                        className="cursor-pointer p-2 w-12 transition-transform "
+                        className="cursor-pointer p-2 w-8 transition-transform "
                         src={deleteItem}
                         alt="Delete"
                       />
