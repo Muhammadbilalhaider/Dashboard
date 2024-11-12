@@ -127,14 +127,14 @@ const Boots = () => {
     setCurrentPage(pageNumber);
   };
   return (
-    <div className="flex flex-col w-full h-full  items-center bg-black">
+    <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
         <h2 className="flex-1 text-white text-2xl mb-5 text-center">Boots</h2>
         <button onClick={addProduct} className="text-white mb-5 mr-5">
           Add Product
         </button>
       </div>
-      // Open Add Product Form
+
       {allFieldsData.isAddProductOpen && (
         <div
           className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}
@@ -305,22 +305,22 @@ const Boots = () => {
         </div>
       )}
       {allFieldsData.productImage.length > 0 ? (
-        <div className="grid w-52 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid w-56 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {allFieldsData.products.map((productData) => (
             <div
               key={productData.id}
-              className="bg-white rounded-lg p-4 flex flex-col items-center"
+              className="bg-white rounded-lg w-full p-4 flex flex-col items-center"
             >
               <Link
                 to={`/productDetails/${productData._id}`}
                 className="flex flex-col items-center"
               >
                 <img
-                  className="w-60 h-60 object-cover rounded transform transition-transform duration-300 hover:scale-110"
+                  className=" lg:w-52 lg:h-52 object-cover rounded transform transition-transform duration-300 hover:scale-110"
                   src={`data:image/jpeg;base64,${productData.image}`}
                   alt={productData.name}
                 />
-                <div className="flex flex-col pb-10">
+                <div className="flex flex-col pb-10 justify-center items-center">
                   <h2 className="mt-2 text-lg font-bold">{productData.name}</h2>
                   <h2 className="text-gray-600">{productData.price}</h2>
                 </div>
@@ -344,7 +344,7 @@ const Boots = () => {
           </div>
         </div>
       )}
-      <div className="flex mt-6 space-x-2">
+      <div className="flex mt-10 w-full items-center justify-center  space-x-1">
         {/* Previous Button */}
         <button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -354,7 +354,6 @@ const Boots = () => {
           Previous
         </button>
 
-        {/* Page Number Buttons */}
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index}
@@ -369,7 +368,6 @@ const Boots = () => {
           </button>
         ))}
 
-        {/* Next Button */}
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
