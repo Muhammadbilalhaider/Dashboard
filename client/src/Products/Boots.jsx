@@ -19,14 +19,15 @@ const Boots = () => {
     description: "",
     image: "",
   });
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const id = useParams();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:5000/user/getProduct/${id}`
+          `http://localhost:5000/user/getProduct/${id}?page=${currentPage}`
         );
 
         const bootsProducts = result.data.data.filter(
@@ -54,7 +55,7 @@ const Boots = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const addProduct = async () => {
     setAllFieldsData((prev) => ({
@@ -120,7 +121,9 @@ const Boots = () => {
   const handleCloseForm = () => {
     setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }));
   };
-
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <div className="flex flex-col w-full h-full  items-center bg-black">
       <div className="flex w-full flex-row items-start">
@@ -339,6 +342,34 @@ const Boots = () => {
           </div>
         </div>
       )}
+      <div className="flex mt-6 space-x-2">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="bg-gray-500 text-white px-3 py-1 rounded disabled:bg-gray-300"
+        >
+          Previous
+        </button>
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-3 py-1 rounded ${
+              currentPage === index + 1
+                ? "bg-blue-500 text-white"
+                : "bg-gray-500 text-white"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="bg-gray-500 text-white px-3 py-1 rounded disabled:bg-gray-300"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
