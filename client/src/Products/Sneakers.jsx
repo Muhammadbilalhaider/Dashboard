@@ -1,62 +1,55 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import close from '../assets/close.svg';
+import close from "../assets/close.svg";
 
 const Sneakers = () => {
-
-  const [allFieldsData, setAllFieldsData] = useState(
-    {
-      products: [],
-      productImage: [],
-      isOpenCard: false,
-      isAddProductOpen: false,
-      color: [],
-      size: [],
-      name: "",
-      category: "",
-      price: "",
-      description: "",
-      image: ""
-    }
-  )
-
-
+  const [allFieldsData, setAllFieldsData] = useState({
+    products: [],
+    productImage: [],
+    isOpenCard: false,
+    isAddProductOpen: false,
+    color: [],
+    size: [],
+    name: "",
+    category: "",
+    price: "",
+    description: "",
+    image: "",
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const id = useParams();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:5000/user/getProduct/${id}`
+          `http://localhost:5000/user/getProduct/${id}?page=${currentPage}`
         );
 
         const snickersProducts = result.data.data.filter(
           (product) => product.category === "Snicker"
         );
-        console.log("Snickers", snickersProducts);
+        setTotalPages(result.data.totalPages);
+        console.log("Pages ", result.data.totalPages);
+        console.log("Loofers", snickersProducts);
         if (snickersProducts.length === 0) {
           setAllFieldsData((prev) => ({
             ...prev,
-            products: [], isOpenCard: true,
-            isAddProductOpen: false
-          }))
+            products: [],
+            isOpenCard: true,
+            isAddProductOpen: false,
+          }));
         } else {
           setAllFieldsData((prev) => ({
-            ...prev, products: snickersProducts,
+            ...prev,
+            products: snickersProducts,
             isOpenCard: false,
-            productImage: `data:image/jpeg;base64,${snickersProducts[0].image}`
-          }))
-
+            productImage: `data:image/jpeg;base64,${snickersProducts[0].image}`,
+          }));
         }
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -64,15 +57,17 @@ const Sneakers = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const addProduct = async () => {
-    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: !prev.isAddProductOpen }))
+    setAllFieldsData((prev) => ({
+      ...prev,
+      isAddProductOpen: !prev.isAddProductOpen,
+    }));
   };
   const toggleModal = (open) => {
     setAllFieldsData((prevData) => ({ ...prevData, isOpenCard: open }));
   };
-
 
   const handleAddProducts = async (e) => {
     e.preventDefault();
@@ -109,53 +104,58 @@ const Sneakers = () => {
     const { value, checked } = e.target;
     setAllFieldsData((prev) => ({
       ...prev,
-      color: checked ? [...prev.color, value] : prev.color.filter((c) => c !== value)
-    }))
+      color: checked
+        ? [...prev.color, value]
+        : prev.color.filter((c) => c !== value),
+    }));
   };
-
 
   const handleSizeChange = async (e) => {
     const { value, checked } = e.target;
     setAllFieldsData((prev) => ({
       ...prev,
-      size: checked ? [...prev.size, value] : prev.size.filter((s) => s !== value)
-    }))
+      size: checked
+        ? [...prev.size, value]
+        : prev.size.filter((s) => s !== value),
+    }));
   };
 
   const handleCloseForm = () => {
-    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }))
-  }
-
+    setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }));
+  };
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
-    <div className="flex flex-col w-full h-full  items-center bg-black">
-
+    <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
         <h2 className="flex-1 text-white text-2xl mb-5 text-center">
           Snickers
         </h2>
-        <button onClick={addProduct} className="text-white mb-5 mr-5">
+        <button
+          onClick={addProduct}
+          className="border rounded-lg p-1 mt-2 hover:text-white hover:bg-blue-800  transition-transform hover:scale-100  text-white mb-5 mr-5"
+        >
           Add Product
         </button>
       </div>
-      // Open Add Product Form
-
 
       {allFieldsData.isAddProductOpen && (
-
-        <div className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}>
+        <div
+          className={`fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50`}
+        >
           <div className="bg-white items-center m-10 justify-center overflow-y-auto max-h-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent rounded-lg">
-
             <button
               onClick={handleCloseForm}
               className=" top-2 left-2 px-4 py-1 text-gray-700 font-bold hover:bg-gray-300 transition rounded"
             >
-              <img className='w-6' src={close} alt='' />
+              <img className="w-6" src={close} alt="" />
             </button>
             <form
               className="flex flex-col items-center px-5 justify-center"
-              onSubmit={handleAddProducts} >
+              onSubmit={handleAddProducts}
+            >
               <div className="flex flex-col  items-center justify-center">
-
                 <h4 className="text-3xl items-center font-interFont font-extrabold text-left">
                   Add Product
                 </h4>
@@ -168,7 +168,12 @@ const Sneakers = () => {
                       type="text"
                       placeholder="Name"
                       value={allFieldsData.name}
-                      onChange={(e) => setAllFieldsData((prev) => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) =>
+                        setAllFieldsData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
                     />
                   </div>
                   <div className="flex flex-row  w-full h-10  space-x-2">
@@ -177,11 +182,21 @@ const Sneakers = () => {
                       type="text"
                       placeholder="Price"
                       value={allFieldsData.price}
-                      onChange={(e) => setAllFieldsData((prev) => ({ ...prev, price: e.target.value }))}
+                      onChange={(e) =>
+                        setAllFieldsData((prev) => ({
+                          ...prev,
+                          price: e.target.value,
+                        }))
+                      }
                     />
                     <select
                       className="border p-2 w-full rounded-md"
-                      onChange={(e) => setAllFieldsData((prev) => ({ ...prev, category: e.target.value }))}
+                      onChange={(e) =>
+                        setAllFieldsData((prev) => ({
+                          ...prev,
+                          category: e.target.value,
+                        }))
+                      }
                     >
                       <option>Select Category</option>
                       {["Snicker", "Boot", "Loofer"].map((cat, index) => (
@@ -199,7 +214,9 @@ const Sneakers = () => {
                           key={col}
                           className="border p-2 rounded-md w-full flex justify-between items-center"
                         >
-                          <span>{col.charAt(0).toUpperCase() + col.slice(1)}</span>
+                          <span>
+                            {col.charAt(0).toUpperCase() + col.slice(1)}
+                          </span>
                           <input
                             type="checkbox"
                             value={col}
@@ -234,7 +251,12 @@ const Sneakers = () => {
                     type="text"
                     placeholder="Description"
                     value={allFieldsData.description}
-                    onChange={(e) => setAllFieldsData((prev) => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setAllFieldsData((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
                   />
 
                   <div class="flex flex-col items-center justify-center w-full ">
@@ -246,8 +268,8 @@ const Sneakers = () => {
                     >
                       <div class="flex w-full  flex-col items-center justify-center pt-5 pb-6">
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                          <span class="font-semibold">Click to upload</span> or drag
-                          and drop
+                          <span class="font-semibold">Click to upload</span> or
+                          drag and drop
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
                           image ? SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -258,7 +280,12 @@ const Sneakers = () => {
                         type="file"
                         name="productPic"
                         class="hidden"
-                        onChange={(e) => setAllFieldsData((prev) => ({ ...prev, image: e.target.files[0] }))}
+                        onChange={(e) =>
+                          setAllFieldsData((prev) => ({
+                            ...prev,
+                            image: e.target.files[0],
+                          }))
+                        }
                       />
                     </label>
                     {allFieldsData.image && (
@@ -282,65 +309,48 @@ const Sneakers = () => {
           </div>
         </div>
       )}
-
-
-
       {allFieldsData.productImage.length > 0 ? (
-        <div className="grid w-52 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid w-56 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {allFieldsData.products.map((productData) => (
             <div
               key={productData.id}
-              className="bg-white rounded-lg p-4 flex flex-col items-center"
+              className="bg-white rounded-lg w-full p-4 flex flex-col items-center"
             >
               <Link
                 to={`/productDetails/${productData._id}`}
                 className="flex flex-col items-center"
               >
                 <img
-                  className="w-60 h-60 object-cover rounded transform transition-transform duration-300 hover:scale-110"
+                  className=" lg:w-52 lg:h-52 object-cover rounded transform transition-transform duration-300 hover:scale-110"
                   src={`data:image/jpeg;base64,${productData.image}`}
                   alt={productData.name}
                 />
-                <div className="flex flex-col pb-10">
+                <div className="flex flex-col pb-10 justify-center items-center">
                   <h2 className="mt-2 text-lg font-bold">{productData.name}</h2>
                   <h2 className="text-gray-600">{productData.price}</h2>
                 </div>
               </Link>
             </div>
           ))}
+          <div className="mb-10 w-full flex justify-center fixed bottom-0 left-0 space-x-3 bg-black bg-opacity-50 py-3">
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`px-3 py-1  rounded-full ${
+                  currentPage === index + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-500 text-white"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       ) : (
-        <div
-          className={`fixed  inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${allFieldsData.isOpenCard ? "block" : "hidden"
-            }`}
-        >
-
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center relative">
-
-
-            <button
-              onClick={() => toggleModal(false)}
-              className="absolute top-2 left-2"
-            >
-              <img className='w-6' src={close} alt='' />
-            </button>
-
-            <h3 className="text-2xl font-semibold mb-4">
-              No Products Available
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Add new products to display in this category.
-            </p>
-            <button
-              onClick={() => {
-                toggleModal(false);
-                addProduct();
-              }}
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-            >
-              Add Product
-            </button>
-          </div>
+        <div className="flex justify-center items-center w-full h-full">
+          <p className="text-white text-xl">No product available</p>
         </div>
       )}
     </div>

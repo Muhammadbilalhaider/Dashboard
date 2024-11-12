@@ -130,7 +130,10 @@ const Boots = () => {
     <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
         <h2 className="flex-1 text-white text-2xl mb-5 text-center">Boots</h2>
-        <button onClick={addProduct} className="text-white mb-5 mr-5">
+        <button
+          onClick={addProduct}
+          className="border rounded-lg p-1 mt-2 hover:text-white hover:bg-blue-800  transition-transform hover:scale-100  text-white mb-5 mr-5"
+        >
           Add Product
         </button>
       </div>
@@ -327,55 +330,27 @@ const Boots = () => {
               </Link>
             </div>
           ))}
-        </div>
-      ) : (
-        <div
-          className={`fixed  inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
-            allFieldsData.isOpenCard ? "block" : "hidden"
-          }`}
-        >
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 text-center relative">
-            <h3 className="text-2xl font-semibold mb-4">
-              No Products Available
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Add new products to display in this category.
-            </p>
+          <div className="mb-10 w-full flex justify-center fixed bottom-0 left-0 space-x-3 bg-black bg-opacity-50 py-3">
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`px-3 py-1  rounded-full ${
+                  currentPage === index + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-500 text-white"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
           </div>
         </div>
+      ) : (
+        <div className="flex justify-center items-center w-full h-full">
+          <p className="text-white text-xl">No product available</p>
+        </div>
       )}
-      <div className="flex mt-10 w-full items-center justify-center  space-x-1">
-        {/* Previous Button */}
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="bg-gray-500 text-white px-3 py-1 rounded disabled:bg-gray-300"
-        >
-          Previous
-        </button>
-
-        {[...Array(totalPages)].map((_, index) => (
-          <button
-            key={index}
-            onClick={() => handlePageChange(index + 1)}
-            className={`px-3 py-1 rounded ${
-              currentPage === index + 1
-                ? "bg-blue-500 text-white"
-                : "bg-gray-500 text-white"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="bg-gray-500 text-white px-3 py-1 rounded disabled:bg-gray-300"
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 };

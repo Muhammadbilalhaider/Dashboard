@@ -50,7 +50,7 @@ exports.getProduct = async (req, resp) => {
 exports.getProductById = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = 9;
+    const limit = 8;
     const userId = req.userId;
 
     const totalCount = await productModel.countDocuments(userId);

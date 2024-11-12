@@ -19,20 +19,23 @@ const Loofers = () => {
     description: "",
     image: "",
   });
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const id = useParams();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:5000/user/getProduct/${id}`
+          `http://localhost:5000/user/getProduct/${id}?page=${currentPage}`
         );
 
         const loofersProducts = result.data.data.filter(
           (product) => product.category === "Loofer"
         );
-        console.log("Snickers", loofersProducts);
+        setTotalPages(result.data.totalPages);
+        console.log("Pages ", result.data.totalPages);
+        console.log("Loofers", loofersProducts);
         if (loofersProducts.length === 0) {
           setAllFieldsData((prev) => ({
             ...prev,
@@ -54,7 +57,7 @@ const Loofers = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const addProduct = async () => {
     setAllFieldsData((prev) => ({
@@ -120,16 +123,16 @@ const Loofers = () => {
   const handleCloseForm = () => {
     setAllFieldsData((prev) => ({ ...prev, isAddProductOpen: false }));
   };
-
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
-    <div className="flex flex-col w-full h-full  items-center bg-black">
+    <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
-        <h2 className="flex-1 text-white text-2xl mb-5 text-center">
-          Snickers
-        </h2>
+        <h2 className="flex-1 text-white text-2xl mb-5 text-center">Loofers</h2>
         <button
           onClick={addProduct}
-          className=" border p-2 rounded-lg text-white mb-5 mr-5"
+          className="border rounded-lg p-1 mt-2 hover:text-white hover:bg-blue-800  transition-transform hover:scale-100  text-white mb-5 mr-5"
         >
           Add Product
         </button>
@@ -305,42 +308,47 @@ const Loofers = () => {
         </div>
       )}
       {allFieldsData.productImage.length > 0 ? (
-        <div className="grid w-52 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid w-56 md:w-11/12 lg:w-11/12 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {allFieldsData.products.map((productData) => (
             <div
               key={productData.id}
-              className="bg-white rounded-lg p-4 flex flex-col items-center"
+              className="bg-white rounded-lg w-full p-4 flex flex-col items-center"
             >
               <Link
                 to={`/productDetails/${productData._id}`}
                 className="flex flex-col items-center"
               >
                 <img
-                  className="w-60 h-60 object-cover rounded transform transition-transform duration-300 hover:scale-110"
+                  className=" lg:w-52 lg:h-52 object-cover rounded transform transition-transform duration-300 hover:scale-110"
                   src={`data:image/jpeg;base64,${productData.image}`}
                   alt={productData.name}
                 />
-                <div className="flex flex-col pb-10">
+                <div className="flex flex-col pb-10 justify-center items-center">
                   <h2 className="mt-2 text-lg font-bold">{productData.name}</h2>
                   <h2 className="text-gray-600">{productData.price}</h2>
                 </div>
               </Link>
             </div>
           ))}
+          <div className="mb-10 w-full flex justify-center fixed bottom-0 left-0 space-x-3 bg-black bg-opacity-50 py-3">
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`px-3 py-1  rounded-full ${
+                  currentPage === index + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-500 text-white"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       ) : (
-        <div
-          className={
-            allFieldsData.isOpenCard
-              ? "flex items-center justify-center h-full"
-              : "hidden"
-          }
-        >
-          <div className=" w-full text-center items-center rounded-lg shadow-lg">
-            <h1 className="w-full text-2xl  mb-10 text-white justify-center items-center">
-              No Products Available <br /> Please Add Product
-            </h1>
-          </div>
+        <div className="flex justify-center items-center w-full h-full">
+          <p className="text-white text-xl">No product available</p>
         </div>
       )}
     </div>
