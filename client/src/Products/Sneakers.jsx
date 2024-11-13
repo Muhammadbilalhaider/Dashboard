@@ -1,20 +1,13 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import addImg from '../assets/addProduct.svg';
-import close from '../assets/close.svg';
-import deleteItem from '../assets/deleteItem.svg';
-import edit from '../assets/edit.svg';
-import moreOptions from '../assets/more.svg';
+import addImg from "../assets/addProduct.svg";
+import close from "../assets/close.svg";
+import deleteItem from "../assets/deleteItem.svg";
+import edit from "../assets/edit.svg";
+import moreOptions from "../assets/more.svg";
 
 const Sneakers = () => {
   const [allFieldsData, setAllFieldsData] = useState({
@@ -34,7 +27,6 @@ const Sneakers = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [hoveredProductId, setHoveredProductId] = useState(null);
 
-  const navigate = useNavigate();
   const id = useParams();
   const category = "Snicker";
 
@@ -50,11 +42,8 @@ const Sneakers = () => {
             },
           }
         );
-
+        console.log("Result", result);
         const fetchedProducts = result.data.data;
-        // .filter(
-        //   (product) => product.category === "Snicker"
-        // );
 
         setTotalPages(result.data.totalPages);
         console.log("Total Pages: ", result.data.totalPages);
@@ -87,9 +76,6 @@ const Sneakers = () => {
       ...prev,
       isAddProductOpen: !prev.isAddProductOpen,
     }));
-  };
-  const toggleModal = (open) => {
-    setAllFieldsData((prevData) => ({ ...prevData, isOpenCard: open }));
   };
 
   const handleAddProducts = async (e) => {
