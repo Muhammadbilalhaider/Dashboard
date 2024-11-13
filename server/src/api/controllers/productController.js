@@ -51,17 +51,34 @@ exports.getProductById = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 8;
-    const userId = req.userId;
+    const userId = req.user.id; // Use req.user.id to access user ID
+    const category = req.query.category;
 
-    const totalCount = await productModel.countDocuments(userId);
+    console.log("UserId in getProductById route:", userId); // Check if userId is correctly passed
+
+    if (!userId) {
+      return res.status(400).json({ msg: "User ID not found." });
+    }
+
+    const filter = { userId };
+
+    if (category) {
+      filter.category = category;
+    }
+
+    console.log("Filter:", filter);
+
+    const totalCount = await productModel.countDocuments(filter);
+    console.log("Total Count:", totalCount);
+
     const products = await productModel
-      .find(userId)
+      .find(filter)
       .skip((page - 1) * limit)
       .limit(limit);
 
     const totalPages = Math.ceil(totalCount / limit);
 
-    if (!products || products.length === 0) {
+    if (products.length === 0) {
       return res.status(404).json({ msg: "No products found for this user." });
     }
 
@@ -74,10 +91,11 @@ exports.getProductById = async (req, res) => {
       msg: "Products fetched successfully.",
     });
   } catch (error) {
+    console.error(error); // Log the error
     res.status(500).json({
       success: false,
       msg: "Error fetching product details.",
-      error,
+      error: error.message,
     });
   }
 };

@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 
 import {
   BrowserRouter as Router,
@@ -6,33 +6,31 @@ import {
   Outlet,
   Route,
   Routes,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import AboutUs from './Components/AboutUs';
-import ContactUs from './Components/ContactUs';
-import Dashboard from './Components/dashboard';
-import ForgotPassword from './Components/ForgotPassword';
-import Login from './Components/Login';
-import Profile from './Components/Profile';
-import ResetPassword from './Components/ResetPassword';
-import Setting from './Components/Setting';
-import ProductDetails from './Products/...ProductDetails';
-import AddProduct from './Products/AddProduct';
-import Boots from './Products/Boots';
-import Loofers from './Products/Loofers';
-import Sneakers from './Products/Sneakers';
+import AboutUs from "./Components/AboutUs";
+import ContactUs from "./Components/ContactUs";
+import Dashboard from "./Components/dashboard";
+import ForgotPassword from "./Components/ForgotPassword";
+import Login from "./Components/Login";
+import Profile from "./Components/Profile";
+import ResetPassword from "./Components/ResetPassword";
+import Setting from "./Components/Setting";
+import ProductDetails from "./Products/...ProductDetails";
+import AddProduct from "./Products/AddProduct";
+import Boots from "./Products/Boots";
+import Loofers from "./Products/Loofers";
+import Sneakers from "./Products/Sneakers";
 
 function App() {
   const AppLayout = () => {
     return (
       <div className="flex w-full flex-col min-h-screen">
         <Dashboard />
-     
+
         <main className="flex-1 bg-slate-50 pt-16">
           <Outlet />
         </main>
-        
-     
       </div>
     );
   };

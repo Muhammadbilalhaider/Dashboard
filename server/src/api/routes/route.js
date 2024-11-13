@@ -26,7 +26,11 @@ router.post(
   productController.addProduct
 );
 router.get("/getProduct", productController.getProduct);
-router.get("/getProduct/:id", productController.getProductById);
+router.get(
+  "/getProductById/:id",
+  authMiddleware,
+  productController.getProductById
+);
 router.put("/updateProductById/:id", productController.updateProductById);
 router.delete("/deleteProdutct/:id", productController.deleteProdutct);
 

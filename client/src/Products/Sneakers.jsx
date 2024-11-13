@@ -1,20 +1,13 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import addImg from '../assets/addProduct.svg';
-import close from '../assets/close.svg';
-import deleteItem from '../assets/deleteItem.svg';
-import edit from '../assets/edit.svg';
-import moreOptions from '../assets/more.svg';
+import addImg from "../assets/addProduct.svg";
+import close from "../assets/close.svg";
+import deleteItem from "../assets/deleteItem.svg";
+import edit from "../assets/edit.svg";
+import moreOptions from "../assets/more.svg";
 
 const Sneakers = () => {
   const [allFieldsData, setAllFieldsData] = useState({
@@ -36,20 +29,29 @@ const Sneakers = () => {
 
   const navigate = useNavigate();
   const id = useParams();
+  const category = "Snicker";
+
+  const authToken = localStorage.getItem("authToken");
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const result = await axios.get(
-          `http://localhost:5000/user/getProduct/${id}?page=${currentPage}`
+          `http://localhost:5000/user/getProductById/${id}?category=${category}&page=${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`, // Send token in Authorization header
+            },
+          }
         );
 
-        const snickersProducts = result.data.data.filter(
+        const fetchedProducts = result.data.data.filter(
           (product) => product.category === "Snicker"
         );
+
         setTotalPages(result.data.totalPages);
-        console.log("Pages ", result.data.totalPages);
-        console.log("Snicker", snickersProducts);
-        if (snickersProducts.length === 0) {
+        console.log("Total Pages: ", result.data.totalPages);
+
+        if (fetchedProducts.length === 0) {
           setAllFieldsData((prev) => ({
             ...prev,
             products: [],
@@ -59,9 +61,9 @@ const Sneakers = () => {
         } else {
           setAllFieldsData((prev) => ({
             ...prev,
-            products: snickersProducts,
+            products: fetchedProducts,
             isOpenCard: false,
-            productImage: `data:image/jpeg;base64,${snickersProducts[0].image}`,
+            productImage: `data:image/jpeg;base64,${fetchedProducts[0].image}`,
           }));
         }
       } catch (error) {
@@ -70,7 +72,7 @@ const Sneakers = () => {
     };
 
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, id, category]);
 
   const addProduct = async () => {
     setAllFieldsData((prev) => ({
@@ -84,8 +86,6 @@ const Sneakers = () => {
 
   const handleAddProducts = async (e) => {
     e.preventDefault();
-
-    const authToken = localStorage.getItem("authToken");
 
     const formData = new FormData();
     formData.append("name", allFieldsData.name);
@@ -142,13 +142,11 @@ const Sneakers = () => {
   return (
     <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
-        <h2 className="flex-1 text-white text-2xl mb-5 text-center">
-          Snickers
-        </h2>
+        <h2 className="flex-1 text-white text-2xl mb-5 text-center">Snicker</h2>
 
         <img
           onClick={addProduct}
-          className="flex h-16 transition-transform hover:scale-105 mr-5 hover:rotate-180 duration-300 cursor-pointer"
+          className="flex w-10 lg:w-16 transition-transform hover:scale-105 mr-5 hover:rotate-180 duration-300 cursor-pointer"
           src={addImg}
           alt=""
         />
@@ -156,7 +154,7 @@ const Sneakers = () => {
 
       {allFieldsData.isAddProductOpen && (
         <div
-          className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50`}
+          className={`fixed inset-0  bg-black bg-opacity-40 flex justify-center items-center z-50`}
         >
           <div className="bg-white items-center m-10 justify-center overflow-y-auto max-h-full scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent rounded-lg">
             <button
@@ -324,15 +322,15 @@ const Sneakers = () => {
         </div>
       )}
       {allFieldsData.productImage.length > 0 ? (
-        <div className=" flex flex-col justify-center w-full">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 w-full">
+        <div className=" flex flex-col w-full justify-center items-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:w-10/12 items-center justify-center ">
             {allFieldsData.products.map((productData) => (
               <div
                 key={productData.id}
-                className="bg-white rounded-lg w-full flex flex-col justify-center items-center relative"
+                className="flex flex-col items-center justify-center m-2 bg-white rounded-lg gap-3 p-4 relative"
               >
                 <div
-                  className="absolute top-0 right-5 flex flex-col"
+                  className="absolute top-0 right-0 flex flex-col"
                   onMouseEnter={() => setHoveredProductId(productData._id)}
                   onMouseLeave={() => setHoveredProductId(null)}
                 >
@@ -340,19 +338,20 @@ const Sneakers = () => {
                     onClick={handleAddProducts}
                     src={moreOptions}
                     alt="More Options"
-                    className={`cursor-pointer p-2 lg:w-12 md:8 transition-transform duration-300 ${hoveredProductId === productData._id ? "rotate-180" : ""
-                      }`}
+                    className={`cursor-pointer w-8 transition-transform duration-300 ${
+                      hoveredProductId === productData._id ? "rotate-180" : ""
+                    }`}
                   />
 
                   {hoveredProductId === productData._id && (
-                    <div className="transition-all duration-300 ease-out mt-2 opacity-100 transform translate-y-0">
+                    <div className="transition-all duration-300 ease-out opacity-100 transform translate-y-0">
                       <img
-                        className="cursor-pointer p-2 w-8 transition-transform hover:rotate-180 duration-300"
+                        className="cursor-pointer  w-8 transition-transform hover:rotate-180 duration-300"
                         src={edit}
                         alt="Edit"
                       />
                       <img
-                        className="cursor-pointer p-2 w-8 transition-transform "
+                        className="cursor-pointer w-8 delay-1000"
                         src={deleteItem}
                         alt="Delete"
                       />
@@ -361,22 +360,19 @@ const Sneakers = () => {
                 </div>
                 <Link
                   to={`/productDetails/${productData._id}`}
-                  className="flex flex-col justify-center items-center"
+                  className="flex flex-col items-center"
                 >
-              <div className='flex flex-col justify-between'>
-
-              <img
-                    className="w-28 h-28 object-contain items-center justify-center rounded transform transition-transform duration-300 hover:scale-110"
+                  <img
+                    className="lg:w-40 lg:h-40 w-24 lg:object-contain items-center justify-center rounded transform transition-transform duration-300 hover:scale-110"
                     src={`data:image/jpeg;base64,${productData.image}`}
                     alt={productData.name}
                   />
-                  <div className="flex flex-col w-full  pb-10 justify-center items-center">
+                  <div className="flex flex-col  justify-center items-center mt-8">
                     <h2 className="mt-2 text-lg font-bold">
                       {productData.name}
                     </h2>
                     <h2 className="text-gray-600">{productData.price}</h2>
                   </div>
-              </div>
                 </Link>
               </div>
             ))}
@@ -386,10 +382,11 @@ const Sneakers = () => {
               <button
                 key={index}
                 onClick={() => handlePageChange(index + 1)}
-                className={`px-3 py-1  rounded-full transition-transform hover:scale-110 duration-300 ${currentPage === index + 1
+                className={`px-3 py-1  rounded-full transition-transform hover:scale-110 duration-300 ${
+                  currentPage === index + 1
                     ? "bg-blue-500 text-white"
                     : "bg-gray-500 text-white"
-                  }`}
+                }`}
               >
                 {index + 1}
               </button>
