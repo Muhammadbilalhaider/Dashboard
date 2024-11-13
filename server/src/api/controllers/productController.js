@@ -51,10 +51,10 @@ exports.getProductById = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 8;
-    const userId = req.user.id; // Use req.user.id to access user ID
+    const userId = req.user.id;
     const category = req.query.category;
 
-    console.log("UserId in getProductById route:", userId); // Check if userId is correctly passed
+    console.log("UserId in getProductById route:", userId);
 
     if (!userId) {
       return res.status(400).json({ msg: "User ID not found." });

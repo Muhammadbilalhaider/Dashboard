@@ -140,7 +140,7 @@ const Loofers = () => {
   return (
     <div className="flex flex-col w-full h-full items-center bg-black">
       <div className="flex w-full flex-row items-start">
-        <h2 className="flex-1 text-white text-2xl mb-5 text-center">Boots</h2>
+        <h2 className="flex-1 text-white text-2xl mb-5 text-center">Loofers</h2>
 
         <img
           onClick={addProduct}

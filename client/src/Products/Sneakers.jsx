@@ -39,14 +39,15 @@ const Sneakers = () => {
           `http://localhost:5000/user/getProductById/${id}?category=${category}&page=${currentPage}`,
           {
             headers: {
-              Authorization: `Bearer ${authToken}`, // Send token in Authorization header
+              Authorization: `Bearer ${authToken}`,
             },
           }
         );
 
-        const fetchedProducts = result.data.data.filter(
-          (product) => product.category === "Snicker"
-        );
+        const fetchedProducts = result.data.data;
+        // .filter(
+        //   (product) => product.category === "Snicker"
+        // );
 
         setTotalPages(result.data.totalPages);
         console.log("Total Pages: ", result.data.totalPages);
