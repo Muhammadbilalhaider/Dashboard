@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
+import {
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -65,7 +68,7 @@ const ResetPassword = () => {
             }}
           />
           <button
-            className="bg-buttonColor p-2 rounded-md text-white"
+            className="bg-blue-900 p-2 rounded-md text-white"
             onClick={handlePassword}
           >
             Done

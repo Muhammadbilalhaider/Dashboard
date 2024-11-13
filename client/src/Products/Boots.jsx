@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 
-import addImg from "../assets/addProduct.svg";
-import close from "../assets/close.svg";
-import deleteItem from "../assets/deleteItem.svg";
-import edit from "../assets/edit.svg";
-import moreOptions from "../assets/more.svg";
+import addImg from '../assets/addProduct.svg';
+import close from '../assets/close.svg';
+import deleteItem from '../assets/deleteItem.svg';
+import edit from '../assets/edit.svg';
+import moreOptions from '../assets/more.svg';
 
 const Boots = () => {
   const [allFieldsData, setAllFieldsData] = useState({
@@ -145,7 +152,7 @@ const Boots = () => {
 
         <img
           onClick={addProduct}
-          className="flex w-10 lg:w-16 transition-transform hover:scale-105 mr-5 hover:rotate-180 duration-300 cursor-pointer"
+          className="flex w-10 lg:w-12 transition-transform hover:scale-105 mr-5 hover:rotate-180 duration-300 cursor-pointer"
           src={addImg}
           alt=""
         />
@@ -322,7 +329,7 @@ const Boots = () => {
       )}
       {allFieldsData.productImage.length > 0 ? (
         <div className=" flex flex-col w-full justify-center items-center">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:w-10/12 items-center justify-center ">
+          <div className="grid grid-cols-2 md:grid-cols-3 md:w-9/12 lg:grid-cols-4 lg:w-10/12 items-center justify-center ">
             {allFieldsData.products.map((productData) => (
               <div
                 key={productData.id}
@@ -362,7 +369,7 @@ const Boots = () => {
                   className="flex flex-col items-center"
                 >
                   <img
-                    className="lg:w-40 lg:h-40 w-24 lg:object-contain items-center justify-center rounded transform transition-transform duration-300 hover:scale-110"
+                    className="lg:w-40 lg:h-40 w-36 h-36 object-contain lg:object-contain items-center justify-center rounded transform transition-transform duration-300 hover:scale-110"
                     src={`data:image/jpeg;base64,${productData.image}`}
                     alt={productData.name}
                   />

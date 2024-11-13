@@ -17,7 +17,7 @@ const ContactUs = () => {
           <input className='border p-2 rounded-xl text-sm placeholder:text-sm w-full' placeholder='Let us know how we can help you' />
           <label className='text-sm md:text-base lg:text-lg mt-6'>Your message</label>
           <textarea className='border p-2 rounded-xl text-sm placeholder:text-sm h-36 w-full border-gray-300' placeholder='Leave a comment...'></textarea>
-          <button className='border w-full md:w-48 rounded-xl my-5 py-1 text-white hover:bg-slate-800 bg-buttonColor'>
+          <button className='border w-full md:w-48 rounded-xl my-5 py-1 text-white hover:bg-slate-800 bg-blue-950'>
             Submit
           </button>
         </div>

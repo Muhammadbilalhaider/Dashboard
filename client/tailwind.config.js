@@ -7,7 +7,7 @@ module.exports = {
         interFont: ["Inter", "sans-serif"],
       },
       colors: {
-        buttonColor: "#0866ff",
+      
         navColor: "#280559",
         createAcountColor: "#42b72a",
       },

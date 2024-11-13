@@ -54,10 +54,10 @@ const ForgotPassword = () => {
             type="password"
             placeholder="Password"
           />
-          <button className="bg-buttonColor p-2 rounded-md text-white w-16">
+          <button className="bg-blue-950 p-2 rounded-md text-white w-16">
             Login
           </button>
-          <h2 className="text-buttonColor items-center text-center sm:text-xs lg:text-base">
+          <h2 className="text-blue-950 items-center text-center sm:text-xs lg:text-base">
             Forgotten Account?
           </h2>
         </span>
@@ -97,7 +97,7 @@ const ForgotPassword = () => {
                 Cancel
               </button>
               <button
-                className="rounded-md bg-buttonColor lg:p-2 lg:w-24 w-14 sm:text-sm p-1 text-white"
+                className="rounded-md bg-blue-950 lg:p-2 lg:w-24 w-14 sm:text-sm p-1 text-white"
                 onClick={shareMail}
               >
                 Search

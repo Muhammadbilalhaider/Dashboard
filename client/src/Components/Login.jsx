@@ -194,7 +194,7 @@ const Login = () => {
               onChange={(e) => setPasswordSignIn(e.target.value)}
             />
             <button
-              className="border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg"
+              className="border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-blue-900 rounded-lg"
               type="submit"
             >
               SignIn

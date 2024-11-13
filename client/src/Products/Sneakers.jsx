@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 
-import addImg from "../assets/addProduct.svg";
-import close from "../assets/close.svg";
-import deleteItem from "../assets/deleteItem.svg";
-import edit from "../assets/edit.svg";
-import moreOptions from "../assets/more.svg";
+import addImg from '../assets/addProduct.svg';
+import close from '../assets/close.svg';
+import deleteItem from '../assets/deleteItem.svg';
+import edit from '../assets/edit.svg';
+import moreOptions from '../assets/more.svg';
 
 const Sneakers = () => {
   const [allFieldsData, setAllFieldsData] = useState({
@@ -364,7 +371,7 @@ const Sneakers = () => {
                   className="flex flex-col items-center"
                 >
                   <img
-                    className="lg:w-40 lg:h-40 w-24 lg:object-contain items-center justify-center rounded transform transition-transform duration-300 hover:scale-110"
+                    className="lg:w-40 lg:h-40 w-36 h-36 object-contain lg:object-contain items-center justify-center rounded transform transition-transform duration-300 hover:scale-110"
                     src={`data:image/jpeg;base64,${productData.image}`}
                     alt={productData.name}
                   />

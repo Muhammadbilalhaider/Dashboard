@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import sideimg from "../assets/sidebar.svg";
+import sideimg from '../assets/sidebar.svg';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -96,7 +102,7 @@ const Navbar = () => {
           </button>
 
           {categoryDropOpen && (
-            <div className=" absolute mt-12 w-full justify-center items-center bg-slate-900 rounded-md shadow-lg z-10 ">
+            <div className=" absolute mt-10 w-full justify-center items-center bg-slate-900 rounded-md shadow-lg z-10 ">
               <ul className="flex flex-col border  border-gray-300 rounded-md  ">
                 <li className="p-2 cursor-pointer hover:bg-gray-700">
                   <Link to="/sneakers" onClick={closeSidebar}>
