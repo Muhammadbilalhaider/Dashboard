@@ -19,7 +19,7 @@ const Navbar = () => {
   const [userName, setUserName] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [categoryDropOpen, setCategoryDropOpen] = useState(false);
-
+  const [selectedCategories, setSelectedCategories] = useState('');
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -80,6 +80,19 @@ const Navbar = () => {
     userDetails();
   }, []);
   console.log("NAME IS ", userName);
+  const categories = ["Snicker", "Boot", "Loofer"]
+
+  const navigateToCategory = (type) => {
+    setSelectedCategories(type);
+    navigate(`/categories/${type}`);
+    setCategoryDropOpen(false);
+  }
+
+  useEffect(() => {
+    if (selectedCategories) {
+      console.log(`Selected category changed: ${selectedCategories}`);
+    }
+  }, [selectedCategories]);
 
   const NavbarItems = () => (
     <>
@@ -104,20 +117,24 @@ const Navbar = () => {
           {categoryDropOpen && (
             <div className=" absolute mt-10 w-full justify-center items-center bg-slate-900 rounded-md shadow-lg z-10 ">
               <ul className="flex flex-col border  border-gray-300 rounded-md  ">
-                <li className="p-2 cursor-pointer hover:bg-gray-700">
-                  <Link to="/sneakers" onClick={closeSidebar}>
-                    Snickers
-                  </Link>
+                <li className="p-2 cursor-pointer hover:bg-gray-700"
+                  onClick={() => navigateToCategory(categories[0])}
+                >
+                  Snickers
                 </li>
-                <li className="p-2 cursor-pointer hover:bg-gray-700">
-                  <Link to="/boots" onClick={closeSidebar}>
-                    Boots
-                  </Link>
+                <li className="p-2 cursor-pointer hover:bg-gray-700"
+                  onClick={() => navigateToCategory(categories[1])}
+                >
+
+                  Boots
+
                 </li>
-                <li className="p-2 cursor-pointer hover:bg-gray-700">
-                  <Link to="/loofers" onClick={closeSidebar}>
-                    Loofers
-                  </Link>
+                <li className="p-2 cursor-pointer hover:bg-gray-700"
+                  onClick={() => navigateToCategory(categories[2])}
+                >
+
+                  Loofers
+
                 </li>
               </ul>
             </div>
@@ -220,9 +237,8 @@ const Navbar = () => {
         </div>
       )}
       <div
-        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <nav className="flex w-full justify-center">
           <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-10">

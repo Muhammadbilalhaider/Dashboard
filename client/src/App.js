@@ -1,4 +1,4 @@
-import "./App.css";
+import './App.css';
 
 import {
   BrowserRouter as Router,
@@ -6,21 +6,19 @@ import {
   Outlet,
   Route,
   Routes,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import AboutUs from "./Components/AboutUs";
-import ContactUs from "./Components/ContactUs";
-import Dashboard from "./Components/dashboard";
-import ForgotPassword from "./Components/ForgotPassword";
-import Login from "./Components/Login";
-import Profile from "./Components/Profile";
-import ResetPassword from "./Components/ResetPassword";
-import Setting from "./Components/Setting";
-import ProductDetails from "./Products/...ProductDetails";
-import AddProduct from "./Products/AddProduct";
-import Boots from "./Products/Boots";
-import Loofers from "./Products/Loofers";
-import Sneakers from "./Products/Sneakers";
+import AboutUs from './Components/AboutUs';
+import ContactUs from './Components/ContactUs';
+import Dashboard from './Components/dashboard';
+import ForgotPassword from './Components/ForgotPassword';
+import Login from './Components/Login';
+import Profile from './Components/Profile';
+import ResetPassword from './Components/ResetPassword';
+import Setting from './Components/Setting';
+import ProductDetails from './Products/...ProductDetails';
+import AddProduct from './Products/AddProduct';
+import Categories from './Products/Categories';
 
 function App() {
   const AppLayout = () => {
@@ -45,9 +43,8 @@ function App() {
             <Route path="/setting" element={<Setting />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/sneakers" element={<Sneakers />} />
-            <Route path="/boots" element={<Boots />} />
-            <Route path="/loofers" element={<Loofers />} />
+            <Route path="/categories/:type" element={<Categories />} />
+           
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path="/resetpassword/:token" element={<ResetPassword />} />
             <Route path="addProduct" element={<AddProduct />} />
