@@ -1,3 +1,5 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import React, {
   useEffect,
   useState,
@@ -8,6 +10,7 @@ import {
   Link,
   useParams,
 } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import addImg from '../assets/addProduct.svg';
 import close from '../assets/close.svg';
@@ -111,8 +114,39 @@ const Categories = () => {
                 }
             );
             console.log("Result", result);
+
+            if (result.data.success) {
+              
+                    toast.success('Product added successfully!', {
+                      position: "top-center",
+                      autoClose: 1000, // Auto-close after 1 second
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+            
+                    // Close form and refresh the products list
+                    handleCloseForm();
+                    setCurrentPage(1); // Reset to the first page (optional, if needed)
+                  
+                 
+            }
+
         } catch (error) {
             console.log(error.message);
+            toast.error('Failed to add product!', {
+                position: "top-center",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
         }
     };
 

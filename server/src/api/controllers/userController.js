@@ -43,6 +43,9 @@ exports.SignUp = async (req, res, next) => {
       gender,
       dateOfBirth,
       profile: profilePic,
+      googleId: googleId || null,  // If provided, store googleId, else null
+      githubId: githubId || null,  // If provided, store githubId, else null
+      facebookId: facebookId || null,  // If provided, store facebookId, else null
     });
 
     await user.save();
@@ -178,7 +181,7 @@ exports.ForgotPassword = async (req, resp, next) => {
         .status(200)
         .json({ message: "Password reset link sent to the email" });
     }
-  } catch (error) {}
+  } catch (error) { }
 };
 
 exports.ResetPassword = async (req, resp) => {

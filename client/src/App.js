@@ -1,4 +1,5 @@
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   BrowserRouter as Router,
@@ -7,6 +8,7 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import AboutUs from './Components/AboutUs';
 import ContactUs from './Components/ContactUs';
@@ -34,6 +36,19 @@ function App() {
   };
   return (
     <div className="flex w-full">
+         <ToastContainer 
+         position="top-right"
+         autoClose={5000}
+         hideProgressBar={false}
+         newestOnTop={false}
+         closeOnClick
+         rtl={false}
+         pauseOnFocusLoss
+         draggable
+         pauseOnHover
+         theme="light"
+       transition="Bounce"
+       />
       <Router>
         <Routes>
           <Route path="/" element={<AppLayout />}>
@@ -49,6 +64,9 @@ function App() {
             <Route path="/resetpassword/:token" element={<ResetPassword />} />
             <Route path="addProduct" element={<AddProduct />} />
             <Route path="*" element={<Navigate to="/" />} />
+
+           
+
           </Route>
         </Routes>
       </Router>

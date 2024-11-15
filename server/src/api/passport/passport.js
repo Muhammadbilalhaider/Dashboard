@@ -52,6 +52,7 @@ passport.use(
       const lastName = profile.name.familyName || "No Last Name";
       const email = profile.emails[0].value;
       const picture = profile.photos[0].value;
+      const googleId = profile.id;
 
       try {
         let user = await userModel.findOne({ email });
@@ -61,6 +62,7 @@ passport.use(
             lastName,
             email,
             profile: picture,
+            googleId, 
             oauth: true,
           });
           await user.save();
