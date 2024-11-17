@@ -68,7 +68,8 @@ const Navbar = () => {
       let result = await axios.post("http://localhost:5000/user/UserDetails", {
         email,
       });
-      const profileImage = result.data.data.profile;
+      console.log(result.data); 
+      const profileImage = result.data.data?.profile ;
       const base64Image = profileImage.startsWith("h")
         ? profileImage
         : `data:image/jpeg;base64,${profileImage}`;

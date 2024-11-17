@@ -128,7 +128,7 @@ passport.use(
         profile.photos && profile.photos.length > 0
           ? profile.photos[0].value
           : null;
-
+          const facebookId = profile.id;
       // Check if email is null
       if (!email) {
         console.log("No email found, preventing sign in.");
@@ -142,9 +142,9 @@ passport.use(
         if (!user) {
           user = new userModel({
             firstName: displayName.split(" ")[0],
-
+            facebookId,
             email,
-            picture,
+            profile: picture,
             oauth: true,
           });
           await user.save();
@@ -203,24 +203,24 @@ passport.use(
       const firstName = profile.displayName || "No First Name";
       const lastName = ""; // GitHub does not provide last names
       const picture = profile.photos[0]?.value || null;
-
+      const githubId = profile.id;
       // Check if email is directly available
       let email =
         profile.emails && profile.emails.length > 0
           ? profile.emails[0].value
           : null;
 
-      // if (!email) {
-      //   const emailResponse = await axios.get(
-      //     "https://api.github.com/user/emails",
-      //     {
-      //       headers: { Authorization: `Bearer ${accessToken}` },
-      //     }
-      //   );
-      //   email =
-      //     emailResponse.data.find((emailObj) => emailObj.primary)?.email ||
-      //     null;
-      // }
+      if (!email) {
+        const emailResponse = await axios.get(
+          "https://api.github.com/user/emails",
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        email =
+          emailResponse.data.find((emailObj) => emailObj.primary)?.email ||
+          null;
+      }
 
       // Proceed only if email is available
       if (!email) {
@@ -237,8 +237,9 @@ passport.use(
             firstName,
             lastName,
             email,
+            githubId,
             oauth: true,
-            picture,
+            profile: picture,
           });
           await user.save();
         }
