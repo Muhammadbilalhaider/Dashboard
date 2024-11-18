@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const config = require('../Config/Config')
+const config = require("../Config/Config");
 
 const userSchema = mongoose.Schema({
   firstName: {
@@ -58,18 +58,21 @@ const userSchema = mongoose.Schema({
   },
   googleId: {
     type: String,
-    unique:true,
+    unique: true,
     default: null,
+    required: false,
   },
   githubId: {
     type: String,
-    unique:true,
+    unique: true,
     default: null,
+    required: false,
   },
   facebookId: {
     type: String,
-    unique:true,
+    unique: true,
     default: null,
+    required: false,
   },
   createdAt: {
     type: Date,
@@ -87,7 +90,7 @@ userSchema.methods.token = function () {
     createdAt: this.createdAt,
   };
 
-  const token = jwt.sign(payload,config.JWT_SECRET, {
+  const token = jwt.sign(payload, config.JWT_SECRET, {
     expiresIn: "1h",
   });
   return token;
