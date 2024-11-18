@@ -58,21 +58,18 @@ const userSchema = mongoose.Schema({
   },
   googleId: {
     type: String,
-    unique: true,
+    unique: false,
     default: null,
-    required: false,
   },
   githubId: {
     type: String,
-    unique: true,
+    unique: false,
     default: null,
-    required: false,
   },
   facebookId: {
     type: String,
-    unique: true,
+    unique: false,
     default: null,
-    required: false,
   },
   createdAt: {
     type: Date,

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import addImg from "../assets/addProduct.svg";
 import close from "../assets/close.svg";
+import { PropagateLoader } from "react-spinners";
 import deleteItem from "../assets/deleteItem.svg";
 import edit from "../assets/edit.svg";
 import moreOptions from "../assets/more.svg";
@@ -32,10 +33,11 @@ const Categories = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [hoveredProductId, setHoveredProductId] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const authToken = localStorage.getItem("authToken");
 
   const fetchProducts = async () => {
+    setLoading(true);
     try {
       const result = await axios.get(
         `http://localhost:5000/user/getProductById/${id}?category=${type}&page=${currentPage}`,
@@ -67,6 +69,8 @@ const Categories = () => {
       }
     } catch (error) {
       console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false); // Set loading to false once fetching is complete
     }
   };
   useEffect(() => {
@@ -354,7 +358,12 @@ const Categories = () => {
           </div>
         </div>
       )}
-      {allFieldsData.productImage.length > 0 ? (
+
+      {loading ? (
+        <div className="flex justify-center items-center w-full h-full">
+          <PropagateLoader loading={true} color="#fff" />
+        </div>
+      ) : allFieldsData.productImage.length > 0 ? (
         <div className=" flex flex-col w-full justify-center items-center">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:w-10/12 items-center justify-center ">
             {allFieldsData.products.map((productData) => (

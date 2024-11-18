@@ -48,6 +48,12 @@ passport.use(
       console.log("Google profile:", profile);
       console.log("Google AccessToken:", accessToken);
 
+      let existingUser = await userModel.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+
       const firstName = profile.name.givenName || "No First Name";
       const lastName = profile.name.familyName || "No Last Name";
       const email = profile.emails[0].value;
@@ -62,7 +68,7 @@ passport.use(
             lastName,
             email,
             profile: picture,
-            googleId, 
+            googleId,
             oauth: true,
           });
           await user.save();
@@ -128,7 +134,7 @@ passport.use(
         profile.photos && profile.photos.length > 0
           ? profile.photos[0].value
           : null;
-          const facebookId = profile.id;
+      const facebookId = profile.id;
       // Check if email is null
       if (!email) {
         console.log("No email found, preventing sign in.");
@@ -192,71 +198,30 @@ exports.FacebookAuthCallback = (req, res) => {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: GITHUB_CALLBACK_URL,
-      scope: ["user:email"],
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: "http://localhost:5000/auth/github/callback",
     },
-    async function (accessToken, refreshToken, profile, done) {
-      console.log("GitHub profile:", profile);
-
-      const firstName = profile.displayName || "No First Name";
-      const lastName = ""; // GitHub does not provide last names
-      const picture = profile.photos[0]?.value || null;
-      const githubId = profile.id;
-      // Check if email is directly available
-      let email =
-        profile.emails && profile.emails.length > 0
-          ? profile.emails[0].value
-          : null;
-
-      if (!email) {
-        const emailResponse = await axios.get(
-          "https://api.github.com/user/emails",
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
-        );
-        email =
-          emailResponse.data.find((emailObj) => emailObj.primary)?.email ||
-          null;
-      }
-
-      // Proceed only if email is available
-      if (!email) {
-        console.log("No email found, preventing sign-in.");
-        return done(null, false, {
-          message: "Email not available. Sign-in not allowed.",
-        });
-      }
-
+    async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await userModel.findOne({ email });
-        if (!user) {
-          user = new userModel({
-            firstName,
-            lastName,
-            email,
-            githubId,
-            oauth: true,
-            profile: picture,
-          });
-          await user.save();
+        const existingUser = await User.findOne({ githubId: profile.id });
+
+        if (existingUser) {
+          return done(null, existingUser); // User already exists
         }
 
-        token = jwtSimple.encode(
-          {
-            email,
-            name: `${firstName} ${lastName}`,
-            githubAccessToken: accessToken,
-          },
-          secret
-        );
+        const newUser = new User({
+          githubId: profile.id,
+          username: profile.username,
+          email: profile.emails[0].value, // Use the first email from GitHub
+          // Add other fields if necessary
+        });
 
-        done(null, user, { token });
-      } catch (err) {
-        console.error("Error in GitHub strategy:", err);
-        done(err, null);
+        await newUser.save();
+        return done(null, newUser);
+      } catch (error) {
+        console.error("Error during GitHub authentication:", error);
+        return done(error, null);
       }
     }
   )

@@ -22,6 +22,7 @@ import ProductDetails from "./Products/...ProductDetails";
 import AddProduct from "./Products/AddProduct";
 
 import Categories from "./Products/Categories";
+import { ScaleLoader } from "react-spinners";
 
 function App() {
   const AppLayout = () => {
