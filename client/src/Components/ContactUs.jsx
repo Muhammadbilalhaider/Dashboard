@@ -2,8 +2,8 @@ import React from 'react';
 
 const ContactUs = () => {
   return (
-    <div className='flex justify-center items-center h-screen w-full bg-white m-8'>
-      <form className='flex flex-col justify-center items-center w-full max-w-lg md:max-w-md p-4'>
+    <div className='flex justify-center items-center h-screen w-full lg:m-8 p-2'>
+      <form className='flex flex-col justify-center items-center w-full max-w-lg md:max-w-md p-4 bg-white rounded-md'>
         <div className="flex justify-center items-center">
           <h2 className="mb-4 text-4xl font-extrabold text-center text-gray-900 dark:text-white">Contact Us</h2>
         </div>
@@ -17,7 +17,7 @@ const ContactUs = () => {
           <input className='border p-2 rounded-xl text-sm placeholder:text-sm w-full' placeholder='Let us know how we can help you' />
           <label className='text-sm md:text-base lg:text-lg mt-6'>Your message</label>
           <textarea className='border p-2 rounded-xl text-sm placeholder:text-sm h-36 w-full border-gray-300' placeholder='Leave a comment...'></textarea>
-          <button className='border w-full md:w-48 rounded-xl my-5 py-1 text-white hover:bg-slate-800 bg-buttonColor'>
+          <button className='border w-full md:w-48 rounded-xl my-5 py-1 text-white hover:bg-slate-800 bg-blue-950'>
             Submit
           </button>
         </div>

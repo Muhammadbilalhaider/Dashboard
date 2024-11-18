@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 
 import axios from "axios";
@@ -6,11 +7,24 @@ import { useNavigate, useParams } from "react-router-dom";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const { accessToken } = useParams();
+=======
+import React, { useState } from 'react';
+
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+>>>>>>> bilal-branch
   const navigate = useNavigate();
   const shareMail = async () => {
     try {
       const result = await axios.post(
+<<<<<<< HEAD
         `http://localhost:5000/user/ForgotPassword/${accessToken}`,
+=======
+        `http://localhost:5000/user/ForgotPassword`,
+>>>>>>> bilal-branch
         {
           email,
         }
@@ -26,11 +40,17 @@ const ForgotPassword = () => {
   };
 
   const cancelButton = () => {
+<<<<<<< HEAD
     navigate("/login");
     try {
     } catch (error) {
       console.log({ message: error.message });
     }
+=======
+    try {
+      navigate("/login");
+    } catch (error) {}
+>>>>>>> bilal-branch
   };
 
   return (
@@ -57,10 +77,17 @@ const ForgotPassword = () => {
             type="password"
             placeholder="Password"
           />
+<<<<<<< HEAD
           <button className="bg-buttonColor p-2 rounded-md text-white w-16">
             Login
           </button>
           <h2 className="text-buttonColor items-center text-center sm:text-xs lg:text-base">
+=======
+          <button className="bg-blue-950 p-2 rounded-md text-white w-16">
+            Login
+          </button>
+          <h2 className="text-blue-950 items-center text-center sm:text-xs lg:text-base">
+>>>>>>> bilal-branch
             Forgotten Account?
           </h2>
         </span>
@@ -100,7 +127,11 @@ const ForgotPassword = () => {
                 Cancel
               </button>
               <button
+<<<<<<< HEAD
                 className="rounded-md bg-buttonColor lg:p-2 lg:w-24 w-14 sm:text-sm p-1 text-white"
+=======
+                className="rounded-md bg-blue-950 lg:p-2 lg:w-24 w-14 sm:text-sm p-1 text-white"
+>>>>>>> bilal-branch
                 onClick={shareMail}
               >
                 Search

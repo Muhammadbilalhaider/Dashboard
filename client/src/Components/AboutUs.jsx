@@ -1,14 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import imgAbout from "../assets/about-us.svg";
-import imgGoal from "../assets/goals.svg";
-import imgMission from "../assets/mission.svg";
-import imgValues from "../assets/our-values.svg";
-import imgVision from "../assets/vision.svg";
-import imgAboutPoiunt from "../assets/about-points.svg";
-import imgStory from "../assets/our-story.svg";
-import imgCounter from '../assets/counter.svg'
-
+import imgAboutPoiunt from '../assets/about-points.svg';
+import imgAbout from '../assets/about-us.svg';
+import imgCounter from '../assets/counter.svg';
+import imgGoal from '../assets/goals.svg';
+import imgMission from '../assets/mission.svg';
+import imgStory from '../assets/our-story.svg';
+import imgValues from '../assets/our-values.svg';
+import imgVision from '../assets/vision.svg';
 
 const AboutUs = () => {
   return (
@@ -39,7 +38,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-buttonColor via-blue-900 to-buttonColor w-full h-16 mt-4 flex items-center justify-center">
+      <div className="bg-gradient-to-r from-blue-900 via-blue-900 to-blue-900 w-full h-16 mt-4 flex items-center justify-center">
         <p className=" text-cyan-50 text-center md:text-base font-interFont text-xs ">
           SoftwareStudios, a trusted software solutions provider, delivers
           exceptional services, driving development, surpassing expectations,
