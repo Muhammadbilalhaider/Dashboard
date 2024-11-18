@@ -1,35 +1,22 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
-=======
-import React, {
-  useEffect,
-  useState,
-} from 'react';
 
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
-
-import facebookImg from '../assets/facebook.svg';
-import githubImg from '../assets/github.svg';
-import googleImg from '../assets/google.svg';
->>>>>>> bilal-branch
-
+import facebookImg from "../assets/facebook.svg";
+import githubImg from "../assets/github.svg";
+import googleImg from "../assets/google.svg";
+const apiUrl = "https://dashboard.heroku.com/apps/dashboard12";
 const Login = () => {
   const navigate = useNavigate();
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-<<<<<<< HEAD
-=======
+
   const [emailSignIn, setEmailSgnIn] = useState("");
   const [passwordSignIn, setPasswordSignIn] = useState("");
->>>>>>> bilal-branch
+
   const [password, setPassword] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState({
     day: "",
@@ -40,11 +27,9 @@ const Login = () => {
   const [customGender, setCustomGender] = useState("");
   const [showCustomGender, setShowCustomGenderInput] = useState(false);
   const [selectedGender, setSelectedGender] = useState("");
-<<<<<<< HEAD
-=======
+
   const [isSignUpSuccessful, setIsSignUpSuccessful] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null);
->>>>>>> bilal-branch
 
   const showSignUpClick = (e) => {
     e.preventDefault();
@@ -53,10 +38,7 @@ const Login = () => {
 
   const handleCloseModal = () => {
     setIsSignUpVisible(false);
-<<<<<<< HEAD
-=======
     setIsSignUpSuccessful(false);
->>>>>>> bilal-branch
   };
 
   const handleCustomGender = (event) => {
@@ -64,22 +46,6 @@ const Login = () => {
     setShowCustomGenderInput(event.target.value === "Custom");
   };
 
-<<<<<<< HEAD
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-
-    try {
-      const resp = await axios.post("http://localhost:5000/user/SignUp", {
-        firstName: FirstName,
-        lastName: LastName,
-        dateOfBirth: dateOfBirth,
-        gender: selectedGender === "Custom" ? customGender : selectedGender,
-        email: email,
-        password: password,
-      });
-
-      console.log("Signup successful:", resp.data);
-=======
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
@@ -151,15 +117,11 @@ const Login = () => {
       formData.append("profilePic", profilePicture);
     }
     try {
-      const resp = await axios.post(
-        "http://localhost:5000/user/SignUp",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const resp = await axios.post(`${apiUrl}/user/SignUp`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log("Signup successful:", resp.data);
       if (resp.data.success) {
         setIsSignUpSuccessful(true);
@@ -170,7 +132,6 @@ const Login = () => {
         setPassword("");
         navigate("/login");
       }
->>>>>>> bilal-branch
     } catch (error) {
       console.error("Error signing up:", error.message);
     }
@@ -179,18 +140,7 @@ const Login = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const resp = await axios.post("http://localhost:5000/user/SignIn", {
-<<<<<<< HEAD
-        email: email,
-        password: password,
-      });
-      const token = resp.data.accessToken;
-      console.log("Success", resp.data);
-
-      if (token) {
-        console.log("Success", token);
-        localStorage.setItem('authToken', token);
-=======
+      const resp = await axios.post(`${apiUrl}/user/SignIn`, {
         email: emailSignIn,
         password: passwordSignIn,
       });
@@ -206,7 +156,6 @@ const Login = () => {
 
         localStorage.setItem("authToken", token);
 
->>>>>>> bilal-branch
         navigate("/");
       }
     } catch (error) {
@@ -220,41 +169,25 @@ const Login = () => {
         <form
           className="order-1 md:order-2 lg:w-96 w-80 p-6 sm:m-3 flex flex-col justify-center items-center md:items-start bg-white"
           onSubmit={handleSignIn}
-<<<<<<< HEAD
-=======
           typeof="multipart/form-data"
->>>>>>> bilal-branch
         >
           <div className="flex flex-col py-4 justify-center items-center w-full max-w-md space-y-4">
             <input
               className="border lg:p-3 w-full p-1 rounded-md"
               type="text"
               placeholder="Email"
-<<<<<<< HEAD
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-=======
               value={emailSignIn}
               onChange={(e) => setEmailSgnIn(e.target.value)}
->>>>>>> bilal-branch
             />
             <input
               className="border lg:p-3 w-full p-1 rounded-md"
               type="password"
               placeholder="Password"
-<<<<<<< HEAD
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              className="border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-buttonColor rounded-lg"
-=======
               value={passwordSignIn}
               onChange={(e) => setPasswordSignIn(e.target.value)}
             />
             <button
               className="border lg:p-3 w-full p-1 text-white hover:bg-blue-700 bg-blue-900 rounded-lg"
->>>>>>> bilal-branch
               type="submit"
             >
               SignIn
@@ -268,8 +201,6 @@ const Login = () => {
               </Link>
             </span>
             <span className="w-full block border-gray-200 border-t-2"></span>
-<<<<<<< HEAD
-=======
 
             <div className="flex w-full justify-center items-center">
               <div className="flex flex-row w-4 lg:w-8 items-center justify-center space-x-1 lg:space-x-3">
@@ -294,7 +225,6 @@ const Login = () => {
               </div>
             </div>
 
->>>>>>> bilal-branch
             <div className="flex justify-center">
               <button
                 className="py-2 sm:w-20 lg:w-44 text-white hover:bg-green-600 bg-createAcountColor rounded-md"
@@ -314,211 +244,14 @@ const Login = () => {
                 alt="Login Visual"
               />
               <p className="flex lg:text-left sm:text-center lg:px-7 w-full pl-4 sm:text-xs lg:text-2xl">
-<<<<<<< HEAD
-                Facebook helps you connect and share with the people in your
-                life.
-=======
                 This Platform helps you connect and share with the people in
                 your life.
->>>>>>> bilal-branch
               </p>
             </span>
           </div>
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div
-        className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${isSignUpVisible ? "block" : "hidden"
-          }`}
-      >
-
-        <div className="bg-white p-3 rounded-lg relative m-5 lg:w-1/4 max-w-lg">
-          <button
-            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-            onClick={handleCloseModal}
-          >
-            &#x2715;
-          </button>
-          <form
-            className="flex flex-col items-center justify-center"
-            onSubmit={handleSignUp}
-          >
-            {/* Modal content */}
-            <div className="flex flex-col w-full justify-center">
-              <h1 className="text-3xl font-interFont font-extrabold text-left">
-                Sign Up
-              </h1>
-              <p className="text-md font-normal text-start ">
-                It's quick and easy.
-              </p>
-              <div className="flex flex-col space-y-3 py-4 w-full">
-                <span className="w-full block border-gray-200 border-t-2"></span>
-                <div className="flex flex-row w-full space-x-2">
-                  <input
-                    className="border p-2 rounded-md w-full"
-                    type="text"
-                    placeholder="Enter First Name"
-                    value={FirstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                  <input
-                    className="border p-2 rounded-md w-full"
-                    type="text"
-                    placeholder="Enter Last Name"
-                    value={LastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-
-                <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
-                  <select
-                    className="border p-2 rounded-md w-full"
-                    onChange={(e) =>
-                      setDateOfBirth((prev) => ({
-                        ...prev,
-                        day: e.target.value,
-                      }))
-                    }
-                    value={dateOfBirth.day}
-                  >
-                    <option value="">Day</option>
-
-                    {[...Array(31)].map((_, index) => (
-                      <option key={index + 1} value={index + 1}>
-                        {index + 1}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    className="border p-2 rounded-md w-full"
-                    onChange={(e) =>
-                      setDateOfBirth((prev) => ({
-                        ...prev,
-                        month: e.target.value,
-                      }))
-                    }
-                    value={dateOfBirth.month}
-                  >
-                    <option value="">Month</option>
-                    {[
-                      "January",
-                      "Feb",
-                      "March",
-                      "April",
-                      "May",
-                      "June",
-                      "July",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec",
-                    ].map((month, index) => (
-                      <option key={index} value={index + 1}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    className="border p-2 rounded-md w-full"
-                    onChange={(e) =>
-                      setDateOfBirth((prev) => ({
-                        ...prev,
-                        year: e.target.value,
-                      }))
-                    }
-                    value={dateOfBirth.year}
-                  >
-                    <option value="">Year</option>
-                    {[...Array(2024 - 1975 + 1)].map((_, index) => {
-                      const year = 1975 + index;
-                      return (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div className="flex flex-col w-full">
-                  <p className="text-sm">Gender?</p>
-                  <div className="flex flex-row space-x-2 lg:space-x-4 md:space-x-4">
-                    <label className="border p-2 rounded-md w-full flex justify-between items-center">
-                      <span>Male</span>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Male"
-                        checked={selectedGender === "Male"}
-                        onChange={handleCustomGender}
-                      />
-                    </label>
-                    <label className="border p-2 rounded-md w-full flex justify-between items-center">
-                      <span>Female</span>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Female"
-                        checked={selectedGender === "Female"}
-                        onChange={handleCustomGender}
-                      />
-                    </label>
-                    <label className="border p-2 rounded-md w-full flex justify-between items-center">
-                      <span>Custom</span>
-                      <input
-                        type="radio"
-                        name="gender"
-                        value="Custom"
-                        checked={selectedGender === "Custom"}
-                        onChange={handleCustomGender}
-                      />
-                    </label>
-                  </div>
-                  {showCustomGender && (
-                    <input
-                      className="border p-2 rounded-md w-full mt-2"
-                      type="text"
-                      placeholder="Enter Custom Gender"
-                      value={customGender}
-                      onChange={(e) => setCustomGender(e.target.value)}
-                    />
-                  )}
-                </div>
-                <div className="flex flex-row w-full space-x-2">
-                  <input
-                    className="border p-2 rounded-md w-full"
-                    type="email"
-                    placeholder="Email address"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                  />
-
-                  <input
-                    className="border p-2 rounded-md w-full"
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                  />
-                </div>
-
-                {/* Date of Birth and other fields */}
-                {/* The rest of the form */}
-                <div className="flex justify-center items-center">
-                  <button
-                    type="submit"
-                    className="border items-center w-44 ite my-5 py-1 text-white hover:bg-green-600 bg-createAcountColor rounded-lg"
-                  >
-                    SignUp
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-=======
       {!isSignUpSuccessful && (
         <div
           className={`fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 ${
@@ -701,8 +434,8 @@ const Login = () => {
                     >
                       <div class="flex w-full  flex-col items-center justify-center pt-5 pb-6">
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                          <span class="font-semibold">Click to upload</span> or drag
-                          and drop
+                          <span class="font-semibold">Click to upload</span> or
+                          drag and drop
                         </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
                           image ? SVG, PNG, JPG or GIF (MAX. 800x400px)
@@ -715,9 +448,6 @@ const Login = () => {
                         onChange={handleFileChange}
                       />
                     </label>
-                 
-                  
-               
                   </div>
 
                   <div className="flex justify-center items-center">
@@ -734,7 +464,6 @@ const Login = () => {
           </div>
         </div>
       )}
->>>>>>> bilal-branch
     </div>
   );
 };

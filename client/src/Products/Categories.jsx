@@ -12,7 +12,7 @@ import { PropagateLoader } from "react-spinners";
 import deleteItem from "../assets/deleteItem.svg";
 import edit from "../assets/edit.svg";
 import moreOptions from "../assets/more.svg";
-
+const apiUrl = "https://dashboard.heroku.com/apps/dashboard12";
 const Categories = () => {
   const { type, id } = useParams();
 
@@ -40,7 +40,7 @@ const Categories = () => {
     setLoading(true);
     try {
       const result = await axios.get(
-        `http://localhost:5000/user/getProductById/${id}?category=${type}&page=${currentPage}`,
+        `${apiUrl}/user/getProductById/${id}?category=${type}&page=${currentPage}`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -70,7 +70,7 @@ const Categories = () => {
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
-      setLoading(false); // Set loading to false once fetching is complete
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -107,17 +107,15 @@ const Categories = () => {
     formData.append("category", allFieldsData.category);
 
     try {
-      let result = await axios.post(
-        "http://localhost:5000/user/addProduct",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
+      let result = await axios.post(`${apiUrl}/user/addProduct`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
       console.log("Result", result);
+
+      const newProduct = result.data.data;
 
       if (result.data.success) {
         toast.success("Product added successfully!", {
@@ -131,9 +129,12 @@ const Categories = () => {
           theme: "light",
         });
 
-        // Close form and refresh the products list
+        setAllFieldsData((prev) => ({
+          ...prev,
+          products: [newProduct, ...prev.products],
+        }));
+
         handleCloseForm();
-        setCurrentPage(1); // Reset to the first page (optional, if needed)
       }
     } catch (error) {
       console.log(error.message);

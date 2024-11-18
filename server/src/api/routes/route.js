@@ -1,15 +1,5 @@
 const express = require("express");
-<<<<<<< HEAD
-const controller = require("../controllers/userRoute");
 
-const router = express.Router();
-
-router.post("/SignUp", controller.SignUp);
-router.post("/SignIn", controller.SignIn);
-router.post("/ForgotPassword/:accessToken", controller.ForgotPassword);
-router.post("/ResetPassword", controller.ResetPassword);
-
-=======
 const controller = require("../controllers/userController");
 const passportController = require("../passport/passport");
 const passport = require("passport");
@@ -80,5 +70,4 @@ router.get(
   passportController.GithubAuthCallback
 );
 
->>>>>>> bilal-branch
 module.exports = router;

@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-
-import { Link } from 'react-router-dom';
-
-import sideimg from '../assets/sidebar.svg';
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-=======
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
@@ -25,29 +15,11 @@ const Navbar = () => {
   const [categoryDropOpen, setCategoryDropOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState("");
   const navigate = useNavigate();
->>>>>>> bilal-branch
 
   const toggleSidebar = () => {
     setIsOpen((prev) => !prev);
   };
-<<<<<<< HEAD
 
-  const closeSidebar = () => {
-    setIsOpen(false)
-  }
-  const NavbarItems = () => (
-    <>
-      <li className="flex md:text-base lg:text-lg">
-        <Link to="/" onClick={closeSidebar}>Home</Link>
-      </li>
-
-      <li className="flex  md:text-base lg:text-lg">
-        <Link to="/contact-us" onClick={closeSidebar}>Contact Us</Link>
-      </li>
-      <li className="flex  md:text-base lg:text-lg">
-        <Link to="/about-us" onClick={closeSidebar}>About Us</Link>
-      </li>
-=======
   const handleImageClick = () => {
     setDropdownOpen((prev) => !prev);
   };
@@ -93,7 +65,7 @@ const Navbar = () => {
       });
       console.log(result.data);
       const profileImage = result.data.data?.profile;
-      const base64Image = profileImage.startsWith("htt")
+      const base64Image = profileImage.startsWith("h")
         ? profileImage
         : `data:image/jpeg;base64,${profileImage}`;
 
@@ -212,14 +184,11 @@ const Navbar = () => {
           )}
         </li>
       </div>
->>>>>>> bilal-branch
     </>
   );
 
   return (
     <>
-<<<<<<< HEAD
-=======
       {showLogoutConfirmation && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
           <div className=" lg:w-72 w-64 bg-white p-6 rounded-md shadow-lg">
@@ -242,7 +211,6 @@ const Navbar = () => {
         </div>
       )}
 
->>>>>>> bilal-branch
       {!isOpen && (
         <div className="flex justify-between items-center p-4 md:hidden w-fit fixed top-0 left-0 z-10">
           <img
@@ -255,46 +223,29 @@ const Navbar = () => {
       )}
       {isOpen && (
         <div className="flex justify-end items-end  p-4 md:hidden w-fit fixed top-0 left-0 z-10">
-<<<<<<< HEAD
-          <button onClick={toggleSidebar} className="cursor-pointer text-xl text-white">
-=======
           <button
             onClick={toggleSidebar}
             className="cursor-pointer text-xl text-white"
           >
->>>>>>> bilal-branch
             &#x2715;
           </button>
         </div>
       )}
       <div
-<<<<<<< HEAD
-        className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}>
-        <nav>
-          <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-16">
-=======
         className={`flex md:hidden flex-col bg-navColor p-4 fixed top-0 left-0 w-full h-full transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <nav className="flex w-full justify-center">
           <ul className="flex flex-col items-center space-y-4 text-cyan-50 mt-10">
->>>>>>> bilal-branch
             <NavbarItems />
           </ul>
         </nav>
       </div>
 
-<<<<<<< HEAD
-      <div className="hidden md:flex justify-center items-center bg-navColor p-4 fixed top-0 w-full z-10">
-        <nav>
-          <ul className="flex justify-between space-x-6 text-cyan-50">
-=======
       <div className="hidden md:flex justify-between h-16 items-center bg-navColor p-4 fixed top-0 w-full z-10">
         <nav className="flex  w-full justify-between">
           <ul className="flex justify-between w-full text-cyan-50">
->>>>>>> bilal-branch
             <NavbarItems />
           </ul>
         </nav>

@@ -3,11 +3,6 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const jwtSimple = require("jwt-simple");
 const nodemailer = require("nodemailer");
-<<<<<<<< HEAD:server/src/api/controllers/userRoute.js
-const secret = process.env.JWT_SECRET;
-const authEmail = process.env.authEmail;
-const authPass = process.env.authPass;
-========
 
 const {
   MONGO_URL,
@@ -16,7 +11,6 @@ const {
   authEmail,
 } = require("../Config/Config");
 
->>>>>>>> bilal-branch:server/src/api/controllers/userController.js
 exports.SignUp = async (req, res, next) => {
   try {
     const { email, password, firstName, lastName, gender, day, month, year } =

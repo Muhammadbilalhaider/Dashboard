@@ -213,8 +213,7 @@ passport.use(
         const newUser = new User({
           githubId: profile.id,
           username: profile.username,
-          email: profile.emails[0].value, // Use the first email from GitHub
-          // Add other fields if necessary
+          email: profile.emails[0].value,
         });
 
         await newUser.save();
